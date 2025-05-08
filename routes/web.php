@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RawMaterialController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,18 +33,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Modules/Dashboard/Index');
     })->name('dashboard');
 
+    // Rutas de Materia Prima
+    Route::controller(RawMaterialController::class)->group(function () {
+        Route::get('/materias-primas', 'index')->name('raw-materials.index');
+        Route::get('/materias-primas/crear', 'create')->name('raw-materials.create');
+        Route::post('/materias-primas', 'store')->name('raw-materials.store');
+        Route::get('/materias-primas/{rawMaterial}', 'show')->name('raw-materials.show');
+        Route::get('/materias-primas/{rawMaterial}/editar', 'edit')->name('raw-materials.edit');
+        Route::put('/materias-primas/{rawMaterial}', 'update')->name('raw-materials.update');
+        Route::delete('/materias-primas/{rawMaterial}', 'destroy')->name('raw-materials.destroy');
+    });
+
+    // Rutas de Productos
+    Route::controller(ProductController::class)->group(function () {
+        Route::get('/productos', 'index')->name('products.index');
+        Route::get('/productos/crear', 'create')->name('products.create');
+        Route::post('/productos', 'store')->name('products.store');
+        Route::get('/productos/{product}', 'show')->name('products.show');
+        Route::get('/productos/{product}/editar', 'edit')->name('products.edit');
+        Route::put('/productos/{product}', 'update')->name('products.update');
+        Route::delete('/productos/{product}', 'destroy')->name('products.destroy');
+    });
+
     // Clientes
     Route::get('/clients', function () {
         return Inertia::render('Modules/Clients/Index');
     })->name('clients');
-
-    // Materia Prima
-    Route::get('/raw-materials', function () {
-        return Inertia::render('Modules/RawMaterials/Index');
-    })->name('raw-materials');
-
-    // Rutas de Materia Prima
-    Route::resource('raw-materials', RawMaterialController::class);
 
     // Productos
     Route::get('/products', function () {

@@ -1,0 +1,137 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Recipe;
+use App\Models\Product;
+use App\Models\RawMaterial;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Inertia\Inertia;
+
+class RecipeController extends Controller
+{
+    public function index(Request $request)
+    {
+        $query = Recipe::with(['product', 'raw_materials'])
+            ->when($request->search, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('code', 'like', "%{$search}%")
+                        ->orWhere('name', 'like', "%{$search}%")
+                        ->orWhereHas('product', function ($query) use ($search) {
+                            $query->where('name', 'like', "%{$search}%");
+                        });
+                });
+            })
+            ->orderBy('created_at', 'desc');
+
+        $recipes = $query->get();
+
+        return Inertia::render('Modules/Recipes/Index', [
+            'recipes' => $recipes,
+            'filters' => $request->only(['search'])
+        ]);
+    }
+
+    public function create()
+    {
+        $lastCode = Recipe::orderBy('code', 'desc')->first()?->code ?? 'REC-000000';
+        $nextNumber = (int)substr($lastCode, 4) + 1;
+        $nextCode = 'REC-' . str_pad($nextNumber, 6, '0', STR_PAD_LEFT);
+
+        return Inertia::render('Modules/Recipes/Create', [
+            'nextCode' => $nextCode,
+            'products' => Product::orderBy('name')->get(),
+            'rawMaterials' => RawMaterial::orderBy('name')->get()
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'code' => 'required|unique:recipes,code',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'product_id' => 'required|exists:products,id',
+            'status' => 'required|in:active,inactive',
+            'materials' => 'required|array|min:1',
+            'materials.*.id' => 'required|exists:raw_materials,id',
+            'materials.*.quantity' => 'required|numeric|min:0.01'
+        ]);
+
+        $recipe = Recipe::create([
+            'code' => $validated['code'],
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'product_id' => $validated['product_id'],
+            'status' => $validated['status']
+        ]);
+
+        $materials = collect($validated['materials'])->mapWithKeys(function ($material) {
+            return [$material['id'] => ['quantity' => $material['quantity']]];
+        });
+
+        $recipe->raw_materials()->attach($materials);
+
+        return redirect()->route('recipes.show', $recipe->id)
+            ->with('success', 'Receta creada exitosamente.');
+    }
+
+    public function show(Recipe $recipe)
+    {
+        $recipe->load(['product', 'raw_materials']);
+        
+        return Inertia::render('Modules/Recipes/Show', [
+            'recipe' => $recipe
+        ]);
+    }
+
+    public function edit(Recipe $recipe)
+    {
+        $recipe->load(['product', 'raw_materials']);
+
+        return Inertia::render('Modules/Recipes/Edit', [
+            'recipe' => $recipe,
+            'products' => Product::orderBy('name')->get(),
+            'rawMaterials' => RawMaterial::orderBy('name')->get()
+        ]);
+    }
+
+    public function update(Request $request, Recipe $recipe)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'product_id' => 'required|exists:products,id',
+            'status' => 'required|in:active,inactive',
+            'materials' => 'required|array|min:1',
+            'materials.*.id' => 'required|exists:raw_materials,id',
+            'materials.*.quantity' => 'required|numeric|min:0.01'
+        ]);
+
+        $recipe->update([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'product_id' => $validated['product_id'],
+            'status' => $validated['status']
+        ]);
+
+        $materials = collect($validated['materials'])->mapWithKeys(function ($material) {
+            return [$material['id'] => ['quantity' => $material['quantity']]];
+        });
+
+        $recipe->raw_materials()->sync($materials);
+
+        return redirect()->route('recipes.show', $recipe->id)
+            ->with('success', 'Receta actualizada exitosamente.');
+    }
+
+    public function destroy(Recipe $recipe)
+    {
+        $recipe->raw_materials()->detach();
+        $recipe->delete();
+
+        return redirect()->route('recipes.index')
+            ->with('success', 'Receta eliminada exitosamente.');
+    }
+}
