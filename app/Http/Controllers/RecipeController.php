@@ -110,7 +110,25 @@ class RecipeController extends Controller
         $recipe->load(['product', 'rawMaterials']);
         
         return Inertia::render('Modules/Recipes/Show', [
-            'recipe' => $recipe
+            'recipe' => [
+                'id' => $recipe->id,
+                'code' => $recipe->code,
+                'name' => $recipe->name,
+                'description' => $recipe->description,
+                'status' => $recipe->status,
+                'product' => [
+                    'id' => $recipe->product->id,
+                    'name' => $recipe->product->name
+                ],
+                'rawMaterials' => $recipe->rawMaterials->map(function ($material) {
+                    return [
+                        'id' => $material->id,
+                        'name' => $material->name,
+                        'unit_measure' => $material->unit_measure,
+                        'pivot' => $material->pivot
+                    ];
+                })
+            ]
         ]);
     }
 
