@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RawMaterialController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\ClientController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -57,9 +58,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // Clientes
-    Route::get('/clients', function () {
-        return Inertia::render('Modules/Clients/Index');
-    })->name('clients');
+    Route::controller(ClientController::class)->group(function () {
+        Route::get('/clientes', 'index')->name('clients.index');
+        Route::get('/clientes/crear', 'create')->name('clients.create');
+        Route::post('/clientes', 'store')->name('clients.store');
+        Route::get('/clientes/{client}', 'show')->name('clients.show');
+        Route::get('/clientes/{client}/editar', 'edit')->name('clients.edit');
+        Route::put('/clientes/{client}', 'update')->name('clients.update');
+        Route::delete('/clientes/{client}', 'destroy')->name('clients.destroy');
+    });
 
     // Recetas
     Route::controller(RecipeController::class)->group(function () {

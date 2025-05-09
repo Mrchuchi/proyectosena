@@ -12,13 +12,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create Admin User
-        \App\Models\User::create([
-            'name' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'email_verified_at' => now(),
-        ]);
+        // Skip admin user creation if it already exists
+        if (!\App\Models\User::where('email', 'admin@example.com')->exists()) {
+            \App\Models\User::create([
+                'name' => 'Admin',
+                'email' => 'admin@example.com',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+            ]);
+        }
+
+        // Clients
+        $this->call(ClientSeeder::class);
 
         // Create Products
         $product1 = \App\Models\Product::create([
