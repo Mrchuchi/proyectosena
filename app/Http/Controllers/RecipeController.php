@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use App\Models\Recipe;
 use App\Models\Product;
 use App\Models\RawMaterial;
@@ -28,7 +29,7 @@ class RecipeController extends Controller
             ->get();
 
         // Debug the recipes data
-        \Log::debug('Recipes loaded:', [
+        Log::debug('Recipes loaded:', [
             'count' => $recipes->count(),
             'first_recipe' => $recipes->first(),
             'has_raw_materials' => $recipes->first() ? $recipes->first()->rawMaterials->count() : 0
