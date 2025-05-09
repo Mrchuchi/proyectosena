@@ -1,11 +1,16 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TextInput from '@/Components/TextInput';
 import { FaSearch, FaEdit, FaEye, FaTrash } from 'react-icons/fa';
 
 export default function Index({ auth, recipes, filters }) {
-    const [searchTerm, setSearchTerm] = useState(filters.search || '');
+    const [searchTerm, setSearchTerm] = useState(filters?.search || '');
+
+    // Debug output
+    useEffect(() => {
+        console.log('Recipes:', recipes);
+    }, [recipes]);
 
     const handleSearch = (e) => {
         const term = e.target.value;
@@ -79,7 +84,7 @@ export default function Index({ auth, recipes, filters }) {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {recipes.map((recipe) => (
+                                        {Array.isArray(recipes) && recipes.map((recipe) => (
                                             <tr key={recipe.id}>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm">
                                                     {recipe.code}
@@ -88,10 +93,10 @@ export default function Index({ auth, recipes, filters }) {
                                                     {recipe.name}
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                                    {recipe.product.name}
+                                                    {recipe.product?.name}
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                                    {recipe.raw_materials.length} materiales
+                                                    {recipe.rawMaterials?.length || 0} materiales
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
@@ -124,7 +129,7 @@ export default function Index({ auth, recipes, filters }) {
                                                 </td>
                                             </tr>
                                         ))}
-                                        {recipes.length === 0 && (
+                                        {(!recipes || recipes.length === 0) && (
                                             <tr>
                                                 <td colSpan="6" className="px-6 py-4 text-center text-gray-500">
                                                     No hay recetas registradas

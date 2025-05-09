@@ -64,17 +64,17 @@ export default function Show({ auth, recipe }) {
                                                 </tr>
                                             </thead>
                                             <tbody className="bg-white divide-y divide-gray-200">
-                                                {recipe.raw_materials.map((material) => (
+                                                {recipe.rawMaterials.map((material) => (
                                                     <tr key={material.id}>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm">
                                                             {material.name}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                                            {material.pivot.quantity} {material.unit}
+                                                            {material.pivot.quantity} {material.unit_measure}
                                                         </td>
                                                     </tr>
                                                 ))}
-                                                {recipe.raw_materials.length === 0 && (
+                                                {recipe.rawMaterials.length === 0 && (
                                                     <tr>
                                                         <td colSpan="2" className="px-6 py-4 text-center text-gray-500">
                                                             No hay materias primas registradas

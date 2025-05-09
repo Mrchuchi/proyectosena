@@ -33,7 +33,7 @@ export default function Authenticated({ user, header, children }) {
                                 <NavLink href={route('products')} active={route().current('products')}>
                                     Productos
                                 </NavLink>
-                                <NavLink href={route('recipes')} active={route().current('recipes')}>
+                                <NavLink href={route('recipes.index')} active={route().current('recipes.*')}>
                                     Recetas
                                 </NavLink>
                                 <NavLink href={route('inventory')} active={route().current('inventory')}>
@@ -133,7 +133,7 @@ export default function Authenticated({ user, header, children }) {
                         <ResponsiveNavLink href={route('products')} active={route().current('products')}>
                             Productos
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('recipes')} active={route().current('recipes')}>
+                        <ResponsiveNavLink href={route('recipes.index')} active={route().current('recipes.*')}>
                             Recetas
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('inventory')} active={route().current('inventory')}>

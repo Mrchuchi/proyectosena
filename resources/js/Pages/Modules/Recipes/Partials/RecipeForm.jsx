@@ -11,7 +11,7 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
         description: recipe?.description || '',
         product_id: recipe?.product_id || '',
         status: recipe?.status || 'active',
-        materials: recipe?.raw_materials?.map(material => ({
+        materials: recipe?.rawMaterials?.map(material => ({
             id: material.id,
             quantity: material.pivot.quantity
         })) || []
@@ -193,7 +193,7 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
                                     <tr key={index}>
                                         <td className="px-6 py-4 whitespace-nowrap">{materialInfo?.name}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{material.quantity}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{materialInfo?.unit}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{materialInfo?.unit_measure}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <button
                                                 type="button"

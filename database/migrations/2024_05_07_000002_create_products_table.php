@@ -13,9 +13,9 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('size'); // Tamaño de la almohada
-            $table->string('category'); // Categoría (ej: ortopédica, memory foam, etc.)
-            $table->decimal('price', 10, 2);
+            $table->string('size')->nullable(); // Tamaño de la almohada
+            $table->string('category')->nullable(); // Categoría (ej: ortopédica, memory foam, etc.)
+            $table->decimal('price', 10, 2)->default(0);
             $table->decimal('min_stock', 10, 2)->default(0);
             $table->decimal('current_stock', 10, 2)->default(0);
             $table->enum('status', ['active', 'inactive'])->default('active');

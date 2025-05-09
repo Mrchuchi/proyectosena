@@ -13,7 +13,8 @@ class RecipeController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Recipe::with(['product', 'raw_materials'])
+        $recipes = Recipe::query()
+            ->with(['product', 'rawMaterials'])
             ->when($request->search, function ($query, $search) {
                 $query->where(function ($query) use ($search) {
                     $query->where('code', 'like', "%{$search}%")
@@ -23,12 +24,38 @@ class RecipeController extends Controller
                         });
                 });
             })
-            ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        $recipes = $query->get();
+        // Debug the recipes data
+        \Log::debug('Recipes loaded:', [
+            'count' => $recipes->count(),
+            'first_recipe' => $recipes->first(),
+            'has_raw_materials' => $recipes->first() ? $recipes->first()->rawMaterials->count() : 0
+        ]);
 
         return Inertia::render('Modules/Recipes/Index', [
-            'recipes' => $recipes,
+            'recipes' => $recipes->map(function ($recipe) {
+                return [
+                    'id' => $recipe->id,
+                    'code' => $recipe->code,
+                    'name' => $recipe->name,
+                    'description' => $recipe->description,
+                    'status' => $recipe->status,
+                    'product' => [
+                        'id' => $recipe->product->id,
+                        'name' => $recipe->product->name
+                    ],
+                    'rawMaterials' => $recipe->rawMaterials->map(function ($material) {
+                        return [
+                            'id' => $material->id,
+                            'name' => $material->name,
+                            'unit_measure' => $material->unit_measure,
+                            'pivot' => $material->pivot
+                        ];
+                    })
+                ];
+            }),
             'filters' => $request->only(['search'])
         ]);
     }
@@ -71,7 +98,7 @@ class RecipeController extends Controller
             return [$material['id'] => ['quantity' => $material['quantity']]];
         });
 
-        $recipe->raw_materials()->attach($materials);
+        $recipe->rawMaterials()->attach($materials);
 
         return redirect()->route('recipes.show', $recipe->id)
             ->with('success', 'Receta creada exitosamente.');
@@ -79,7 +106,7 @@ class RecipeController extends Controller
 
     public function show(Recipe $recipe)
     {
-        $recipe->load(['product', 'raw_materials']);
+        $recipe->load(['product', 'rawMaterials']);
         
         return Inertia::render('Modules/Recipes/Show', [
             'recipe' => $recipe
@@ -88,7 +115,7 @@ class RecipeController extends Controller
 
     public function edit(Recipe $recipe)
     {
-        $recipe->load(['product', 'raw_materials']);
+        $recipe->load(['product', 'rawMaterials']);
 
         return Inertia::render('Modules/Recipes/Edit', [
             'recipe' => $recipe,
@@ -120,7 +147,7 @@ class RecipeController extends Controller
             return [$material['id'] => ['quantity' => $material['quantity']]];
         });
 
-        $recipe->raw_materials()->sync($materials);
+        $recipe->rawMaterials()->sync($materials);
 
         return redirect()->route('recipes.show', $recipe->id)
             ->with('success', 'Receta actualizada exitosamente.');
@@ -128,7 +155,7 @@ class RecipeController extends Controller
 
     public function destroy(Recipe $recipe)
     {
-        $recipe->raw_materials()->detach();
+        $recipe->rawMaterials()->detach();
         $recipe->delete();
 
         return redirect()->route('recipes.index')

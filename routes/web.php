@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RawMaterialController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RecipeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -66,9 +67,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('products');
 
     // Recetas
-    Route::get('/recipes', function () {
-        return Inertia::render('Modules/Recipes/Index');
-    })->name('recipes');
+    Route::controller(RecipeController::class)->group(function () {
+        Route::get('/recipes', 'index')->name('recipes.index');
+        Route::get('/recipes/create', 'create')->name('recipes.create');
+        Route::post('/recipes', 'store')->name('recipes.store');
+        Route::get('/recipes/{recipe}', 'show')->name('recipes.show');
+        Route::get('/recipes/{recipe}/edit', 'edit')->name('recipes.edit');
+        Route::put('/recipes/{recipe}', 'update')->name('recipes.update');
+        Route::delete('/recipes/{recipe}', 'destroy')->name('recipes.destroy');
+    });
 
     // Inventario
     Route::get('/inventory', function () {
