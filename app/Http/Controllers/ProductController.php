@@ -18,10 +18,8 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $search = $request->input('search');
-        
         $products = Product::query()
-            ->when($search, function($query, $search) {
+            ->when($request->input('search'), function($query, $search) {
                 $query->where(function($q) use ($search) {
                     $q->where('code', 'like', "%{$search}%")
                       ->orWhere('name', 'like', "%{$search}%")
@@ -29,13 +27,13 @@ class ProductController extends Controller
                       ->orWhere('category', 'like', "%{$search}%");
                 });
             })
-            ->orderBy('name')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return Inertia::render('Modules/Products/Index', [
             'products' => $products,
             'filters' => [
-                'search' => $search,
+                'search' => $request->input('search', ''),
             ],
         ]);
     }

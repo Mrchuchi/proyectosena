@@ -61,11 +61,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Modules/Clients/Index');
     })->name('clients');
 
-    // Productos
-    Route::get('/products', function () {
-        return Inertia::render('Modules/Products/Index');
-    })->name('products');
-
     // Recetas
     Route::controller(RecipeController::class)->group(function () {
         Route::get('/recipes', 'index')->name('recipes.index');

@@ -3,9 +3,9 @@ import { Head, Link, router } from '@inertiajs/react';
 import { useState, useCallback } from 'react';
 import debounce from 'lodash/debounce';
 
-export default function Index({ auth, products = [], filters = { search: '' } }) {
+export default function Index({ auth, products = [], filters = {} }) {
     const [search, setSearch] = useState(filters.search || '');
-console.log(search)
+
     const debouncedSearch = useCallback(
         debounce((query) => {
             router.get(route('products.index'), { search: query }, {
