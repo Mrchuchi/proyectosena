@@ -36,6 +36,9 @@ export default function Authenticated({ user, header, children }) {
                                 <NavLink href={route('recipes.index')} active={route().current('recipes.*')}>
                                     Recetas
                                 </NavLink>
+                                <NavLink href={route('production.index')} active={route().current('production.*')}>
+                                    Producción
+                                </NavLink>
                                 <NavLink href={route('inventory')} active={route().current('inventory')}>
                                     Inventario
                                 </NavLink>
@@ -135,6 +138,9 @@ export default function Authenticated({ user, header, children }) {
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('recipes.index')} active={route().current('recipes.*')}>
                             Recetas
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('production.index')} active={route().current('production.*')}>
+                            Producción
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('inventory')} active={route().current('inventory')}>
                             Inventario

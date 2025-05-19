@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class RawMaterial extends Model
 {
@@ -29,32 +30,40 @@ class RawMaterial extends Model
     public function movements()
     {
         return $this->hasMany(InventoryMovement::class);
-    }
-
-    public function updateStock($quantity, $type, $reason, $userId)
+    }    public function updateStock($quantity, $type, $reason, $userId)
     {
-        $previousStock = $this->current_stock;
-        $newStock = $previousStock;
+        DB::beginTransaction();
+        
+        try {
+            $previousStock = $this->current_stock;
+            $newStock = $previousStock;
 
-        if ($type === 'entrada') {
-            $newStock += $quantity;
-        } elseif ($type === 'salida') {
-            $newStock -= $quantity;
-        } else {
-            $newStock = $quantity; // Para ajustes directos
+            if ($type === 'entrada') {
+                $newStock += $quantity;
+            } elseif ($type === 'salida') {
+                $newStock -= $quantity;
+            } else {
+                $newStock = $quantity; // Para ajustes directos
+            }
+
+            $this->movements()->create([
+                'type' => $type,
+                'quantity' => $quantity,
+                'previous_stock' => $previousStock,
+                'new_stock' => $newStock,
+                'reason' => $reason,
+                'user_id' => $userId
+            ]);
+
+            $this->current_stock = $newStock;
+            $this->save();
+            
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return false;
         }
-
-        $this->movements()->create([
-            'type' => $type,
-            'quantity' => $quantity,
-            'previous_stock' => $previousStock,
-            'new_stock' => $newStock,
-            'reason' => $reason,
-            'user_id' => $userId
-        ]);
-
-        $this->current_stock = $newStock;
-        $this->save();
     }
 
     public function isLowStock(): bool

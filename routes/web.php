@@ -5,6 +5,7 @@ use App\Http\Controllers\RawMaterialController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ProductionOrderController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -103,6 +104,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/settings', function () {
         return Inertia::render('Modules/Settings/Index');
     })->name('settings');
+
+    // Rutas para Órdenes de Producción
+    Route::prefix('production')->name('production.')->group(function () {
+        Route::get('/', [ProductionOrderController::class, 'index'])->name('index');
+        Route::get('/create', [ProductionOrderController::class, 'create'])->name('create');
+        Route::post('/', [ProductionOrderController::class, 'store'])->name('store');
+        Route::get('/{order}', [ProductionOrderController::class, 'show'])->name('show');
+        Route::post('/{order}/start', [ProductionOrderController::class, 'start'])->name('start');
+        Route::post('/{order}/complete', [ProductionOrderController::class, 'complete'])->name('complete');
+    });
 });
 
 Route::middleware('auth')->group(function () {

@@ -1,0 +1,162 @@
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Head, Link, router } from '@inertiajs/react';
+import { useState } from 'react';
+import { FaSearch, FaEdit, FaEye, FaPlay, FaCheck } from 'react-icons/fa';
+import TextInput from '@/Components/TextInput';
+
+export default function Index({ auth, orders = [], filters = {} }) {
+    const [search, setSearch] = useState(filters.search || '');
+    const [status, setStatus] = useState(filters.status || '');
+
+    const handleSearch = (value) => {
+        setSearch(value);
+        router.get(route('production.index'), { search: value, status }, {
+            preserveState: true,
+            preserveScroll: true,
+        });
+    };
+
+    const handleStatusChange = (value) => {
+        setStatus(value);
+        router.get(route('production.index'), { search, status: value }, {
+            preserveState: true,
+            preserveScroll: true,
+        });
+    };
+
+    const handleStart = (orderId) => {
+        router.post(route('production.start', orderId));
+    };
+
+    const handleComplete = (orderId) => {
+        router.post(route('production.complete', orderId));
+    };
+
+    const statusColors = {
+        'pending': 'bg-yellow-100 text-yellow-800',
+        'in_progress': 'bg-blue-100 text-blue-800',
+        'completed': 'bg-green-100 text-green-800',
+        'cancelled': 'bg-red-100 text-red-800',
+    };
+
+    const statusLabels = {
+        'pending': 'Pendiente',
+        'in_progress': 'En Progreso',
+        'completed': 'Completada',
+        'cancelled': 'Cancelada',
+    };
+
+    return (
+        <AuthenticatedLayout
+            user={auth.user}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Órdenes de Producción</h2>}
+        >
+            <Head title="Órdenes de Producción" />
+
+            <div className="py-12">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div className="mb-6 flex justify-between items-center">
+                        <div className="flex-1 flex items-center space-x-4">
+                            <div className="max-w-lg flex rounded-md shadow-sm">
+                                <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500">
+                                    <FaSearch />
+                                </span>
+                                <TextInput
+                                    type="text"
+                                    name="search"
+                                    value={search}
+                                    className="rounded-none rounded-r-md"
+                                    placeholder="Buscar por código o producto..."
+                                    onChange={(e) => handleSearch(e.target.value)}
+                                />
+                            </div>
+                            <select
+                                value={status}
+                                onChange={(e) => handleStatusChange(e.target.value)}
+                                className="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            >
+                                <option value="">Todos los estados</option>
+                                <option value="pending">Pendiente</option>
+                                <option value="in_progress">En Progreso</option>
+                                <option value="completed">Completada</option>
+                                <option value="cancelled">Cancelada</option>
+                            </select>
+                        </div>
+                        <Link
+                            href={route('production.create')}
+                            className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+                        >
+                            Nueva Orden
+                        </Link>
+                    </div>
+
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div className="p-6 bg-white border-b border-gray-200">
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-gray-50">
+                                        <tr>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Planificada</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        {orders.data && orders.data.map((order) => (
+                                            <tr key={order.id}>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm">{order.code}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm">{order.product.name}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm">{order.quantity}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm">{order.planned_date}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap">                                                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusColors[order.status]}`}>
+                                                        {statusLabels[order.status]}
+                                                    </span>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                                    <div className="flex space-x-2">
+                                                        <Link
+                                                            href={route('production.show', order.id)}
+                                                            className="text-indigo-600 hover:text-indigo-900"
+                                                        >
+                                                            <FaEye className="h-5 w-5" />
+                                                        </Link>
+                                                        {order.status === 'pending' && (
+                                                            <button
+                                                                onClick={() => handleStart(order.id)}
+                                                                className="text-blue-600 hover:text-blue-900"
+                                                            >
+                                                                <FaPlay className="h-5 w-5" />
+                                                            </button>
+                                                        )}
+                                                        {order.status === 'in_progress' && (
+                                                            <button
+                                                                onClick={() => handleComplete(order.id)}
+                                                                className="text-green-600 hover:text-green-900"
+                                                            >
+                                                                <FaCheck className="h-5 w-5" />
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                        {(!orders.data || orders.data.length === 0) && (
+                                            <tr>
+                                                <td colSpan="6" className="px-6 py-4 text-center text-gray-500">
+                                                    No hay órdenes de producción registradas
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </AuthenticatedLayout>
+    );
+}
