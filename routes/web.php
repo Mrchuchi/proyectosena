@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductionOrderController;
+use App\Http\Controllers\InventoryController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -81,9 +82,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // Inventario
-    Route::get('/inventory', function () {
-        return Inertia::render('Modules/Inventory/Index');
-    })->name('inventory');
+    Route::controller(InventoryController::class)->group(function () {
+        Route::get('/inventory', 'index')->name('inventory.index');
+        Route::get('/inventory/movements', 'movements')->name('inventory.movements');
+        Route::post('/inventory/{rawMaterial}/adjust', 'adjustStock')->name('inventory.adjust');
+    });
 
     // Entradas/Salidas
     Route::get('/movements', function () {
