@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RawMaterialController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductMovementController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductionOrderController;
@@ -89,9 +90,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // Entradas/Salidas
-    Route::get('/movements', function () {
-        return Inertia::render('Modules/Movements/Index');
-    })->name('movements');
+    Route::controller(ProductMovementController::class)->group(function () {
+        Route::get('/movements', 'index')->name('movements');
+        Route::post('/movements/{product}', 'store')->name('movements.store');
+    });
 
     // Gestión de Usuarios
     Route::get('/users', function () {
@@ -116,6 +118,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{order}', [ProductionOrderController::class, 'show'])->name('show');
         Route::post('/{order}/start', [ProductionOrderController::class, 'start'])->name('start');
         Route::post('/{order}/complete', [ProductionOrderController::class, 'complete'])->name('complete');
+    });
+
+    // Movimientos de Productos
+    Route::controller(ProductMovementController::class)->group(function () {
+        Route::get('/product-movements', 'index')->name('product-movements.index');
+        Route::post('/product-movements/{product}', 'store')->name('product-movements.store');
     });
 });
 
