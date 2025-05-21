@@ -12,6 +12,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // First run the roles and permissions seeder
+        $this->call([
+            RolesAndPermissionsSeeder::class,
+            AdminUserSeeder::class
+        ]);
         // Skip admin user creation if it already exists
         if (!\App\Models\User::where('email', 'admin@example.com')->exists()) {
             \App\Models\User::create([

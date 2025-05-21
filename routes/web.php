@@ -8,6 +8,8 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductionOrderController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -96,9 +98,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // Gestión de Usuarios
-    Route::get('/users', function () {
-        return Inertia::render('Modules/Users/Index');
-    })->name('users');
+    Route::controller(UserManagementController::class)->group(function () {
+        Route::get('/users', 'index')->name('users.index');
+        Route::get('/users/create', 'create')->name('users.create');
+        Route::post('/users', 'store')->name('users.store');
+        Route::get('/users/{user}/edit', 'edit')->name('users.edit');
+        Route::put('/users/{user}', 'update')->name('users.update');
+        Route::delete('/users/{user}', 'destroy')->name('users.destroy');
+    });
+
+    // Gestión de Roles
+    Route::controller(RoleController::class)->group(function () {
+        Route::get('/roles', 'index')->name('roles.index');
+        Route::post('/roles', 'store')->name('roles.store');
+        Route::put('/roles/{role}', 'update')->name('roles.update');
+        Route::delete('/roles/{role}', 'destroy')->name('roles.destroy');
+        Route::put('/roles/{role}/permissions', 'updatePermissions')->name('roles.permissions.update');
+    });
 
     // Reportes
     Route::get('/reports', function () {
