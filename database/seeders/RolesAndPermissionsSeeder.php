@@ -47,10 +47,6 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'editar_usuarios', 'description' => 'Editar usuarios existentes', 'module' => 'usuarios'],
             ['name' => 'eliminar_usuarios', 'description' => 'Eliminar usuarios', 'module' => 'usuarios'],
             ['name' => 'gestionar_roles', 'description' => 'Gestionar roles y permisos', 'module' => 'usuarios'],
-
-            // Reportes
-            ['name' => 'ver_reportes', 'description' => 'Ver reportes del sistema', 'module' => 'reportes'],
-            ['name' => 'exportar_reportes', 'description' => 'Exportar reportes', 'module' => 'reportes'],
         ];
 
         foreach ($permissions as $permission) {

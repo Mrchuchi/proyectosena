@@ -116,15 +116,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/roles/{role}/permissions', 'updatePermissions')->name('roles.permissions.update');
     });
 
-    // Reportes
-    Route::get('/reports', function () {
-        return Inertia::render('Modules/Reports/Index');
-    })->name('reports');
 
-    // Configuración
-    Route::get('/settings', function () {
-        return Inertia::render('Modules/Settings/Index');
-    })->name('settings');
 
     // Rutas para Órdenes de Producción
     Route::prefix('production')->name('production.')->group(function () {

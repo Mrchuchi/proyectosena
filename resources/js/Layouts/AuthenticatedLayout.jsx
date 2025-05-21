@@ -48,12 +48,6 @@ export default function Authenticated({ user, header, children }) {
                                 <NavLink href={route('users.index')} active={route().current('users.*')}>
                                     Usuarios
                                 </NavLink>
-                                <NavLink href={route('reports')} active={route().current('reports')}>
-                                    Reportes
-                                </NavLink>
-                                <NavLink href={route('settings')} active={route().current('settings')}>
-                                    Configuración
-                                </NavLink>
                             </div>
                         </div>
 
@@ -150,12 +144,6 @@ export default function Authenticated({ user, header, children }) {
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('users.index')} active={route().current('users.*')}>
                             Usuarios
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('reports')} active={route().current('reports')}>
-                            Reportes
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('settings')} active={route().current('settings')}>
-                            Configuración
                         </ResponsiveNavLink>
                     </div>
 
