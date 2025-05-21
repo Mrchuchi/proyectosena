@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductMovementController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductionOrderController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\UserManagementController;
@@ -36,9 +37,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
-    Route::get('/dashboard', function () {
-        return Inertia::render('Modules/Dashboard/Index');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Rutas de Materia Prima
     Route::controller(RawMaterialController::class)->group(function () {
