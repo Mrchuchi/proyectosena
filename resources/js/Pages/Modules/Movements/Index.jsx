@@ -1,11 +1,10 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import MovementForm from './Partials/MovementForm';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import { router } from '@inertiajs/react';
 
-export default function Movements({ auth, movements: initialMovements }) {
+export default function Movements({ auth, movements: initialMovements, products, clients, rawMaterials }) {
     const [movements, setMovements] = useState(initialMovements);
     const [filters, setFilters] = useState({
         search: '',
@@ -39,9 +38,15 @@ export default function Movements({ auth, movements: initialMovements }) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                         <div className="p-6">
-                            <MovementForm className="mb-6" onSuccess={() => {
-                                router.reload({ only: ['movements'] });
-                            }} />
+                            <MovementForm 
+                                className="mb-6" 
+                                products={products} 
+                                clients={clients}
+                                rawMaterials={rawMaterials}
+                                onSuccess={() => {
+                                    router.reload({ only: ['movements'] });
+                                }} 
+                            />
                         </div>
                     </div>
 

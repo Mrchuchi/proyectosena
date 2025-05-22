@@ -30,7 +30,7 @@ class RawMaterial extends Model
     public function movements()
     {
         return $this->hasMany(InventoryMovement::class);
-    }    public function updateStock($quantity, $type, $reason, $userId)
+    }    public function updateStock($quantity, $type, $reason, $userId, $clientId = null)
     {
         DB::beginTransaction();
         
@@ -41,6 +41,9 @@ class RawMaterial extends Model
             if ($type === 'entrada') {
                 $newStock += $quantity;
             } elseif ($type === 'salida') {
+                if ($quantity > $previousStock) {
+                    throw new \Exception('Stock insuficiente');
+                }
                 $newStock -= $quantity;
             } else {
                 $newStock = $quantity; // Para ajustes directos
@@ -52,7 +55,8 @@ class RawMaterial extends Model
                 'previous_stock' => $previousStock,
                 'new_stock' => $newStock,
                 'reason' => $reason,
-                'user_id' => $userId
+                'user_id' => $userId,
+                'client_id' => $clientId
             ]);
 
             $this->current_stock = $newStock;
@@ -62,7 +66,7 @@ class RawMaterial extends Model
             return true;
         } catch (\Exception $e) {
             DB::rollBack();
-            return false;
+            throw $e;
         }
     }
 

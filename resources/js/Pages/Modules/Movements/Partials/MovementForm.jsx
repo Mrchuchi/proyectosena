@@ -1,41 +1,21 @@
 import { useForm } from '@inertiajs/react';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 
-export default function MovementForm({ onSuccess }) {
-    const [products, setProducts] = useState([]);
-    const [clients, setClients] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+export default function MovementForm({ onSuccess, products, clients, rawMaterials }) {
+    const [selectedItemType, setSelectedItemType] = useState('product');
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        product_id: '',
-        quantity: '',
         type: 'entrada',
+        item_type: 'product',
+        item_id: '',
+        quantity: '',
         reason: '',
         client_id: ''
     });
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [productsResponse, clientsResponse] = await Promise.all([
-                    axios.get(route('api.products')),
-                    axios.get(route('api.clients'))
-                ]);
-                setProducts(productsResponse.data);
-                setClients(clientsResponse.data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetchData();
-    }, []);
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('movements.store', data.product_id), {
+        post(route('movements.store'), {
             onSuccess: () => {
                 reset();
                 if (onSuccess) onSuccess();
@@ -43,9 +23,15 @@ export default function MovementForm({ onSuccess }) {
         });
     };
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+    const handleItemTypeChange = (e) => {
+        const type = e.target.value;
+        setSelectedItemType(type);
+        setData(data => ({
+            ...data,
+            item_type: type,
+            item_id: ''
+        }));
+    };
 
     return (
         <div className="bg-white rounded-lg overflow-hidden">
@@ -54,23 +40,49 @@ export default function MovementForm({ onSuccess }) {
                     <h3 className="text-lg font-medium text-gray-900 mb-4">Registrar Movimiento</h3>
                     <div className="space-y-4">
                         <div>
-                            <label htmlFor="product_id" className="block text-sm font-medium text-gray-700">Producto</label>
+                            <label htmlFor="item_type" className="block text-sm font-medium text-gray-700">Tipo de Ítem</label>
                             <select
-                                id="product_id"
-                                name="product_id"
-                                value={data.product_id}
-                                onChange={e => setData('product_id', e.target.value)}
+                                id="item_type"
+                                name="item_type"
+                                value={data.item_type}
+                                onChange={handleItemTypeChange}
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 required
                             >
-                                <option value="">Seleccione un producto</option>
-                                {products.map(product => (
-                                    <option key={product.id} value={product.id}>
-                                        {product.code} - {product.name} (Stock: {product.current_stock})
-                                    </option>
-                                ))}
+                                <option value="product">Producto</option>
+                                <option value="raw_material">Materia Prima</option>
                             </select>
-                            {errors.product_id && <p className="mt-1 text-sm text-red-600">{errors.product_id}</p>}
+                            {errors.item_type && <p className="mt-1 text-sm text-red-600">{errors.item_type}</p>}
+                        </div>
+
+                        <div>
+                            <label htmlFor="item_id" className="block text-sm font-medium text-gray-700">
+                                {selectedItemType === 'product' ? 'Producto' : 'Materia Prima'}
+                            </label>
+                            <select
+                                id="item_id"
+                                name="item_id"
+                                value={data.item_id}
+                                onChange={e => setData('item_id', e.target.value)}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                required
+                            >
+                                <option value="">Seleccione un {selectedItemType === 'product' ? 'producto' : 'materia prima'}</option>
+                                {selectedItemType === 'product' ? (
+                                    products.map(item => (
+                                        <option key={item.id} value={item.id}>
+                                            {item.code} - {item.name} (Stock: {item.current_stock})
+                                        </option>
+                                    ))
+                                ) : (
+                                    rawMaterials.map(item => (
+                                        <option key={item.id} value={item.id}>
+                                            {item.code} - {item.name} (Stock: {item.current_stock})
+                                        </option>
+                                    ))
+                                )}
+                            </select>
+                            {errors.item_id && <p className="mt-1 text-sm text-red-600">{errors.item_id}</p>}
                         </div>
 
                         <div>
@@ -119,36 +131,36 @@ export default function MovementForm({ onSuccess }) {
                                 value={data.quantity}
                                 onChange={e => setData('quantity', e.target.value)}
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                required
                                 min="0.01"
                                 step="0.01"
-                                required
                             />
                             {errors.quantity && <p className="mt-1 text-sm text-red-600">{errors.quantity}</p>}
                         </div>
 
                         <div>
                             <label htmlFor="reason" className="block text-sm font-medium text-gray-700">Motivo</label>
-                            <textarea
+                            <input
+                                type="text"
                                 id="reason"
                                 name="reason"
                                 value={data.reason}
                                 onChange={e => setData('reason', e.target.value)}
-                                rows="3"
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 required
-                            ></textarea>
+                            />
                             {errors.reason && <p className="mt-1 text-sm text-red-600">{errors.reason}</p>}
                         </div>
                     </div>
                 </div>
 
-                <div className="bg-gray-50 px-6 py-3 text-right">
+                <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <button
                         type="submit"
                         disabled={processing}
-                        className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+                        className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
                     >
-                        {processing ? 'Registrando...' : 'Registrar Movimiento'}
+                        Guardar
                     </button>
                 </div>
             </form>

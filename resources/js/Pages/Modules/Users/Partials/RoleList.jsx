@@ -1,12 +1,22 @@
-import { useForm } from '@inertiajs/react';
+import { useForm, router } from '@inertiajs/react';
 import { useState } from 'react';
 
-export default function RoleList({ roles }) {
+export default function RoleList({ roles, permissions = {} }) {
     const [editingRole, setEditingRole] = useState(null);
     const { data, setData, post, put, processing, errors, reset } = useForm({
         name: '',
         description: '',
         permissions: []
+    });
+
+    // Asegurarnos de que permissions es un objeto y no undefined
+    const groupedPermissions = permissions || {};
+
+    // Ordenar los permisos dentro de cada módulo por nombre
+    Object.keys(groupedPermissions).forEach(module => {
+        if (Array.isArray(groupedPermissions[module])) {
+            groupedPermissions[module].sort((a, b) => a.name.localeCompare(b.name));
+        }
     });
 
     const handleSubmit = (e) => {
@@ -27,6 +37,14 @@ export default function RoleList({ roles }) {
         }
     };
 
+    if (!roles || !Object.keys(groupedPermissions).length) {
+        return (
+            <div className="p-4">
+                <p className="text-gray-500">No hay roles o permisos disponibles.</p>
+            </div>
+        );
+    }
+
     return (
         <div>
             <div className="mb-8">
@@ -45,7 +63,6 @@ export default function RoleList({ roles }) {
                             value={data.name}
                             onChange={e => setData('name', e.target.value)}
                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            required
                         />
                         {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
                     </div>
@@ -68,16 +85,7 @@ export default function RoleList({ roles }) {
                     <div>
                         <h4 className="text-sm font-medium text-gray-700 mb-2">Permisos</h4>
                         <div className="space-y-2 grid grid-cols-1 md:grid-cols-3 gap-4">
-                            {/* Agrupar permisos por módulo */}
-                            {Object.entries(
-                                roles[0].permissions.reduce((acc, permission) => {
-                                    if (!acc[permission.module]) {
-                                        acc[permission.module] = [];
-                                    }
-                                    acc[permission.module].push(permission);
-                                    return acc;
-                                }, {})
-                            ).map(([module, permissions]) => (
+                            {Object.entries(groupedPermissions).map(([module, permissions]) => (
                                 <div key={module} className="bg-gray-50 p-4 rounded-md">
                                     <h5 className="font-medium text-gray-700 mb-2 capitalize">{module}</h5>
                                     <div className="space-y-2">
@@ -112,7 +120,7 @@ export default function RoleList({ roles }) {
                                     setEditingRole(null);
                                     reset();
                                 }}
-                                className="px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                                 Cancelar
                             </button>
@@ -120,22 +128,24 @@ export default function RoleList({ roles }) {
                         <button
                             type="submit"
                             disabled={processing}
-                            className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
-                            {processing ? 'Guardando...' : editingRole ? 'Actualizar Rol' : 'Crear Rol'}
+                            {processing ? 'Guardando...' : editingRole ? 'Actualizar' : 'Crear'}
                         </button>
                     </div>
                 </form>
             </div>
 
-            <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-4">Roles Existentes</h3>
-                <div className="overflow-x-auto">
+            <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+                <div className="px-4 py-5 sm:px-6">
+                    <h3 className="text-lg leading-6 font-medium text-gray-900">Lista de Roles</h3>
+                </div>
+                <div className="border-t border-gray-200">
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">
                             <tr>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Rol
+                                    Nombre
                                 </th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Descripción

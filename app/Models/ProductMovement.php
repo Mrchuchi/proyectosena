@@ -8,6 +8,7 @@ class ProductMovement extends Model
 {
     protected $fillable = [
         'product_id',
+        'raw_material_id',
         'client_id',
         'type',
         'quantity',
@@ -22,6 +23,11 @@ class ProductMovement extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function rawMaterial()
+    {
+        return $this->belongsTo(RawMaterial::class);
+    }
+
     public function client()
     {
         return $this->belongsTo(Client::class);
@@ -30,5 +36,10 @@ class ProductMovement extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getItemAttribute()
+    {
+        return $this->product ?? $this->rawMaterial;
     }
 }
