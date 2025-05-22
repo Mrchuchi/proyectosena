@@ -1,5 +1,7 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm } from '@inertiajs/react';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import InputError from '@/Components/InputError';
+import { FaSave } from 'react-icons/fa';
 
 export default function Create({ auth, roles }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -116,9 +118,10 @@ export default function Create({ auth, roles }) {
                                     <button
                                         type="submit"
                                         disabled={processing}
-                                        className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                        className="inline-flex justify-center items-center gap-2 rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                                     >
-                                        {processing ? 'Creando...' : 'Crear Usuario'}
+                                        <FaSave className="h-5 w-5" />
+                                        <span>{processing ? 'Creando...' : 'Crear Usuario'}</span>
                                     </button>
                                 </div>
                             </form>

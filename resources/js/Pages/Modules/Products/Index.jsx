@@ -2,6 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import { useState, useCallback } from 'react';
 import debounce from 'lodash/debounce';
+import { FaSearch, FaEdit, FaEye, FaTrash, FaPlus } from 'react-icons/fa';
 
 export default function Index({ auth, products = [], filters = {} }) {
     const [search, setSearch] = useState(filters.search || '');
@@ -44,20 +45,26 @@ export default function Index({ auth, products = [], filters = {} }) {
                                 <div className="flex items-center flex-1 gap-4">
                                     <h3 className="text-lg font-medium">Lista de Productos</h3>
                                     <div className="flex-1 max-w-md">
-                                        <input
-                                            type="text"
-                                            className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                            placeholder="Buscar por código, nombre, descripción o categoría..."
-                                            value={search}
-                                            onChange={handleSearchChange}
-                                        />
+                                        <div className="relative">
+                                            <input
+                                                type="text"
+                                                className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pr-10"
+                                                placeholder="Buscar por código, nombre, descripción o categoría..."
+                                                value={search}
+                                                onChange={handleSearchChange}
+                                            />
+                                            <span className="absolute inset-y-0 right-0 flex items-center pr-3">
+                                                <FaSearch className="h-5 w-5 text-gray-400" />
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <Link
                                     href={route('products.create')}
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                                 >
-                                    Nuevo Producto
+                                    <FaPlus className="h-5 w-5" />
+                                    <span>Nuevo Producto</span>
                                 </Link>
                             </div>
 
@@ -96,24 +103,26 @@ export default function Index({ auth, products = [], filters = {} }) {
                                                     </span>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                    <Link
-                                                        href={route('products.show', product.id)}
-                                                        className="text-blue-600 hover:text-blue-900 mr-4"
-                                                    >
-                                                        Ver
-                                                    </Link>
-                                                    <Link
-                                                        href={route('products.edit', product.id)}
-                                                        className="text-indigo-600 hover:text-indigo-900 mr-4"
-                                                    >
-                                                        Editar
-                                                    </Link>
-                                                    <button
-                                                        onClick={() => handleDelete(product.id)}
-                                                        className="text-red-600 hover:text-red-900"
-                                                    >
-                                                        Eliminar
-                                                    </button>
+                                                    <div className="flex items-center gap-2">
+                                                        <Link
+                                                            href={route('products.show', product.id)}
+                                                            className="inline-flex items-center gap-2 px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                                        >
+                                                            <FaEye className="h-5 w-5" />
+                                                        </Link>
+                                                        <Link
+                                                            href={route('products.edit', product.id)}
+                                                            className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
+                                                        >
+                                                            <FaEdit className="h-5 w-5" />
+                                                        </Link>
+                                                        <button
+                                                            onClick={() => handleDelete(product.id)}
+                                                            className="inline-flex items-center gap-2 px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700"
+                                                        >
+                                                            <FaTrash className="h-5 w-5" />
+                                                        </button>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))}

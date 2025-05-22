@@ -5,6 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
+import { FaSave } from 'react-icons/fa';
 
 export default function UpdatePasswordForm({ className = '' }) {
     const passwordInput = useRef();
@@ -95,7 +96,10 @@ export default function UpdatePasswordForm({ className = '' }) {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Guardar Cambios</PrimaryButton>
+                    <PrimaryButton disabled={processing} className="flex items-center gap-2">
+                        <FaSave className="h-5 w-5" />
+                        <span>Guardar Cambios</span>
+                    </PrimaryButton>
 
                     <Transition
                         show={recentlySuccessful}

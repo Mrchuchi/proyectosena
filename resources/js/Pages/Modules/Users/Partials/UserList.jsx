@@ -1,4 +1,5 @@
-import { useForm, Link } from '@inertiajs/react';
+import { useForm, Link, router } from '@inertiajs/react';
+import { FaUserPlus, FaEdit, FaTrash } from 'react-icons/fa';
 
 export default function UserList({ users, roles }) {
     return (
@@ -7,8 +8,9 @@ export default function UserList({ users, roles }) {
                 <h3 className="text-lg font-medium text-gray-900">Usuarios del Sistema</h3>
                 <Link
                     href={route('users.create')}
-                    className="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
+                    <FaUserPlus className="w-4 h-4 mr-2" />
                     Nuevo Usuario
                 </Link>
             </div>
@@ -45,23 +47,25 @@ export default function UserList({ users, roles }) {
                                         {user.role}
                                     </span>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <Link
-                                        href={route('users.edit', user.id)}
-                                        className="text-indigo-600 hover:text-indigo-900 mr-3"
-                                    >
-                                        Editar
-                                    </Link>
-                                    <button
-                                        onClick={() => {
-                                            if (confirm('¿Está seguro de que desea eliminar este usuario?')) {
-                                                router.delete(route('users.destroy', user.id));
-                                            }
-                                        }}
-                                        className="text-red-600 hover:text-red-900"
-                                    >
-                                        Eliminar
-                                    </button>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                    <div className="flex items-center gap-2">
+                                        <Link
+                                            href={route('users.edit', user.id)}
+                                            className="text-yellow-600 hover:text-yellow-900"
+                                        >
+                                            <FaEdit className="h-5 w-5" />
+                                        </Link>
+                                        <button
+                                            onClick={() => {
+                                                if (confirm('¿Está seguro de que desea eliminar este usuario?')) {
+                                                    router.delete(route('users.destroy', user.id));
+                                                }
+                                            }}
+                                            className="text-red-600 hover:text-red-900"
+                                        >
+                                            <FaTrash className="h-5 w-5" />
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

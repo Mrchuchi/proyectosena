@@ -1,5 +1,6 @@
 import { useForm, router } from '@inertiajs/react';
 import { useState } from 'react';
+import { FaEdit, FaTrash, FaSave, FaTimes } from 'react-icons/fa';
 
 export default function RoleList({ roles, permissions = {} }) {
     const [editingRole, setEditingRole] = useState(null);
@@ -120,16 +121,18 @@ export default function RoleList({ roles, permissions = {} }) {
                                     setEditingRole(null);
                                     reset();
                                 }}
-                                className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                className="inline-flex items-center bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
+                                <FaTimes className="w-4 h-4 mr-2" />
                                 Cancelar
                             </button>
                         )}
                         <button
                             type="submit"
                             disabled={processing}
-                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="inline-flex items-center justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
+                            <FaSave className="w-4 h-4 mr-2" />
                             {processing ? 'Guardando...' : editingRole ? 'Actualizar' : 'Crear'}
                         </button>
                     </div>
@@ -172,30 +175,32 @@ export default function RoleList({ roles, permissions = {} }) {
                                             {role.permissions.length} permisos
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <button
-                                            onClick={() => {
-                                                setEditingRole(role);
-                                                setData({
-                                                    name: role.name,
-                                                    description: role.description,
-                                                    permissions: role.permissions.map(p => p.id)
-                                                });
-                                            }}
-                                            className="text-indigo-600 hover:text-indigo-900 mr-3"
-                                        >
-                                            Editar
-                                        </button>
-                                        <button
-                                            onClick={() => {
-                                                if (confirm('¿Está seguro de que desea eliminar este rol?')) {
-                                                    router.delete(route('roles.destroy', role.id));
-                                                }
-                                            }}
-                                            className="text-red-600 hover:text-red-900"
-                                        >
-                                            Eliminar
-                                        </button>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                        <div className="flex items-center gap-2">
+                                            <button
+                                                onClick={() => {
+                                                    setEditingRole(role);
+                                                    setData({
+                                                        name: role.name,
+                                                        description: role.description,
+                                                        permissions: role.permissions.map(p => p.id)
+                                                    });
+                                                }}
+                                                className="text-yellow-600 hover:text-yellow-900"
+                                            >
+                                                <FaEdit className="h-5 w-5" />
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    if (confirm('¿Está seguro de que desea eliminar este rol?')) {
+                                                        router.delete(route('roles.destroy', role.id));
+                                                    }
+                                                }}
+                                                className="text-red-600 hover:text-red-900"
+                                            >
+                                                <FaTrash className="h-5 w-5" />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

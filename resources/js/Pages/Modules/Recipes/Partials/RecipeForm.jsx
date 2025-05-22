@@ -3,6 +3,7 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import { useState } from 'react';
+import { FaSave, FaArrowLeft, FaPlus, FaTrash } from 'react-icons/fa';
 
 export default function RecipeForm({ recipe, nextCode, products, rawMaterials }) {
     const { data, setData, post, put, processing, errors } = useForm({
@@ -56,7 +57,7 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl mx-auto">
+        <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Código y Nombre */}
                 <div className="space-y-2">
@@ -139,11 +140,12 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
             {/* Materiales */}
             <div className="mt-6 space-y-4">
                 <h4 className="text-lg font-medium text-gray-700">Materiales</h4>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-4 items-end">
                     <div>
+                        <label className="block text-sm font-medium text-gray-700">Material</label>
                         <select
-                            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                             value={selectedMaterial}
+                            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                             onChange={(e) => setSelectedMaterial(e.target.value)}
                         >
                             <option value="">Seleccione un material</option>
@@ -168,27 +170,27 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
                         <button
                             type="button"
                             onClick={addMaterial}
-                            className="mt-1 w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                            className="w-full inline-flex justify-center items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                         >
-                            Agregar Material
+                            <FaPlus className="h-4 w-4" />
+                            <span>Agregar Material</span>
                         </button>
                     </div>
                 </div>
 
                 <div className="mt-4">
-                    {errors.materials && <InputError message={errors.materials} className="mt-2" />}
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Material</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cantidad</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Unidad</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acciones</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Material</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unidad</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {data.materials.map((material, index) => {
-                                const materialInfo = getMaterialInfo(material.id);
+                                const materialInfo = rawMaterials.find(m => m.id == material.id);
                                 return (
                                     <tr key={index}>
                                         <td className="px-6 py-4 whitespace-nowrap">{materialInfo?.name}</td>
@@ -198,9 +200,10 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
                                             <button
                                                 type="button"
                                                 onClick={() => removeMaterial(material.id)}
-                                                className="text-red-600 hover:text-red-900"
+                                                className="text-red-600 hover:text-red-900 flex items-center gap-2"
                                             >
-                                                Eliminar
+                                                <FaTrash className="h-4 w-4" />
+                                                <span>Eliminar</span>
                                             </button>
                                         </td>
                                     </tr>
@@ -221,16 +224,18 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
             <div className="flex items-center justify-end gap-4 pt-4 border-t">
                 <Link
                     href={route('recipes.index')}
-                    className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+                    className="text-gray-600 hover:text-gray-900 flex items-center gap-2"
                 >
-                    Cancelar
+                    <FaArrowLeft className="h-5 w-5" />
+                    <span>Volver</span>
                 </Link>
                 <button
                     type="submit"
-                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 flex items-center gap-2"
                     disabled={processing}
                 >
-                    {processing ? 'Guardando...' : recipe ? 'Actualizar' : 'Crear'}
+                    <FaSave className="h-5 w-5" />
+                    <span>{processing ? 'Guardando...' : recipe ? 'Actualizar' : 'Crear'}</span>
                 </button>
             </div>
         </form>

@@ -15,8 +15,7 @@ export default function Edit({ auth, product }) {
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6">
                             <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-lg font-medium">Editar Producto</h3>
-                                <Link
+                                <h3 className="text-lg font-medium">Editar Producto</h3>                                <Link
                                     href={route('products.index')}
                                     className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
                                 >

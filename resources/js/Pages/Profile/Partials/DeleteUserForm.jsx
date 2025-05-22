@@ -6,6 +6,7 @@ import Modal from '@/Components/Modal';
 import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
+import { FaTrash, FaTimes } from 'react-icons/fa';
 
 export default function DeleteUserForm({ className = '' }) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
@@ -54,7 +55,10 @@ export default function DeleteUserForm({ className = '' }) {
                 </p>
             </header>
 
-            <DangerButton onClick={confirmUserDeletion}>Delete Account</DangerButton>
+            <DangerButton onClick={confirmUserDeletion} className="flex items-center gap-2">
+                <FaTrash className="h-5 w-5" />
+                Delete Account
+            </DangerButton>
 
             <Modal show={confirmingUserDeletion} onClose={closeModal}>
                 <form onSubmit={deleteUser} className="p-6">
@@ -86,9 +90,13 @@ export default function DeleteUserForm({ className = '' }) {
                     </div>
 
                     <div className="mt-6 flex justify-end">
-                        <SecondaryButton onClick={closeModal}>Cancel</SecondaryButton>
+                        <SecondaryButton onClick={closeModal} className="flex items-center gap-2">
+                            <FaTimes className="h-5 w-5" />
+                            Cancel
+                        </SecondaryButton>
 
-                        <DangerButton className="ms-3" disabled={processing}>
+                        <DangerButton className="ms-3 flex items-center gap-2" disabled={processing}>
+                            <FaTrash className="h-5 w-5" />
                             Delete Account
                         </DangerButton>
                     </div>

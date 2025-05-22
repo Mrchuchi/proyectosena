@@ -2,6 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import { useState, useCallback } from 'react';
 import debounce from 'lodash/debounce';
+import { FaSearch, FaEdit, FaEye, FaTrash } from 'react-icons/fa';
 
 export default function Index({ auth, materials, filters }) {
     const [search, setSearch] = useState(filters.search || '');
@@ -44,13 +45,18 @@ export default function Index({ auth, materials, filters }) {
                                 <div className="flex items-center flex-1 gap-4">
                                     <h3 className="text-lg font-medium">Lista de Materias Primas</h3>
                                     <div className="flex-1 max-w-md">
-                                        <input
-                                            type="text"
-                                            className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                            placeholder="Buscar por código, nombre, descripción o proveedor..."
-                                            value={search}
-                                            onChange={handleSearchChange}
-                                        />
+                                        <div className="relative">
+                                            <input
+                                                type="text"
+                                                className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pr-10"
+                                                placeholder="Buscar por código, nombre, descripción o proveedor..."
+                                                value={search}
+                                                onChange={handleSearchChange}
+                                            />
+                                            <span className="absolute inset-y-0 right-0 flex items-center pr-3">
+                                                <FaSearch className="text-gray-400" />
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <Link
@@ -94,24 +100,26 @@ export default function Index({ auth, materials, filters }) {
                                                     </span>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                    <Link
-                                                        href={route('raw-materials.show', material.id)}
-                                                        className="text-blue-600 hover:text-blue-900 mr-4"
-                                                    >
-                                                        Ver
-                                                    </Link>
-                                                    <Link
-                                                        href={route('raw-materials.edit', material.id)}
-                                                        className="text-indigo-600 hover:text-indigo-900 mr-4"
-                                                    >
-                                                        Editar
-                                                    </Link>
-                                                    <button
-                                                        onClick={() => handleDelete(material.id)}
-                                                        className="text-red-600 hover:text-red-900"
-                                                    >
-                                                        Eliminar
-                                                    </button>
+                                                    <div className="flex items-center gap-2">
+                                                        <Link
+                                                            href={route('raw-materials.show', material.id)}
+                                                            className="text-blue-600 hover:text-blue-900"
+                                                        >
+                                                            <FaEye className="h-5 w-5" />
+                                                        </Link>
+                                                        <Link
+                                                            href={route('raw-materials.edit', material.id)}
+                                                            className="text-yellow-600 hover:text-yellow-900"
+                                                        >
+                                                            <FaEdit className="h-5 w-5" />
+                                                        </Link>
+                                                        <button
+                                                            onClick={() => handleDelete(material.id)}
+                                                            className="text-red-600 hover:text-red-900"
+                                                        >
+                                                            <FaTrash className="h-5 w-5" />
+                                                        </button>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))}

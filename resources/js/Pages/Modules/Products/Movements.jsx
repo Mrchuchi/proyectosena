@@ -3,6 +3,7 @@ import { Head, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { FaSave, FaTimes } from 'react-icons/fa';
 
 export default function ProductMovements({ auth, movements, filters, clients }) {
     const [showMoveModal, setShowMoveModal] = useState(false);
@@ -245,16 +246,18 @@ export default function ProductMovements({ auth, movements, filters, clients }) 
                                     <button
                                         type="submit"
                                         disabled={processing}
-                                        className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                        className="w-full inline-flex justify-center items-center gap-2 rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
                                     >
-                                        Registrar
+                                        <FaSave className="h-5 w-5" />
+                                        <span>Registrar</span>
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => setShowMoveModal(false)}
-                                        className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                        className="mt-3 w-full inline-flex justify-center items-center gap-2 rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                                     >
-                                        Cancelar
+                                        <FaTimes className="h-5 w-5" />
+                                        <span>Cancelar</span>
                                     </button>
                                 </div>
                             </form>

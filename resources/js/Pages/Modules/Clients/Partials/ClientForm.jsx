@@ -3,6 +3,8 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
+import { FaSave, FaArrowLeft } from 'react-icons/fa';
 
 export default function ClientForm({ client = {}, onSubmit }) {
     const { data, setData, processing, errors } = useForm({
@@ -148,12 +150,20 @@ export default function ClientForm({ client = {}, onSubmit }) {
             </div>
 
             <div className="flex items-center justify-end gap-4">
+                <Link
+                    href={route('clients.index')}
+                    className="text-gray-600 hover:text-gray-900 flex items-center gap-2"
+                >
+                    <FaArrowLeft className="h-5 w-5" />
+                    <span>Volver</span>
+                </Link>
                 <button
                     type="submit"
-                    className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 flex items-center gap-2"
                     disabled={processing}
                 >
-                    {client.id ? 'Actualizar Cliente' : 'Crear Cliente'}
+                    <FaSave className="h-5 w-5" />
+                    <span>{client.id ? 'Actualizar Cliente' : 'Crear Cliente'}</span>
                 </button>
             </div>
         </form>

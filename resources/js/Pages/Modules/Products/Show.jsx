@@ -1,5 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
+import { FaEdit, FaArrowLeft } from 'react-icons/fa';
 
 export default function Show({ auth, product }) {
     return (
@@ -15,18 +16,20 @@ export default function Show({ auth, product }) {
                         <div className="p-6">
                             <div className="flex justify-between items-center mb-6">
                                 <h3 className="text-lg font-medium">Información del Producto</h3>
-                                <div className="flex gap-4">
+                                <div className="flex items-center gap-4">
                                     <Link
                                         href={route('products.edit', product.id)}
-                                        className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                                        className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
                                     >
-                                        Editar
+                                        <FaEdit className="h-5 w-5" />
+                                        <span>Editar</span>
                                     </Link>
                                     <Link
                                         href={route('products.index')}
-                                        className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                                        className="inline-flex items-center gap-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
                                     >
-                                        Volver
+                                        <FaArrowLeft className="h-5 w-5" />
+                                        <span>Volver</span>
                                     </Link>
                                 </div>
                             </div>

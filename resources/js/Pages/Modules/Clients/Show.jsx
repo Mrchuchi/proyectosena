@@ -1,5 +1,6 @@
 import { Head, Link, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { FaEdit, FaTrash, FaArrowLeft } from 'react-icons/fa';
 
 export default function Show({ auth, client }) {
     const handleDelete = () => {
@@ -24,16 +25,22 @@ export default function Show({ auth, client }) {
                                 <div className="flex items-center gap-4">
                                     <Link
                                         href={route('clients.edit', client.id)}
-                                        className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
+                                        className="text-yellow-600 hover:text-yellow-900"
                                     >
-                                        Editar
+                                        <FaEdit className="h-5 w-5" />
                                     </Link>
                                     <button
                                         onClick={handleDelete}
-                                        className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                                        className="text-red-600 hover:text-red-900"
                                     >
-                                        Eliminar
+                                        <FaTrash className="h-5 w-5" />
                                     </button>
+                                    <Link
+                                        href={route('clients.index')}
+                                        className="text-gray-600 hover:text-gray-900"
+                                    >
+                                        <FaArrowLeft className="h-5 w-5" />
+                                    </Link>
                                 </div>
                             </div>
 
@@ -98,7 +105,7 @@ export default function Show({ auth, client }) {
                             <div className="mt-6">
                                 <Link
                                     href={route('clients.index')}
-                                    className="text-indigo-600 hover:text-indigo-900"
+                                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
                                 >
                                     ← Volver a la lista de clientes
                                 </Link>

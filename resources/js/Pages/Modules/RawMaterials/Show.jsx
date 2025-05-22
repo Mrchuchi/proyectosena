@@ -1,5 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
+import { FaEdit } from 'react-icons/fa';
 import MovementHistory from './Partials/MovementHistory';
 
 export default function Show({ auth, material, movements }) {
@@ -26,9 +27,9 @@ export default function Show({ auth, material, movements }) {
                                 </div>
                                 <Link
                                     href={route('raw-materials.edit', material.id)}
-                                    className="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700"
+                                    className="text-yellow-600 hover:text-yellow-900"
                                 >
-                                    Editar Material
+                                    <FaEdit className="h-5 w-5" />
                                 </Link>
                             </div>
                         </div>
@@ -99,7 +100,7 @@ export default function Show({ auth, material, movements }) {
                     <div className="flex justify-end">
                         <Link
                             href={route('raw-materials.index')}
-                            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                            className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
                         >
                             Volver a la lista
                         </Link>

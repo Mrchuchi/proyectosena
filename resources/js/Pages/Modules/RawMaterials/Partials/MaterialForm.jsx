@@ -3,6 +3,7 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import { useEffect } from 'react';
+import { FaSave, FaArrowLeft } from 'react-icons/fa';
 
 export default function MaterialForm({ material, nextCode }) {
     const today = new Date().toISOString().split('T')[0];
@@ -200,16 +201,18 @@ export default function MaterialForm({ material, nextCode }) {
             <div className="flex items-center justify-end gap-4 pt-4 border-t">
                 <Link
                     href={route('raw-materials.index')}
-                    className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 text-gray-700 rounded-md border border-gray-300 hover:bg-gray-100"
                 >
-                    Cancelar
+                    <FaArrowLeft className="h-5 w-5" />
+                    <span>Volver</span>
                 </Link>
                 <button
                     type="submit"
-                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+                    className="inline-flex items-center gap-2 px-4 py-2 text-blue-600 rounded-md border border-blue-600 hover:bg-blue-50"
                     disabled={processing}
                 >
-                    {processing ? 'Guardando...' : material ? 'Actualizar' : 'Crear'}
+                    <FaSave className="h-5 w-5" />
+                    <span>{processing ? 'Guardando...' : material ? 'Actualizar' : 'Crear'}</span>
                 </button>
             </div>
         </form>
