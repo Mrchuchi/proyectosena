@@ -151,30 +151,4 @@ class InventoryController extends Controller
 
         return back()->with('error', 'Error al actualizar el stock');
     }
-
-    public function store(Request $request, RawMaterial $rawMaterial)
-    {
-        $validated = $request->validate([
-            'type' => 'required|in:entrada,salida',
-            'quantity' => 'required|numeric|min:0.01',
-            'reason' => 'required|string'
-        ]);
-
-        try {
-            $success = $rawMaterial->updateStock(
-                $validated['quantity'],
-                $validated['type'],
-                $validated['reason'],
-                auth()->id()
-            );
-
-            if ($success) {
-                return back()->with('success', 'Movimiento registrado exitosamente');
-            }
-
-            return back()->with('error', 'Error al registrar el movimiento');
-        } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
-        }
-    }
 }
