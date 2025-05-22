@@ -85,16 +85,16 @@ export default function Index({ auth, products = [], filters = {} }) {
                                     <tbody className="bg-white divide-y divide-gray-200">
                                         {products?.map((product) => (
                                             <tr key={product.id}>
-                                                <td className="px-6 py-4 whitespace-nowrap">{product.code}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap">{product.name}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap">{product.category}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap">{product.size}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.code}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.name}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.category}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.size}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
-                                                    <span className={`${product.current_stock <= product.min_stock ? 'text-red-600 font-bold' : ''}`}>
+                                                    <span className={`text-sm ${product.current_stock <= product.min_stock ? 'text-red-600 font-semibold' : 'text-gray-900'}`}>
                                                         {product.current_stock}
                                                     </span>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">${product.price}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${product.price}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                                                         product.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
@@ -102,23 +102,23 @@ export default function Index({ auth, products = [], filters = {} }) {
                                                         {product.status === 'active' ? 'Activo' : 'Inactivo'}
                                                     </span>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                    <div className="flex items-center gap-2">
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <div className="flex items-center gap-3">
                                                         <Link
                                                             href={route('products.show', product.id)}
-                                                            className="inline-flex items-center gap-2 px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                                            className="text-blue-600 hover:text-blue-900"
                                                         >
                                                             <FaEye className="h-5 w-5" />
                                                         </Link>
                                                         <Link
                                                             href={route('products.edit', product.id)}
-                                                            className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
+                                                            className="text-yellow-600 hover:text-yellow-900"
                                                         >
                                                             <FaEdit className="h-5 w-5" />
                                                         </Link>
                                                         <button
                                                             onClick={() => handleDelete(product.id)}
-                                                            className="inline-flex items-center gap-2 px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700"
+                                                            className="text-red-600 hover:text-red-900"
                                                         >
                                                             <FaTrash className="h-5 w-5" />
                                                         </button>
@@ -128,7 +128,7 @@ export default function Index({ auth, products = [], filters = {} }) {
                                         ))}
                                         {products?.length === 0 && (
                                             <tr>
-                                                <td colSpan="8" className="px-6 py-4 text-center text-gray-500">
+                                                <td colSpan="8" className="px-6 py-4 text-center text-sm text-gray-500">
                                                     No se encontraron productos
                                                 </td>
                                             </tr>

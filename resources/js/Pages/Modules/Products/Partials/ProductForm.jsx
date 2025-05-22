@@ -1,6 +1,5 @@
 import { useForm, Link } from '@inertiajs/react';
 import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import { FaSave, FaArrowLeft } from 'react-icons/fa';
 
@@ -29,9 +28,8 @@ export default function ProductForm({ product, nextCode }) {
     return (
         <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl mx-auto bg-white p-6 rounded-lg shadow">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Código y Nombre */}
                 <div className="space-y-2">
-                    <InputLabel htmlFor="code" value="Código *" className="text-gray-700" />
+                    <label htmlFor="code" className="block text-sm font-medium text-gray-700">Código *</label>
                     <TextInput
                         id="code"
                         type="text"
@@ -44,7 +42,7 @@ export default function ProductForm({ product, nextCode }) {
                 </div>
 
                 <div className="space-y-2">
-                    <InputLabel htmlFor="name" value="Nombre *" className="text-gray-700" />
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nombre *</label>
                     <TextInput
                         id="name"
                         type="text"
@@ -57,9 +55,8 @@ export default function ProductForm({ product, nextCode }) {
                     <InputError message={errors.name} className="mt-2" />
                 </div>
 
-                {/* Tamaño y Categoría */}
                 <div className="space-y-2">
-                    <InputLabel htmlFor="size" value="Tamaño *" className="text-gray-700" />
+                    <label htmlFor="size" className="block text-sm font-medium text-gray-700">Tamaño *</label>
                     <select
                         id="size"
                         className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -78,7 +75,7 @@ export default function ProductForm({ product, nextCode }) {
                 </div>
 
                 <div className="space-y-2">
-                    <InputLabel htmlFor="category" value="Categoría *" className="text-gray-700" />
+                    <label htmlFor="category" className="block text-sm font-medium text-gray-700">Categoría *</label>
                     <select
                         id="category"
                         className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -93,23 +90,8 @@ export default function ProductForm({ product, nextCode }) {
                     <InputError message={errors.category} className="mt-2" />
                 </div>
 
-                {/* Stock y Precio */}
                 <div className="space-y-2">
-                    <InputLabel htmlFor="min_stock" value="Stock Mínimo *" className="text-gray-700" />
-                    <TextInput
-                        id="min_stock"
-                        type="number"
-                        className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
-                        value={data.min_stock}
-                        onChange={(e) => setData('min_stock', e.target.value)}
-                        required
-                        min="0"
-                    />
-                    <InputError message={errors.min_stock} className="mt-2" />
-                </div>
-
-                <div className="space-y-2">
-                    <InputLabel htmlFor="current_stock" value="Stock Actual *" className="text-gray-700" />
+                    <label htmlFor="current_stock" className="block text-sm font-medium text-gray-700">Stock Actual *</label>
                     <TextInput
                         id="current_stock"
                         type="number"
@@ -122,9 +104,8 @@ export default function ProductForm({ product, nextCode }) {
                     <InputError message={errors.current_stock} className="mt-2" />
                 </div>
 
-                {/* Precio y Estado */}
                 <div className="space-y-2">
-                    <InputLabel htmlFor="price" value="Precio *" className="text-gray-700" />
+                    <label htmlFor="price" className="block text-sm font-medium text-gray-700">Precio *</label>
                     <div className="relative">
                         <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
                             $
@@ -144,7 +125,7 @@ export default function ProductForm({ product, nextCode }) {
                 </div>
 
                 <div className="space-y-2">
-                    <InputLabel htmlFor="status" value="Estado *" className="text-gray-700" />
+                    <label htmlFor="status" className="block text-sm font-medium text-gray-700">Estado *</label>
                     <select
                         id="status"
                         className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -158,9 +139,8 @@ export default function ProductForm({ product, nextCode }) {
                     <InputError message={errors.status} className="mt-2" />
                 </div>
 
-                {/* Descripción */}
                 <div className="space-y-2 md:col-span-2">
-                    <InputLabel htmlFor="description" value="Descripción" className="text-gray-700" />
+                    <label htmlFor="description" className="block text-sm font-medium text-gray-700">Descripción</label>
                     <textarea
                         id="description"
                         className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"

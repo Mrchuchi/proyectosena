@@ -31,11 +31,11 @@ export default function MaterialForm({ material, nextCode }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl mx-auto bg-white p-6 rounded-lg shadow">
+        <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Código y Nombre */}
                 <div className="space-y-2">
-                    <InputLabel htmlFor="code" value="Código *" className="text-gray-700" />
+                    <label htmlFor="code" className="block text-sm font-medium text-gray-700">Código *</label>
                     <TextInput
                         id="code"
                         type="text"
@@ -48,7 +48,7 @@ export default function MaterialForm({ material, nextCode }) {
                 </div>
 
                 <div className="space-y-2">
-                    <InputLabel htmlFor="name" value="Nombre *" className="text-gray-700" />
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nombre *</label>
                     <TextInput
                         id="name"
                         type="text"
@@ -63,7 +63,7 @@ export default function MaterialForm({ material, nextCode }) {
 
                 {/* Descripción */}
                 <div className="space-y-2 md:col-span-2">
-                    <InputLabel htmlFor="description" value="Descripción" className="text-gray-700" />
+                    <label htmlFor="description" className="block text-sm font-medium text-gray-700">Descripción</label>
                     <textarea
                         id="description"
                         className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -77,7 +77,7 @@ export default function MaterialForm({ material, nextCode }) {
 
                 {/* Unidad de Medida y Proveedor */}
                 <div className="space-y-2">
-                    <InputLabel htmlFor="unit_measure" value="Unidad de Medida *" className="text-gray-700" />
+                    <label htmlFor="unit_measure" className="block text-sm font-medium text-gray-700">Unidad de Medida *</label>
                     <select
                         id="unit_measure"
                         className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -97,7 +97,7 @@ export default function MaterialForm({ material, nextCode }) {
                 </div>
 
                 <div className="space-y-2">
-                    <InputLabel htmlFor="main_supplier" value="Proveedor Principal" className="text-gray-700" />
+                    <label htmlFor="main_supplier" className="block text-sm font-medium text-gray-700">Proveedor Principal</label>
                     <TextInput
                         id="main_supplier"
                         type="text"
@@ -111,7 +111,7 @@ export default function MaterialForm({ material, nextCode }) {
 
                 {/* Stock y Precio */}
                 <div className="space-y-2">
-                    <InputLabel htmlFor="min_stock" value="Stock Mínimo *" className="text-gray-700" />
+                    <label htmlFor="min_stock" className="block text-sm font-medium text-gray-700">Stock Mínimo *</label>
                     <div className="relative">
                         <TextInput
                             id="min_stock"
@@ -130,7 +130,7 @@ export default function MaterialForm({ material, nextCode }) {
                 </div>
 
                 <div className="space-y-2">
-                    <InputLabel htmlFor="current_stock" value="Stock Actual *" className="text-gray-700" />
+                    <label htmlFor="current_stock" className="block text-sm font-medium text-gray-700">Stock Actual *</label>
                     <div className="relative">
                         <TextInput
                             id="current_stock"
@@ -150,7 +150,7 @@ export default function MaterialForm({ material, nextCode }) {
 
                 {/* Precio y Fecha */}
                 <div className="space-y-2">
-                    <InputLabel htmlFor="unit_price" value="Precio Unitario *" className="text-gray-700" />
+                    <label htmlFor="unit_price" className="block text-sm font-medium text-gray-700">Precio Unitario *</label>
                     <div className="relative">
                         <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
                             $
@@ -169,7 +169,7 @@ export default function MaterialForm({ material, nextCode }) {
                 </div>
 
                 <div className="space-y-2">
-                    <InputLabel htmlFor="last_purchase" value="Última Compra" className="text-gray-700" />
+                    <label htmlFor="last_purchase" className="block text-sm font-medium text-gray-700">Última Compra</label>
                     <TextInput
                         id="last_purchase"
                         type="date"
@@ -183,7 +183,7 @@ export default function MaterialForm({ material, nextCode }) {
 
                 {/* Estado */}
                 <div className="space-y-2 md:col-span-2">
-                    <InputLabel htmlFor="status" value="Estado *" className="text-gray-700" />
+                    <label htmlFor="status" className="block text-sm font-medium text-gray-700">Estado *</label>
                     <select
                         id="status"
                         className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -201,14 +201,14 @@ export default function MaterialForm({ material, nextCode }) {
             <div className="flex items-center justify-end gap-4 pt-4 border-t">
                 <Link
                     href={route('raw-materials.index')}
-                    className="inline-flex items-center gap-2 px-4 py-2 text-gray-700 rounded-md border border-gray-300 hover:bg-gray-100"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
                 >
                     <FaArrowLeft className="h-5 w-5" />
                     <span>Volver</span>
                 </Link>
                 <button
                     type="submit"
-                    className="inline-flex items-center gap-2 px-4 py-2 text-blue-600 rounded-md border border-blue-600 hover:bg-blue-50"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                     disabled={processing}
                 >
                     <FaSave className="h-5 w-5" />

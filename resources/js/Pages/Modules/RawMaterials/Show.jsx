@@ -18,10 +18,10 @@ export default function Show({ auth, material, movements }) {
                         <div className="px-4 py-5 sm:px-6">
                             <div className="flex justify-between items-center">
                                 <div>
-                                    <h3 className="text-lg leading-6 font-medium text-gray-900">
+                                    <h3 className="text-lg font-medium text-gray-700">
                                         {material.name}
                                     </h3>
-                                    <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                                    <p className="mt-1 text-sm text-gray-500">
                                         Código: {material.code}
                                     </p>
                                 </div>

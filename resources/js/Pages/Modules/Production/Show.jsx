@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 
 export default function Show({ auth, order }) {
     useEffect(() => {
-        console.log('Order data:', order); // Para depuración
+        console.log('Order data:', order);
     }, [order]);
 
     if (!order || !order.product || !order.recipe) {
@@ -35,25 +35,13 @@ export default function Show({ auth, order }) {
 
     const handleStart = () => {
         if (window.confirm('¿Estás seguro de que deseas iniciar esta orden de producción?')) {
-            router.post(route('production.start', order.id), {}, {
-                onSuccess: () => {
-                    // La página se actualizará automáticamente
-                },
-                onError: (errors) => {
-                    alert(errors.message || 'No se pudo iniciar la orden de producción');
-                }
-            });
+            router.post(route('production.start', order.id));
         }
-    };    const handleComplete = () => {
+    };
+
+    const handleComplete = () => {
         if (window.confirm('¿Estás seguro de que deseas completar esta orden de producción?')) {
-            router.post(route('production.complete', order.id), {}, {
-                onSuccess: () => {
-                    // La página se actualizará automáticamente
-                },
-                onError: (errors) => {
-                    alert(errors.message || 'No se pudo completar la orden de producción');
-                }
-            });
+            router.post(route('production.complete', order.id));
         }
     };
 
@@ -85,60 +73,61 @@ export default function Show({ auth, order }) {
                             <div className="mb-6">
                                 <Link
                                     href={route('production.index')}
-                                    className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
+                                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
                                 >
                                     Volver
                                 </Link>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                 <div>
-                                    <h3 className="text-lg font-semibold mb-4">Información General</h3>
+                                    <h3 className="text-lg font-medium text-gray-700 mb-4">Información General</h3>
                                     <div className="space-y-4">
                                         <div>
-                                            <h4 className="font-medium text-gray-600">Código</h4>
-                                            <p className="mt-1">{order.code}</p>
+                                            <h4 className="text-sm font-medium text-gray-700">Código</h4>
+                                            <p className="mt-1 text-sm text-gray-900">{order.code}</p>
                                         </div>
                                         <div>
-                                            <h4 className="font-medium text-gray-600">Estado</h4>
-                                            <p className="mt-1">                                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusColors[order.status]}`}>
+                                            <h4 className="text-sm font-medium text-gray-700">Estado</h4>
+                                            <p className="mt-1">
+                                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusColors[order.status]}`}>
                                                     {statusLabels[order.status]}
                                                 </span>
                                             </p>
                                         </div>
                                         <div>
-                                            <h4 className="font-medium text-gray-600">Producto</h4>
-                                            <p className="mt-1">{order.product.name}</p>
+                                            <h4 className="text-sm font-medium text-gray-700">Producto</h4>
+                                            <p className="mt-1 text-sm text-gray-900">{order.product.name}</p>
                                         </div>
                                         <div>
-                                            <h4 className="font-medium text-gray-600">Receta</h4>
-                                            <p className="mt-1">{order.recipe.name}</p>
+                                            <h4 className="text-sm font-medium text-gray-700">Receta</h4>
+                                            <p className="mt-1 text-sm text-gray-900">{order.recipe.name}</p>
                                         </div>
                                         <div>
-                                            <h4 className="font-medium text-gray-600">Cantidad</h4>
-                                            <p className="mt-1">{order.quantity}</p>
+                                            <h4 className="text-sm font-medium text-gray-700">Cantidad</h4>
+                                            <p className="mt-1 text-sm text-gray-900">{order.quantity}</p>
                                         </div>
                                         <div>
-                                            <h4 className="font-medium text-gray-600">Fecha Planificada</h4>
-                                            <p className="mt-1">{order.planned_date}</p>
+                                            <h4 className="text-sm font-medium text-gray-700">Fecha Planificada</h4>
+                                            <p className="mt-1 text-sm text-gray-900">{order.planned_date}</p>
                                         </div>
                                         {order.start_date && (
                                             <div>
-                                                <h4 className="font-medium text-gray-600">Fecha de Inicio</h4>
-                                                <p className="mt-1">{order.start_date}</p>
+                                                <h4 className="text-sm font-medium text-gray-700">Fecha de Inicio</h4>
+                                                <p className="mt-1 text-sm text-gray-900">{order.start_date}</p>
                                             </div>
                                         )}
                                         {order.end_date && (
                                             <div>
-                                                <h4 className="font-medium text-gray-600">Fecha de Finalización</h4>
-                                                <p className="mt-1">{order.end_date}</p>
+                                                <h4 className="text-sm font-medium text-gray-700">Fecha de Finalización</h4>
+                                                <p className="mt-1 text-sm text-gray-900">{order.end_date}</p>
                                             </div>
                                         )}
                                     </div>
                                 </div>
 
                                 <div>
-                                    <h3 className="text-lg font-semibold mb-4">Materiales Requeridos</h3>
+                                    <h3 className="text-lg font-medium text-gray-700 mb-4">Materiales Requeridos</h3>
                                     <div className="overflow-x-auto">
                                         <table className="min-w-full divide-y divide-gray-200">
                                             <thead className="bg-gray-50">
@@ -151,12 +140,12 @@ export default function Show({ auth, order }) {
                                             <tbody className="bg-white divide-y divide-gray-200">
                                                 {order.recipe.rawMaterials.map((material) => (
                                                     <tr key={material.id}>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm">{material.name}</td>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{material.name}</td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                             {(material.pivot.quantity * order.quantity).toFixed(2)} {material.unit_measure}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                                            <span className={material.current_stock < (material.pivot.quantity * order.quantity) ? 'text-red-600' : 'text-green-600'}>
+                                                            <span className={`${material.current_stock < (material.pivot.quantity * order.quantity) ? 'text-red-600' : 'text-green-600'} font-medium`}>
                                                                 {material.current_stock} {material.unit_measure}
                                                             </span>
                                                         </td>
@@ -168,8 +157,8 @@ export default function Show({ auth, order }) {
 
                                     {order.notes && (
                                         <div className="mt-6">
-                                            <h3 className="text-lg font-semibold mb-4">Notas</h3>
-                                            <p className="whitespace-pre-line">{order.notes}</p>
+                                            <h3 className="text-lg font-medium text-gray-700 mb-4">Notas</h3>
+                                            <p className="text-sm text-gray-900 whitespace-pre-line">{order.notes}</p>
                                         </div>
                                     )}
 
@@ -177,9 +166,10 @@ export default function Show({ auth, order }) {
                                         <div className="mt-6">
                                             <button
                                                 onClick={handleStart}
-                                                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                                             >
-                                                <FaPlay className="mr-2" /> Iniciar Producción
+                                                <FaPlay className="h-5 w-5" />
+                                                <span>Iniciar Producción</span>
                                             </button>
                                         </div>
                                     )}
@@ -188,9 +178,10 @@ export default function Show({ auth, order }) {
                                         <div className="mt-6">
                                             <button
                                                 onClick={handleComplete}
-                                                className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                                                className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
                                             >
-                                                <FaCheck className="mr-2" /> Completar Producción
+                                                <FaCheck className="h-5 w-5" />
+                                                <span>Completar Producción</span>
                                             </button>
                                         </div>
                                     )}

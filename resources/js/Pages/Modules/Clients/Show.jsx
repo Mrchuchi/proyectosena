@@ -1,5 +1,5 @@
-import { Head, Link, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Head, Link, router } from '@inertiajs/react';
 import { FaEdit, FaTrash, FaArrowLeft } from 'react-icons/fa';
 
 export default function Show({ auth, client }) {
@@ -21,93 +21,95 @@ export default function Show({ auth, client }) {
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6">
                             <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-lg font-medium">Información del Cliente</h3>
+                                <h3 className="text-lg font-medium text-gray-700">Información del Cliente</h3>
                                 <div className="flex items-center gap-4">
                                     <Link
                                         href={route('clients.edit', client.id)}
                                         className="text-yellow-600 hover:text-yellow-900"
+                                        title="Editar"
                                     >
                                         <FaEdit className="h-5 w-5" />
                                     </Link>
                                     <button
                                         onClick={handleDelete}
                                         className="text-red-600 hover:text-red-900"
+                                        title="Eliminar"
                                     >
                                         <FaTrash className="h-5 w-5" />
                                     </button>
-                                    <Link
-                                        href={route('clients.index')}
-                                        className="text-gray-600 hover:text-gray-900"
-                                    >
-                                        <FaArrowLeft className="h-5 w-5" />
-                                    </Link>
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-6">
-                                <div>
-                                    <p className="text-sm font-medium text-gray-500">Código</p>
-                                    <p className="mt-1">{client.code}</p>
-                                </div>
-
-                                <div>
-                                    <p className="text-sm font-medium text-gray-500">Nombre</p>
-                                    <p className="mt-1">{client.name}</p>
-                                </div>
-
-                                <div>
-                                    <p className="text-sm font-medium text-gray-500">Tipo de Documento</p>
-                                    <p className="mt-1">{client.document_type || '-'}</p>
-                                </div>
-
-                                <div>
-                                    <p className="text-sm font-medium text-gray-500">Número de Documento</p>
-                                    <p className="mt-1">{client.document_number || '-'}</p>
-                                </div>
-
-                                <div>
-                                    <p className="text-sm font-medium text-gray-500">Correo Electrónico</p>
-                                    <p className="mt-1">{client.email || '-'}</p>
-                                </div>
-
-                                <div>
-                                    <p className="text-sm font-medium text-gray-500">Teléfono</p>
-                                    <p className="mt-1">{client.phone || '-'}</p>
-                                </div>
-
-                                <div>
-                                    <p className="text-sm font-medium text-gray-500">Dirección</p>
-                                    <p className="mt-1">{client.address || '-'}</p>
-                                </div>
-
-                                <div>
-                                    <p className="text-sm font-medium text-gray-500">Ciudad</p>
-                                    <p className="mt-1">{client.city || '-'}</p>
-                                </div>
-
-                                <div>
-                                    <p className="text-sm font-medium text-gray-500">Estado</p>
-                                    <p className="mt-1">
-                                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                            client.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                                        }`}>
-                                            {client.status === 'active' ? 'Activo' : 'Inactivo'}
-                                        </span>
-                                    </p>
-                                </div>
-
-                                <div>
-                                    <p className="text-sm font-medium text-gray-500">Fecha de Registro</p>
-                                    <p className="mt-1">{new Date(client.created_at).toLocaleDateString()}</p>
-                                </div>
+                            <div className="border-t border-gray-200">
+                                <dl>
+                                    <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt className="text-sm font-medium text-gray-500">Código</dt>
+                                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                            {client.code}
+                                        </dd>
+                                    </div>
+                                    <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt className="text-sm font-medium text-gray-500">Nombre</dt>
+                                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                            {client.name}
+                                        </dd>
+                                    </div>
+                                    <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt className="text-sm font-medium text-gray-500">Tipo de Documento</dt>
+                                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                            {client.document_type || '-'}
+                                        </dd>
+                                    </div>
+                                    <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt className="text-sm font-medium text-gray-500">Número de Documento</dt>
+                                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                            {client.document_number || '-'}
+                                        </dd>
+                                    </div>
+                                    <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt className="text-sm font-medium text-gray-500">Correo Electrónico</dt>
+                                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                            {client.email || '-'}
+                                        </dd>
+                                    </div>
+                                    <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt className="text-sm font-medium text-gray-500">Teléfono</dt>
+                                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                            {client.phone || '-'}
+                                        </dd>
+                                    </div>
+                                    <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt className="text-sm font-medium text-gray-500">Dirección</dt>
+                                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                            {client.address || '-'}
+                                        </dd>
+                                    </div>
+                                    <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt className="text-sm font-medium text-gray-500">Ciudad</dt>
+                                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                            {client.city || '-'}
+                                        </dd>
+                                    </div>
+                                    <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt className="text-sm font-medium text-gray-500">Estado</dt>
+                                        <dd className="mt-1 text-sm sm:col-span-2">
+                                            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                                client.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                                            }`}>
+                                                {client.status === 'active' ? 'Activo' : 'Inactivo'}
+                                            </span>
+                                        </dd>
+                                    </div>
+                                </dl>
                             </div>
 
                             <div className="mt-6">
                                 <Link
                                     href={route('clients.index')}
-                                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
                                 >
-                                    ← Volver a la lista de clientes
+                                    <FaArrowLeft className="h-5 w-5" />
+                                    <span>Volver</span>
                                 </Link>
                             </div>
                         </div>

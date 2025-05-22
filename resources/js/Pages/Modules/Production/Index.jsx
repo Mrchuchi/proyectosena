@@ -82,39 +82,37 @@ export default function Index({ auth, orders = [], filters = {} }) {
                                 <option value="cancelled">Cancelada</option>
                             </select>
                         </div>
-                        <Link
-                            href={route('production.create')}
-                            className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+                        <Link                            href={route('production.create')}
+                            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                         >
                             Nueva Orden
                         </Link>
                     </div>
 
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 bg-white border-b border-gray-200">
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50">
-                                        <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Planificada</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-                                        </tr>
-                                    </thead>
+                        <div className="p-6 bg-white border-b border-gray-200">                    <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50">
+                                <tr>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Planificada</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                </tr>
+                            </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {orders.data && orders.data.map((order) => (
-                                            <tr key={order.id}>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm">{order.code}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm">{order.product.name}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm">{order.quantity}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm">{order.planned_date}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap">                                                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusColors[order.status]}`}>
-                                                        {statusLabels[order.status]}
-                                                    </span>
-                                                </td>
+                                        {orders.data && orders.data.map((order) => (                                <tr key={order.id}>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.code}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.product.name}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.quantity}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.planned_date}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusColors[order.status]}`}>
+                                            {statusLabels[order.status]}
+                                        </span>
+                                    </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm">
                                                     <div className="flex space-x-2">
                                                         <Link

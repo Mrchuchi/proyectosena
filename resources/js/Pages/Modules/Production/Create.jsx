@@ -34,33 +34,37 @@ export default function Create({ auth, nextCode, products, recipes }) {
             <Head title="Nueva Orden de Producción" />
 
             <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 bg-white border-b border-gray-200">
-                            <form onSubmit={submit}>
-                                <div className="grid grid-cols-2 gap-6">
-                                    <div>
-                                        <InputLabel htmlFor="code" value="Código" />
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">                            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                                <div className="p-6 bg-white border-b border-gray-200">
+                                    <div className="flex justify-between items-center mb-6">
+                                        <h3 className="text-lg font-medium text-gray-700">Nueva Orden de Producción</h3>
+                                        <a
+                                            href={route('production.index')}
+                                            className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                                        >
+                                            Volver
+                                        </a>
+                                    </div>
+                                    <form onSubmit={submit}>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6"><div>
+                                        <InputLabel htmlFor="code" value="Código" className="block text-sm font-medium text-gray-700" />
                                         <TextInput
                                             id="code"
                                             type="text"
                                             name="code"
                                             value={data.code}
-                                            className="mt-1 block w-full"
+                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                             autoComplete="off"
                                             onChange={(e) => setData('code', e.target.value)}
                                             required
                                         />
                                         <InputError message={errors.code} className="mt-2" />
-                                    </div>
-
-                                    <div>
-                                        <InputLabel htmlFor="product_id" value="Producto" />
+                                    </div>                                <div>
+                                        <InputLabel htmlFor="product_id" value="Producto" className="block text-sm font-medium text-gray-700" />
                                         <select
                                             name="product_id"
-                                            id="product_id"
-                                            value={data.product_id}
-                                            className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                            id="product_id"                                            value={data.product_id}
+                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                             onChange={(e) => {
                                                 setData('product_id', e.target.value);
                                                 setData('recipe_id', ''); // Reset recipe when product changes
@@ -73,15 +77,13 @@ export default function Create({ auth, nextCode, products, recipes }) {
                                             ))}
                                         </select>
                                         <InputError message={errors.product_id} className="mt-2" />
-                                    </div>
-
-                                    <div>
-                                        <InputLabel htmlFor="recipe_id" value="Receta" />
+                                    </div>                                    <div>
+                                        <InputLabel htmlFor="recipe_id" value="Receta" className="block text-sm font-medium text-gray-700" />
                                         <select
                                             name="recipe_id"
                                             id="recipe_id"
                                             value={data.recipe_id}
-                                            className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                             onChange={(e) => setData('recipe_id', e.target.value)}
                                             required
                                             disabled={!data.product_id}
@@ -92,10 +94,8 @@ export default function Create({ auth, nextCode, products, recipes }) {
                                             ))}
                                         </select>
                                         <InputError message={errors.recipe_id} className="mt-2" />
-                                    </div>
-
-                                    <div>
-                                        <InputLabel htmlFor="quantity" value="Cantidad" />
+                                    </div>                                    <div>
+                                        <InputLabel htmlFor="quantity" value="Cantidad" className="block text-sm font-medium text-gray-700" />
                                         <TextInput
                                             id="quantity"
                                             type="number"
@@ -103,58 +103,52 @@ export default function Create({ auth, nextCode, products, recipes }) {
                                             min="0.01"
                                             name="quantity"
                                             value={data.quantity}
-                                            className="mt-1 block w-full"
+                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                             autoComplete="off"
                                             onChange={(e) => setData('quantity', e.target.value)}
                                             required
                                         />
                                         <InputError message={errors.quantity} className="mt-2" />
-                                    </div>
-
-                                    <div>
-                                        <InputLabel htmlFor="planned_date" value="Fecha Planificada" />
+                                    </div>                                    <div>
+                                        <InputLabel htmlFor="planned_date" value="Fecha Planificada" className="block text-sm font-medium text-gray-700" />
                                         <TextInput
                                             id="planned_date"
                                             type="date"
                                             name="planned_date"
                                             value={data.planned_date}
-                                            className="mt-1 block w-full"
+                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                             onChange={(e) => setData('planned_date', e.target.value)}
                                             required
                                         />
                                         <InputError message={errors.planned_date} className="mt-2" />
                                     </div>
-                                </div>
-
-                                <div className="mt-6">
-                                    <InputLabel htmlFor="notes" value="Notas" />
+                                </div>                                <div className="mt-6">
+                                    <InputLabel htmlFor="notes" value="Notas" className="block text-sm font-medium text-gray-700" />
                                     <textarea
                                         name="notes"
                                         id="notes"
                                         value={data.notes}
-                                        className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                         rows="4"
                                         onChange={(e) => setData('notes', e.target.value)}
                                     ></textarea>
                                     <InputError message={errors.notes} className="mt-2" />
-                                </div>
-
-                                <div className="mt-6 flex justify-end space-x-4">
-                                    <a
-                                        href={route('production.index')}
-                                        className="inline-flex items-center gap-2 px-4 py-2 bg-gray-300 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-400 focus:bg-gray-400 active:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150"
-                                    >
-                                        <FaTimes className="h-5 w-5" />
-                                        <span>Cancelar</span>
-                                    </a>
-                                    <button
-                                        type="submit"
-                                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150"
-                                        disabled={processing}
-                                    >
-                                        <FaSave className="h-5 w-5" />
-                                        <span>Crear Orden</span>
-                                    </button>
+                                </div>                                        <div className="mt-6 flex justify-end space-x-4">
+                                            <a
+                                                href={route('production.index')}
+                                                className="inline-flex items-center gap-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                                            >
+                                                <FaTimes className="h-5 w-5" />
+                                                <span>Cancelar</span>
+                                            </a>
+                                            <button
+                                                type="submit"
+                                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                                disabled={processing}
+                                            >
+                                                <FaSave className="h-5 w-5" />
+                                                <span>Crear Orden</span>
+                                            </button>
                                 </div>
                             </form>
                         </div>
