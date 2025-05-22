@@ -29,11 +29,14 @@ class DashboardController extends Controller
             ->where('status', 'in_progress')
             ->orderBy('start_date')
             ->limit(5)
-            ->get();
-
-        // Calcular valores totales
-        $totalValue = RawMaterial::where('status', 'active')
+            ->get();        // Calcular valores totales
+        $rawMaterialsValue = RawMaterial::where('status', 'active')
             ->sum(DB::raw('current_stock * unit_price'));
+            
+        $productsValue = Product::where('status', 'active')
+            ->sum(DB::raw('current_stock * price'));
+
+        $totalValue = $rawMaterialsValue + $productsValue;
         
         $totalProducts = Product::where('status', 'active')->count();
         $totalMaterials = RawMaterial::where('status', 'active')->count();
