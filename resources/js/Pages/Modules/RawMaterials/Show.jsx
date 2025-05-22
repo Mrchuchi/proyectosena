@@ -1,17 +1,26 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
 import { FaEdit } from 'react-icons/fa';
+import MovementForm from '@/Pages/Modules/Movements/Partials/MovementForm';
 import MovementHistory from './Partials/MovementHistory';
+import { useState } from 'react';
 
-export default function Show({ auth, material, movements }) {
+export default function Show({ auth, material, movements: initialMovements }) {
+    const [movements, setMovements] = useState(initialMovements);
+    const [currentMaterial, setCurrentMaterial] = useState(material);
+    
+    const handleNewMovement = (newMovement) => {
+        setMovements(prevMovements => [newMovement, ...prevMovements]);
+        setCurrentMaterial(prev => ({
+            ...prev,
+            current_stock: newMovement.new_stock
+        }));
+    };
     return (
         <AuthenticatedLayout
-            user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Detalles del Material</h2>}
+            user={auth.user}            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Detalles del Material</h2>}
         >
-            <Head title={`Material - ${material.name}`} />
-
-            <div className="py-12">
+            <Head title={`Material - ${currentMaterial.name}`} /><div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                     {/* Detalles del Material */}
                     <div className="bg-white shadow sm:rounded-lg">
@@ -19,10 +28,10 @@ export default function Show({ auth, material, movements }) {
                             <div className="flex justify-between items-center">
                                 <div>
                                     <h3 className="text-lg font-medium text-gray-700">
-                                        {material.name}
+                                        {currentMaterial.name}
                                     </h3>
                                     <p className="mt-1 text-sm text-gray-500">
-                                        Código: {material.code}
+                                        Código: {currentMaterial.code}
                                     </p>
                                 </div>
                                 <Link
@@ -36,60 +45,69 @@ export default function Show({ auth, material, movements }) {
                         <div className="border-t border-gray-200">
                             <dl>
                                 <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                    <dt className="text-sm font-medium text-gray-500">Descripción</dt>
-                                    <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
-                                        {material.description || '-'}
+                                    <dt className="text-sm font-medium text-gray-500">Descripción</dt>                                    <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                        {currentMaterial.description || '-'}
                                     </dd>
                                 </div>
                                 <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                     <dt className="text-sm font-medium text-gray-500">Unidad de Medida</dt>
                                     <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
-                                        {material.unit_measure}
+                                        {currentMaterial.unit_measure}
                                     </dd>
                                 </div>
                                 <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                     <dt className="text-sm font-medium text-gray-500">Stock Actual</dt>
                                     <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
-                                        <span className={material.current_stock <= material.min_stock ? 'text-red-600 font-bold' : ''}>
-                                            {material.current_stock} {material.unit_measure}
+                                        <span className={currentMaterial.current_stock <= currentMaterial.min_stock ? 'text-red-600 font-bold' : ''}>
+                                            {currentMaterial.current_stock} {currentMaterial.unit_measure}
                                         </span>
                                     </dd>
                                 </div>
                                 <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                     <dt className="text-sm font-medium text-gray-500">Stock Mínimo</dt>
                                     <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
-                                        {material.min_stock} {material.unit_measure}
+                                        {currentMaterial.min_stock} {currentMaterial.unit_measure}
                                     </dd>
                                 </div>
                                 <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                     <dt className="text-sm font-medium text-gray-500">Precio Unitario</dt>
                                     <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
-                                        ${material.unit_price}
+                                        ${currentMaterial.unit_price}
                                     </dd>
                                 </div>
                                 <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                     <dt className="text-sm font-medium text-gray-500">Proveedor Principal</dt>
                                     <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
-                                        {material.main_supplier || '-'}
+                                        {currentMaterial.main_supplier || '-'}
                                     </dd>
                                 </div>
                                 <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                     <dt className="text-sm font-medium text-gray-500">Última Compra</dt>
                                     <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
-                                        {material.last_purchase || '-'}
+                                        {currentMaterial.last_purchase || '-'}
                                     </dd>
                                 </div>
                                 <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                     <dt className="text-sm font-medium text-gray-500">Estado</dt>
                                     <dd className="mt-1 text-sm sm:col-span-2">
                                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                            material.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                                            currentMaterial.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                                         }`}>
-                                            {material.status === 'active' ? 'Activo' : 'Inactivo'}
+                                            {currentMaterial.status === 'active' ? 'Activo' : 'Inactivo'}
                                         </span>
                                     </dd>
                                 </div>
                             </dl>
+                        </div>
+                    </div>                            {/* Form for new movements */}
+                    <div className="bg-white shadow sm:rounded-lg">
+                        <div className="p-6">
+                            <MovementForm 
+                                products={[]}
+                                clients={[]}
+                                rawMaterials={[currentMaterial]}
+                                onSuccess={handleNewMovement}
+                            />
                         </div>
                     </div>
 

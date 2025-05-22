@@ -4,8 +4,9 @@ import { FaSave } from 'react-icons/fa';
 
 export default function MovementForm({ onSuccess, products, clients, rawMaterials }) {
     const [selectedItemType, setSelectedItemType] = useState('product');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
         type: 'entrada',
         item_type: 'product',
         item_id: '',
@@ -16,11 +17,24 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('movements.store'), {
-            onSuccess: () => {
+        setIsSubmitting(true);
+        clearErrors();
+
+        post(route('movements'), {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: (response) => {
+                if (response?.newMovement) {
+                    onSuccess?.(response.newMovement);
+                }
                 reset();
-                if (onSuccess) onSuccess();
             },
+            onError: () => {
+                // Los errores se manejan automáticamente por el formulario
+            },
+            onFinish: () => {
+                setIsSubmitting(false);
+            }
         });
     };
 
@@ -33,6 +47,8 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
             item_id: ''
         }));
     };
+
+    const isDisabled = processing || isSubmitting;
 
     return (
         <div className="bg-white rounded-lg overflow-hidden">
@@ -48,6 +64,7 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
                                 value={data.item_type}
                                 onChange={handleItemTypeChange}
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                disabled={isDisabled}
                                 required
                             >
                                 <option value="product">Producto</option>
@@ -66,6 +83,7 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
                                 value={data.item_id}
                                 onChange={e => setData('item_id', e.target.value)}
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                disabled={isDisabled}
                                 required
                             >
                                 <option value="">Seleccione un {selectedItemType === 'product' ? 'producto' : 'materia prima'}</option>
@@ -94,6 +112,8 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
                                 value={data.type}
                                 onChange={e => setData('type', e.target.value)}
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                disabled={isDisabled}
+                                required
                             >
                                 <option value="entrada">Entrada</option>
                                 <option value="salida">Salida</option>
@@ -110,6 +130,7 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
                                     value={data.client_id}
                                     onChange={e => setData('client_id', e.target.value)}
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    disabled={isDisabled}
                                     required={data.type === 'salida'}
                                 >
                                     <option value="">Seleccione un cliente</option>
@@ -132,6 +153,7 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
                                 value={data.quantity}
                                 onChange={e => setData('quantity', e.target.value)}
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                disabled={isDisabled}
                                 required
                                 min="0.01"
                                 step="0.01"
@@ -148,6 +170,7 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
                                 value={data.reason}
                                 onChange={e => setData('reason', e.target.value)}
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                disabled={isDisabled}
                                 required
                             />
                             {errors.reason && <p className="mt-1 text-sm text-red-600">{errors.reason}</p>}
@@ -158,11 +181,15 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
                 <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <button
                         type="submit"
-                        disabled={processing}
-                        className="w-full inline-flex justify-center items-center gap-2 rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                        disabled={isDisabled}
+                        className={`w-full inline-flex justify-center items-center gap-2 rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm ${
+                            isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+                        }`}
                     >
                         <FaSave className="h-5 w-5" />
-                        <span>Guardar</span>
+                        <span>
+                            {isDisabled ? 'Guardando...' : 'Guardar'}
+                        </span>
                     </button>
                 </div>
             </form>

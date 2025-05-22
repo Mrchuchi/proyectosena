@@ -11,6 +11,8 @@ export default function Movements({ auth, movements: initialMovements, products,
         type: '',
         date_from: '',
         date_to: '',
+        item_type: '',
+        item_id: '',
     });
 
     const handleFilterChange = (e) => {
@@ -28,6 +30,13 @@ export default function Movements({ auth, movements: initialMovements, products,
         });
     };
 
+    const handleNewMovement = (newMovement) => {
+        setMovements(prev => ({
+            ...prev,
+            data: [newMovement, ...prev.data]
+        }));
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -43,9 +52,7 @@ export default function Movements({ auth, movements: initialMovements, products,
                                 products={products} 
                                 clients={clients}
                                 rawMaterials={rawMaterials}
-                                onSuccess={() => {
-                                    router.reload({ only: ['movements'] });
-                                }} 
+                                onSuccess={handleNewMovement}
                             />
                         </div>
                     </div>
@@ -53,12 +60,47 @@ export default function Movements({ auth, movements: initialMovements, products,
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6">
                             {/* Filters */}
-                            <div className="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div className="mb-6 grid grid-cols-1 md:grid-cols-5 gap-4">
+                                <div>
+                                    <select
+                                        name="item_type"
+                                        className="rounded-md w-full"
+                                        value={filters.item_type}
+                                        onChange={handleFilterChange}
+                                    >
+                                        <option value="">Todos los items</option>
+                                        <option value="product">Productos</option>
+                                        <option value="raw_material">Materias Primas</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <select
+                                        name="item_id"
+                                        className="rounded-md w-full"
+                                        value={filters.item_id}
+                                        onChange={handleFilterChange}
+                                        disabled={!filters.item_type}
+                                    >
+                                        <option value="">Seleccione un {filters.item_type === 'product' ? 'producto' : filters.item_type === 'raw_material' ? 'materia prima' : 'item'}</option>
+                                        {filters.item_type === 'product' && products.map(item => (
+                                            <option key={item.id} value={item.id}>
+                                                {item.code} - {item.name}
+                                            </option>
+                                        ))}
+                                        {filters.item_type === 'raw_material' && rawMaterials.map(item => (
+                                            <option key={item.id} value={item.id}>
+                                                {item.code} - {item.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                
                                 <input
                                     type="text"
                                     name="search"
-                                    placeholder="Buscar por producto..."
-                                    className="rounded-md"
+                                    placeholder="Buscar..."
+                                    className="rounded-md w-full"
                                     value={filters.search}
                                     onChange={handleFilterChange}
                                 />
@@ -71,7 +113,6 @@ export default function Movements({ auth, movements: initialMovements, products,
                                     <option value="">Todos los tipos</option>
                                     <option value="entrada">Entrada</option>
                                     <option value="salida">Salida</option>
-                                    <option value="ajuste">Ajuste</option>
                                 </select>
                                 <input
                                     type="date"
@@ -104,7 +145,7 @@ export default function Movements({ auth, movements: initialMovements, products,
                                                 Fecha
                                             </th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Producto
+                                                Item
                                             </th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Tipo
