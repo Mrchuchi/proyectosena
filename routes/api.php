@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Product;
 use App\Models\Client;
+use App\Models\RawMaterial;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('web')->group(function () {
+    Route::get('/raw-materials', function () {
+        return RawMaterial::where('status', 'active')
+            ->select(['id', 'code', 'name', 'current_stock', 'unit_measure'])
+            ->get();
+    })->name('api.raw-materials');
+
     Route::get('/products', function () {
         return Product::where('status', 'active')
             ->select(['id', 'code', 'name', 'current_stock'])

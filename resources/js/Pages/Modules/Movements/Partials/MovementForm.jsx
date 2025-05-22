@@ -1,14 +1,17 @@
 import { useForm } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '@/lib/axios';
 
 export default function MovementForm({ onSuccess }) {
     const [products, setProducts] = useState([]);
+    const [rawMaterials, setRawMaterials] = useState([]);
     const [clients, setClients] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const { data, setData, post, processing, errors, reset } = useForm({
+        material_type: 'product', // 'product' or 'raw-material'
         product_id: '',
+        raw_material_id: '',
         quantity: '',
         type: 'entrada',
         reason: '',
@@ -18,11 +21,13 @@ export default function MovementForm({ onSuccess }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [productsResponse, clientsResponse] = await Promise.all([
+                const [productsResponse, rawMaterialsResponse, clientsResponse] = await Promise.all([
                     axios.get(route('api.products')),
+                    axios.get(route('api.raw-materials')),
                     axios.get(route('api.clients'))
                 ]);
                 setProducts(productsResponse.data);
+                setRawMaterials(rawMaterialsResponse.data);
                 setClients(clientsResponse.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -31,11 +36,12 @@ export default function MovementForm({ onSuccess }) {
             }
         };
         fetchData();
-    }, []);
-
-    const handleSubmit = (e) => {
+    }, []);    const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('movements.store', data.product_id), {
+        const id = data.material_type === 'product' ? data.product_id : data.raw_material_id;
+        const route_name = data.material_type === 'product' ? 'movements.store' : 'inventory.movements.store';
+        
+        post(route(route_name, id), {
             onSuccess: () => {
                 reset();
                 if (onSuccess) onSuccess();
@@ -50,28 +56,73 @@ export default function MovementForm({ onSuccess }) {
     return (
         <div className="bg-white rounded-lg overflow-hidden">
             <form onSubmit={handleSubmit}>
-                <div className="p-6">
-                    <h3 className="text-lg font-medium text-gray-900 mb-4">Registrar Movimiento</h3>
+                <div className="p-6">                    <h3 className="text-lg font-medium text-gray-900 mb-4">Registrar Movimiento</h3>
                     <div className="space-y-4">
                         <div>
-                            <label htmlFor="product_id" className="block text-sm font-medium text-gray-700">Producto</label>
+                            <label htmlFor="material_type" className="block text-sm font-medium text-gray-700">Tipo de Material</label>
                             <select
-                                id="product_id"
-                                name="product_id"
-                                value={data.product_id}
-                                onChange={e => setData('product_id', e.target.value)}
+                                id="material_type"
+                                name="material_type"
+                                value={data.material_type}
+                                onChange={e => {
+                                    setData(data => ({
+                                        ...data,
+                                        material_type: e.target.value,
+                                        product_id: '',
+                                        raw_material_id: ''
+                                    }));
+                                }}
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 required
                             >
-                                <option value="">Seleccione un producto</option>
-                                {products.map(product => (
-                                    <option key={product.id} value={product.id}>
-                                        {product.code} - {product.name} (Stock: {product.current_stock})
-                                    </option>
-                                ))}
+                                <option value="product">Producto</option>
+                                <option value="raw-material">Materia Prima</option>
                             </select>
-                            {errors.product_id && <p className="mt-1 text-sm text-red-600">{errors.product_id}</p>}
                         </div>
+
+                        {data.material_type === 'product' && (
+                            <div>
+                                <label htmlFor="product_id" className="block text-sm font-medium text-gray-700">Producto</label>
+                                <select
+                                    id="product_id"
+                                    name="product_id"
+                                    value={data.product_id}
+                                    onChange={e => setData('product_id', e.target.value)}
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    required={data.material_type === 'product'}
+                                >
+                                    <option value="">Seleccione un producto</option>
+                                    {products.map(product => (
+                                        <option key={product.id} value={product.id}>
+                                            {product.code} - {product.name} (Stock: {product.current_stock})
+                                        </option>
+                                    ))}
+                                </select>
+                                {errors.product_id && <p className="mt-1 text-sm text-red-600">{errors.product_id}</p>}
+                            </div>
+                        )}
+
+                        {data.material_type === 'raw-material' && (
+                            <div>
+                                <label htmlFor="raw_material_id" className="block text-sm font-medium text-gray-700">Materia Prima</label>
+                                <select
+                                    id="raw_material_id"
+                                    name="raw_material_id"
+                                    value={data.raw_material_id}
+                                    onChange={e => setData('raw_material_id', e.target.value)}
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    required={data.material_type === 'raw-material'}
+                                >
+                                    <option value="">Seleccione una materia prima</option>
+                                    {rawMaterials.map(material => (
+                                        <option key={material.id} value={material.id}>
+                                            {material.code} - {material.name} (Stock: {material.current_stock} {material.unit_measure})
+                                        </option>
+                                    ))}
+                                </select>
+                                {errors.raw_material_id && <p className="mt-1 text-sm text-red-600">{errors.raw_material_id}</p>}
+                            </div>
+                        )}
 
                         <div>
                             <label htmlFor="type" className="block text-sm font-medium text-gray-700">Tipo de Movimiento</label>

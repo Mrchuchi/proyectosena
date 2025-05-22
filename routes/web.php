@@ -88,6 +88,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/inventory', 'index')->name('inventory.index');
         Route::get('/inventory/movements', 'movements')->name('inventory.movements');
         Route::post('/inventory/{rawMaterial}/adjust', 'adjustStock')->name('inventory.adjust');
+        Route::post('/inventory/movements/{rawMaterial}', 'store')->name('inventory.movements.store');
     });
 
     // Entradas/Salidas
