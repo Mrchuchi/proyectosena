@@ -21,10 +21,10 @@ export default function Dashboard({ auth, stats, lowStockMaterials, pendingOrder
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     {/* Estadísticas Principales */}
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                        <div className="bg-gradient-to-br from-green-400 to-green-600 overflow-hidden shadow-lg rounded-lg p-6">
+                        <div className="group bg-gradient-to-br from-green-400 to-green-600 overflow-hidden shadow-lg rounded-lg p-6 transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:-translate-y-1">
                             <div className="flex items-center">
-                                <div className="p-3 rounded-full bg-green-800 bg-opacity-30">
-                                    <FaDollarSign className="h-8 w-8 text-white" />
+                                <div className="p-3 rounded-full bg-green-800 bg-opacity-30 transition-all duration-300 group-hover:bg-opacity-50">
+                                    <FaDollarSign className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
                                 </div>
                                 <div className="ml-4">
                                     <p className="text-sm text-green-100">Valor Total Inventario</p>
@@ -33,10 +33,10 @@ export default function Dashboard({ auth, stats, lowStockMaterials, pendingOrder
                             </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-blue-400 to-blue-600 overflow-hidden shadow-lg rounded-lg p-6">
+                        <div className="group bg-gradient-to-br from-blue-400 to-blue-600 overflow-hidden shadow-lg rounded-lg p-6 transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:-translate-y-1">
                             <div className="flex items-center">
-                                <div className="p-3 rounded-full bg-blue-800 bg-opacity-30">
-                                    <FaBoxes className="h-8 w-8 text-white" />
+                                <div className="p-3 rounded-full bg-blue-800 bg-opacity-30 transition-all duration-300 group-hover:bg-opacity-50">
+                                    <FaBoxes className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
                                 </div>
                                 <div className="ml-4">
                                     <p className="text-sm text-blue-100">Total Productos</p>
@@ -45,10 +45,10 @@ export default function Dashboard({ auth, stats, lowStockMaterials, pendingOrder
                             </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-purple-400 to-purple-600 overflow-hidden shadow-lg rounded-lg p-6">
+                        <div className="group bg-gradient-to-br from-purple-400 to-purple-600 overflow-hidden shadow-lg rounded-lg p-6 transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:-translate-y-1">
                             <div className="flex items-center">
-                                <div className="p-3 rounded-full bg-purple-800 bg-opacity-30">
-                                    <FaIndustry className="h-8 w-8 text-white" />
+                                <div className="p-3 rounded-full bg-purple-800 bg-opacity-30 transition-all duration-300 group-hover:bg-opacity-50">
+                                    <FaIndustry className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
                                 </div>
                                 <div className="ml-4">
                                     <p className="text-sm text-purple-100">Total Materiales</p>
@@ -57,10 +57,10 @@ export default function Dashboard({ auth, stats, lowStockMaterials, pendingOrder
                             </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-red-400 to-red-600 overflow-hidden shadow-lg rounded-lg p-6">
+                        <div className="group bg-gradient-to-br from-red-400 to-red-600 overflow-hidden shadow-lg rounded-lg p-6 transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:-translate-y-1">
                             <div className="flex items-center">
-                                <div className="p-3 rounded-full bg-red-800 bg-opacity-30">
-                                    <FaExclamationTriangle className="h-8 w-8 text-white" />
+                                <div className="p-3 rounded-full bg-red-800 bg-opacity-30 transition-all duration-300 group-hover:bg-opacity-50">
+                                    <FaExclamationTriangle className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
                                 </div>
                                 <div className="ml-4">
                                     <p className="text-sm text-red-100">Materiales Bajos</p>
