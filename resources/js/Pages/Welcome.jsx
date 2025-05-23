@@ -1,5 +1,6 @@
 import { Link, Head } from '@inertiajs/react';
 import { FaWhatsapp, FaInstagram, FaBox, FaHeart, FaStar } from 'react-icons/fa';
+import ApplicationLogo from '@/Components/ApplicationLogo';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
@@ -23,7 +24,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex justify-between h-16">
                             <div className="flex-shrink-0 flex items-center">
-                                <img src="/images/suenos-oriente-logo.png" alt="Sueños Oriente" className="h-16 w-auto" />
+                                <ApplicationLogo className="h-16 w-auto" />
                             </div>
                             <div className="sm:flex sm:space-x-8 items-center">
                                 <a href="#productos" className="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Productos</a>
