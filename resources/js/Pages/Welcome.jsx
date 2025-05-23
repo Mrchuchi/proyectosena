@@ -1,5 +1,16 @@
 import { Link, Head } from '@inertiajs/react';
 import { FaWhatsapp, FaInstagram, FaBox, FaHeart, FaStar } from 'react-icons/fa';
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+// Import Swiper styles
+import 'swiper/css';
+
+import 'swiper/css/pagination';
+import 'swiper/css/autoplay';
+// Import required modules
+import { Autoplay, Pagination } from 'swiper/modules';
+// Import custom styles
+import '@/../../resources/css/swiper-custom.css';
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
     return (
@@ -67,7 +78,58 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         </div>
                     </div>
                     <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-                        <img className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="/images/productos.jpg" alt="Productos Dulces Sueños" />
+                        <div className="flex items-center justify-center h-full mt-12 sm:mt-14 md:mt-16">
+                            <Swiper
+                                spaceBetween={20}
+                                slidesPerView={1}
+                                autoplay={{
+                                    delay: 3000,
+                                    disableOnInteraction: false,
+                                }}
+                                pagination={{
+                                    clickable: true,
+                                    dynamicBullets: true
+                                }}
+                                modules={[Autoplay, Pagination]}
+                                className="h-16 w-full sm:h-20 md:h-24 lg:w-[30%] lg:h-[20%]"
+                            >
+                                <SwiperSlide>
+                                    <img 
+                                        className="w-full h-full object-contain rounded-lg" 
+                                        src="images/pillow-1.jpg" 
+                                        alt="Almohada premium" 
+                                    />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img 
+                                        className="w-full h-full object-contain rounded-lg" 
+                                        src="images/pillow-2.jpg" 
+                                        alt="Almohada de plumas" 
+                                    />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img 
+                                        className="w-full h-full object-contain rounded-lg" 
+                                        src="images/pillow-3.jpg" 
+                                        alt="Almohada ortopédica" 
+                                    />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img 
+                                        className="w-full h-full object-contain rounded-lg" 
+                                        src="images/pillow-4.jpg" 
+                                        alt="Almohada de memory foam" 
+                                    />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img 
+                                        className="w-full h-full object-contain rounded-lg" 
+                                        src="images/pillow-5.jpg" 
+                                        alt="Almohada especial" 
+                                    />
+                                </SwiperSlide>
+                            </Swiper>
+                        </div>
                     </div>
                 </div>
 
