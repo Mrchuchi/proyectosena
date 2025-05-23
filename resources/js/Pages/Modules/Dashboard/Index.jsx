@@ -18,7 +18,7 @@ export default function Dashboard({ auth, stats, lowStockMaterials, pendingOrder
             <Head title="Dashboard" />
 
             <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Estadísticas Principales */}
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                         <div className="group bg-gradient-to-br from-green-400 to-green-600 overflow-hidden shadow-lg rounded-lg p-6 transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:-translate-y-1">
