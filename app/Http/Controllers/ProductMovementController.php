@@ -13,46 +13,53 @@ class ProductMovementController extends Controller
 {    public function index(Request $request)
     {
         $movements = ProductMovement::with(['product', 'rawMaterial', 'client', 'user'])
-            ->when($request->input('item_type') && $request->input('item_id'), function ($query) use ($request) {
-                if ($request->input('item_type') === 'product') {
-                    return $query->where('product_id', $request->input('item_id'));
-                } else if ($request->input('item_type') === 'raw_material') {
-                    return $query->where('raw_material_id', $request->input('item_id'));
+            ->when($request->input('item_type'), function($query, $itemType) {
+                if ($itemType === 'product') {
+                    $query->whereNotNull('product_id')->whereNull('raw_material_id');
+                } elseif ($itemType === 'raw_material') {
+                    $query->whereNotNull('raw_material_id')->whereNull('product_id');
                 }
             })
-            ->when($request->input('search'), function ($query, $search) {
+            ->when($request->input('item_id'), function($query, $itemId) use ($request) {
+                if ($request->input('item_type') === 'product') {
+                    $query->where('product_id', $itemId);
+                } else {
+                    $query->where('raw_material_id', $itemId);
+                }
+            })
+            ->when($request->input('search'), function($query, $search) {
                 $query->where(function($q) use ($search) {
-                    $q->whereHas('product', function ($q) use ($search) {
+                    $q->whereHas('product', function($q) use ($search) {
                         $q->where('name', 'like', "%{$search}%")
-                          ->orWhere('code', 'like', "%{$search}%");
+                            ->orWhere('code', 'like', "%{$search}%");
                     })
-                    ->orWhereHas('rawMaterial', function ($q) use ($search) {
+                    ->orWhereHas('rawMaterial', function($q) use ($search) {
                         $q->where('name', 'like', "%{$search}%")
-                          ->orWhere('code', 'like', "%{$search}%");
+                            ->orWhere('code', 'like', "%{$search}%");
                     });
                 });
             })
-            ->when($request->input('type'), function ($query, $type) {
+            ->when($request->input('type'), function($query, $type) {
                 $query->where('type', $type);
             })
-            ->when($request->input('date_from'), function ($query, $date) {
+            ->when($request->input('date_from'), function($query, $date) {
                 $query->whereDate('created_at', '>=', $date);
             })
-            ->when($request->input('date_to'), function ($query, $date) {
+            ->when($request->input('date_to'), function($query, $date) {
                 $query->whereDate('created_at', '<=', $date);
             })
             ->orderByDesc('created_at')
             ->paginate(15)
-            ->through(function ($movement) {                $item = $movement->product ?? $movement->rawMaterial;
-                $itemType = $movement->product ? 'Producto' : 'Materia Prima';
-                
+            ->through(function($movement) {
                 return [
                     'id' => $movement->id,
                     'date' => $movement->created_at->format('Y-m-d H:i'),
-                    'item_type' => $itemType,
-                    'product' => [
-                        'code' => $item->code,
-                        'name' => $item->name,
+                    'product' => $movement->product ? [
+                        'code' => $movement->product->code,
+                        'name' => $movement->product->name,
+                    ] : [
+                        'code' => $movement->rawMaterial->code,
+                        'name' => $movement->rawMaterial->name,
                     ],
                     'type' => $movement->type,
                     'quantity' => $movement->quantity,
@@ -67,7 +74,8 @@ class ProductMovementController extends Controller
                 ];
             });
 
-        return Inertia::render('Modules/Movements/Index', [            'movements' => $movements,
+        return Inertia::render('Modules/Movements/Index', [
+            'movements' => $movements,
             'filters' => $request->only(['search', 'type', 'date_from', 'date_to', 'item_type', 'item_id']),
             'clients' => Client::where('status', 'active')->get(['id', 'name', 'document_number']),
             'products' => Product::where('status', 'active')->get(['id', 'code', 'name', 'current_stock']),
@@ -76,7 +84,8 @@ class ProductMovementController extends Controller
     }
 
     public function store(Request $request)
-    {        $rules = [
+    {
+        $rules = [
             'type' => 'required|in:entrada,salida',
             'item_type' => 'required|in:product,raw_material',
             'item_id' => 'required|numeric',
@@ -92,27 +101,58 @@ class ProductMovementController extends Controller
 
         try {
             if ($validated['item_type'] === 'product') {
-                $item = Product::findOrFail($validated['item_id']);                $movement = new ProductMovement();
+                $item = Product::findOrFail($validated['item_id']);
+                $movement = new ProductMovement();
                 $movement->product_id = $validated['item_id'];
-                $movement->type = $validated['type'];
-                $movement->quantity = $validated['quantity'];
-                $movement->reason = $validated['reason'];
-                $movement->user_id = auth()->id();
-                $movement->client_id = $validated['client_id'] ?? null;
             } else {
-                $item = RawMaterial::findOrFail($validated['item_id']);                $movement = new ProductMovement();
-                $movement->raw_material_id = $validated['item_id'];
-                $movement->type = $validated['type'];
-                $movement->quantity = $validated['quantity'];
-                $movement->reason = $validated['reason'];
-                $movement->user_id = auth()->id();
-                $movement->client_id = $validated['client_id'] ?? null;
+                $item = RawMaterial::findOrFail($validated['item_id']);
+                // Usar InventoryMovement para materias primas
+                $success = $item->updateStock(
+                    $validated['quantity'],
+                    $validated['type'],
+                    $validated['reason'],
+                    auth()->id(),
+                    $validated['client_id'] ?? null
+                );
+
+                if (!$success) {
+                    throw new \Exception('Error al registrar el movimiento');
+                }
+
+                // Obtener el último movimiento registrado para la respuesta
+                $movement = $item->movements()->latest()->first();
+                
+                return back()->with([
+                    'success' => 'Movimiento registrado exitosamente',
+                    'newMovement' => [
+                        'id' => $movement->id,
+                        'date' => $movement->created_at->format('Y-m-d H:i'),
+                        'item_type' => 'Materia Prima',
+                        'product' => [
+                            'code' => $item->code,
+                            'name' => $item->name,
+                        ],
+                        'type' => $movement->type,
+                        'quantity' => $movement->quantity,
+                        'previous_stock' => $movement->previous_stock,
+                        'new_stock' => $movement->new_stock,
+                        'reason' => $movement->reason,
+                        'client' => $validated['client_id'] ? Client::find($validated['client_id'])->only(['name', 'document_number']) : null,
+                        'user' => auth()->user()->name,
+                    ]
+                ]);
             }
+
+            // Continuar con el proceso normal para productos
+            $movement->type = $validated['type'];
+            $movement->quantity = $validated['quantity'];
+            $movement->reason = $validated['reason'];
+            $movement->user_id = auth()->id();
+            $movement->client_id = $validated['client_id'] ?? null;
 
             $previousStock = $item->current_stock;
             $newStock = $previousStock;
 
-            // Calcular el nuevo stock
             if ($validated['type'] === 'entrada') {
                 $newStock += $validated['quantity'];
             } else {
@@ -122,43 +162,38 @@ class ProductMovementController extends Controller
                 $newStock -= $validated['quantity'];
             }
 
-            // Guardar el movimiento
             $movement->previous_stock = $previousStock;
             $movement->new_stock = $newStock;
             $movement->save();
 
-            // Actualizar el stock del ítem
-            if ($validated['item_type'] === 'product') {
-                $item->current_stock = $newStock;
-                $item->save();
-            } else {
-                $item->current_stock = $newStock;
-                $item->save();
-            }            // Preparar los datos del nuevo movimiento para la respuesta
-            $newMovement = [
-                'id' => $movement->id,
-                'date' => $movement->created_at->format('Y-m-d H:i'),
-                'item_type' => $validated['item_type'] === 'product' ? 'Producto' : 'Materia Prima',
-                'product' => [
-                    'code' => $item->code,
-                    'name' => $item->name,
-                ],
-                'type' => $movement->type,
-                'quantity' => $movement->quantity,
-                'previous_stock' => $movement->previous_stock,
-                'new_stock' => $movement->new_stock,
-                'reason' => $movement->reason,
-                'client' => $movement->client ? [
-                    'name' => $movement->client->name,
-                    'document' => $movement->client->document_number,
-                ] : null,
-                'user' => auth()->user()->name,
-            ];            return back()->with([
+            $item->current_stock = $newStock;
+            $item->save();
+
+            return back()->with([
                 'success' => 'Movimiento registrado exitosamente',
-                'newMovement' => $newMovement
+                'newMovement' => [
+                    'id' => $movement->id,
+                    'date' => $movement->created_at->format('Y-m-d H:i'),
+                    'item_type' => 'Producto',
+                    'product' => [
+                        'code' => $item->code,
+                        'name' => $item->name,
+                    ],
+                    'type' => $movement->type,
+                    'quantity' => $movement->quantity,
+                    'previous_stock' => $movement->previous_stock,
+                    'new_stock' => $movement->new_stock,
+                    'reason' => $movement->reason,
+                    'client' => $movement->client ? [
+                        'name' => $movement->client->name,
+                        'document' => $movement->client->document_number,
+                    ] : null,
+                    'user' => auth()->user()->name,
+                ]
             ]);
+
         } catch (\Exception $e) {
-            return redirect()->route('movements')->with('error', $e->getMessage());
+            return back()->withErrors(['error' => $e->getMessage()]);
         }
     }
 }

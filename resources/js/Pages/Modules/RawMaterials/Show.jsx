@@ -1,21 +1,13 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
 import { FaEdit } from 'react-icons/fa';
-import MovementForm from '@/Pages/Modules/Movements/Partials/MovementForm';
 import MovementHistory from './Partials/MovementHistory';
 import { useState } from 'react';
 
 export default function Show({ auth, material, movements: initialMovements }) {
     const [movements, setMovements] = useState(initialMovements);
     const [currentMaterial, setCurrentMaterial] = useState(material);
-    
-    const handleNewMovement = (newMovement) => {
-        setMovements(prevMovements => [newMovement, ...prevMovements]);
-        setCurrentMaterial(prev => ({
-            ...prev,
-            current_stock: newMovement.new_stock
-        }));
-    };
+      // Estado del material y sus movimientos
     return (
         <AuthenticatedLayout
             user={auth.user}            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Detalles del Material</h2>}
@@ -99,19 +91,7 @@ export default function Show({ auth, material, movements: initialMovements }) {
                                 </div>
                             </dl>
                         </div>
-                    </div>                            {/* Form for new movements */}
-                    <div className="bg-white shadow sm:rounded-lg">
-                        <div className="p-6">
-                            <MovementForm 
-                                products={[]}
-                                clients={[]}
-                                rawMaterials={[currentMaterial]}
-                                onSuccess={handleNewMovement}
-                            />
-                        </div>
-                    </div>
-
-                    {/* Historial de Movimientos */}
+                    </div>                    {/* Historial de Movimientos */}
                     <MovementHistory movements={movements} />
 
                     {/* Botón para volver */}
