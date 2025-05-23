@@ -12,6 +12,30 @@
     align-items: center;
 }
 
+.swiper-slide {
+    transition: transform 0.6s ease-in-out;
+}
+
+.swiper-slide-active {
+    transform: scale(1.02);
+}
+
+.swiper-slide img {
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.swiper-slide-active img {
+    transform: translateX(0) scale(1);
+}
+
+.swiper-slide-next img {
+    transform: translateX(5px);
+}
+
+.swiper-slide-prev img {
+    transform: translateX(-5px);
+}
+
 .swiper-button-next,
 .swiper-button-prev {
     color: #4F46E5 !important;

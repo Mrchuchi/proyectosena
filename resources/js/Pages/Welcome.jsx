@@ -81,8 +81,9 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                     <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
                         <div className="flex items-center justify-center h-full mt-12 sm:mt-14 md:mt-16">
                             <Swiper
-                                spaceBetween={20}
+                                spaceBetween={30}
                                 slidesPerView={1}
+                                speed={600}
                                 autoplay={{
                                     delay: 3000,
                                     disableOnInteraction: false,
