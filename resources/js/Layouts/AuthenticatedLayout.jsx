@@ -42,7 +42,7 @@ export default function Authenticated({ user, header, children }) {
                                 <NavLink href={route('inventory.index')} active={route().current('inventory.*')}>
                                     Inventario
                                 </NavLink>
-                                <NavLink href={route('movements')} active={route().current('movements')}>
+                                <NavLink href={route('movements.index')} active={route().current('movements.*')}>
                                     Entradas/Salidas
                                 </NavLink>
                                 <NavLink href={route('users.index')} active={route().current('users.*')}>
@@ -139,7 +139,7 @@ export default function Authenticated({ user, header, children }) {
                         <ResponsiveNavLink href={route('inventory.index')} active={route().current('inventory.*')}>
                             Inventario
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('movements')} active={route().current('movements')}>
+                        <ResponsiveNavLink href={route('movements.index')} active={route().current('movements.*')}>
                             Entradas/Salidas
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('users.index')} active={route().current('users.*')}>

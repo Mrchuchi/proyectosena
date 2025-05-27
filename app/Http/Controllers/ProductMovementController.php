@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\RawMaterial;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 class ProductMovementController extends Controller
 {    public function index(Request $request)
@@ -54,13 +55,19 @@ class ProductMovementController extends Controller
                 return [
                     'id' => $movement->id,
                     'date' => $movement->created_at->format('Y-m-d H:i'),
-                    'product' => $movement->product ? [
-                        'code' => $movement->product->code,
-                        'name' => $movement->product->name,
-                    ] : [
-                        'code' => $movement->rawMaterial->code,
-                        'name' => $movement->rawMaterial->name,
-                    ],
+                    'item_type' => $movement->product_id ? 'Producto' : 'Materia Prima',
+                    'item' => $movement->product_id 
+                        ? [
+                            'code' => $movement->product->code,
+                            'name' => $movement->product->name,
+                        ] 
+                        : ($movement->rawMaterial 
+                            ? [
+                                'code' => $movement->rawMaterial->code,
+                                'name' => $movement->rawMaterial->name,
+                            ] 
+                            : null
+                        ),
                     'type' => $movement->type,
                     'quantity' => $movement->quantity,
                     'previous_stock' => $movement->previous_stock,
@@ -83,116 +90,62 @@ class ProductMovementController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $item_type, $item_id)
     {
-        $rules = [
+        $validated = $request->validate([
             'type' => 'required|in:entrada,salida',
-            'item_type' => 'required|in:product,raw_material',
-            'item_id' => 'required|numeric',
             'quantity' => 'required|numeric|min:0.01',
             'reason' => 'required|string',
-        ];
-
-        if ($request->input('type') === 'salida') {
-            $rules['client_id'] = 'required|exists:clients,id';
-        }
-
-        $validated = $request->validate($rules);
+            'client_id' => 'nullable|integer|exists:clients,id',
+        ]);
 
         try {
-            if ($validated['item_type'] === 'product') {
-                $item = Product::findOrFail($validated['item_id']);
-                $movement = new ProductMovement();
-                $movement->product_id = $validated['item_id'];
+            DB::beginTransaction();
+            
+            // Obtener el item (producto o materia prima)
+            $item = null;
+            if ($item_type === 'product') {
+                $item = Product::findOrFail($item_id);
             } else {
-                $item = RawMaterial::findOrFail($validated['item_id']);
-                // Usar InventoryMovement para materias primas
-                $success = $item->updateStock(
-                    $validated['quantity'],
-                    $validated['type'],
-                    $validated['reason'],
-                    auth()->id(),
-                    $validated['client_id'] ?? null
-                );
-
-                if (!$success) {
-                    throw new \Exception('Error al registrar el movimiento');
-                }
-
-                // Obtener el último movimiento registrado para la respuesta
-                $movement = $item->movements()->latest()->first();
-                
-                return back()->with([
-                    'success' => 'Movimiento registrado exitosamente',
-                    'newMovement' => [
-                        'id' => $movement->id,
-                        'date' => $movement->created_at->format('Y-m-d H:i'),
-                        'item_type' => 'Materia Prima',
-                        'product' => [
-                            'code' => $item->code,
-                            'name' => $item->name,
-                        ],
-                        'type' => $movement->type,
-                        'quantity' => $movement->quantity,
-                        'previous_stock' => $movement->previous_stock,
-                        'new_stock' => $movement->new_stock,
-                        'reason' => $movement->reason,
-                        'client' => $validated['client_id'] ? Client::find($validated['client_id'])->only(['name', 'document_number']) : null,
-                        'user' => auth()->user()->name,
-                    ]
-                ]);
+                $item = RawMaterial::findOrFail($item_id);
             }
 
-            // Continuar con el proceso normal para productos
+            // Calcular el stock anterior y nuevo
+            $previous_stock = $item->current_stock;
+            $new_stock = $validated['type'] === 'entrada' 
+                ? $previous_stock + $validated['quantity']
+                : $previous_stock - $validated['quantity'];
+
+            if ($new_stock < 0) {
+                throw new \Exception('No hay suficiente stock disponible.');
+            }
+
+            // Crear el movimiento
+            $movement = new ProductMovement();
+            if ($item_type === 'product') {
+                $movement->product_id = $item_id;
+            } else {
+                $movement->raw_material_id = $item_id;
+            }
             $movement->type = $validated['type'];
             $movement->quantity = $validated['quantity'];
+            $movement->previous_stock = $previous_stock;
+            $movement->new_stock = $new_stock;
             $movement->reason = $validated['reason'];
-            $movement->user_id = auth()->id();
             $movement->client_id = $validated['client_id'] ?? null;
-
-            $previousStock = $item->current_stock;
-            $newStock = $previousStock;
-
-            if ($validated['type'] === 'entrada') {
-                $newStock += $validated['quantity'];
-            } else {
-                if ($validated['quantity'] > $previousStock) {
-                    throw new \Exception('Stock insuficiente');
-                }
-                $newStock -= $validated['quantity'];
-            }
-
-            $movement->previous_stock = $previousStock;
-            $movement->new_stock = $newStock;
+            $movement->user_id = auth()->id();
             $movement->save();
 
-            $item->current_stock = $newStock;
+            // Actualizar el stock
+            $item->current_stock = $new_stock;
             $item->save();
 
-            return back()->with([
-                'success' => 'Movimiento registrado exitosamente',
-                'newMovement' => [
-                    'id' => $movement->id,
-                    'date' => $movement->created_at->format('Y-m-d H:i'),
-                    'item_type' => 'Producto',
-                    'product' => [
-                        'code' => $item->code,
-                        'name' => $item->name,
-                    ],
-                    'type' => $movement->type,
-                    'quantity' => $movement->quantity,
-                    'previous_stock' => $movement->previous_stock,
-                    'new_stock' => $movement->new_stock,
-                    'reason' => $movement->reason,
-                    'client' => $movement->client ? [
-                        'name' => $movement->client->name,
-                        'document' => $movement->client->document_number,
-                    ] : null,
-                    'user' => auth()->user()->name,
-                ]
-            ]);
+            DB::commit();
+
+            return back()->with('success', 'Movimiento registrado exitosamente');
 
         } catch (\Exception $e) {
+            DB::rollback();
             return back()->withErrors(['error' => $e->getMessage()]);
         }
     }

@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import MovementForm from './Partials/MovementForm';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { router } from '@inertiajs/react';
 
 export default function Movements({ auth, movements: initialMovements, products, clients, rawMaterials }) {
@@ -15,6 +15,10 @@ export default function Movements({ auth, movements: initialMovements, products,
         item_id: '',
     });
 
+    useEffect(() => {
+        setMovements(initialMovements);
+    }, [initialMovements]);
+
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
         setFilters(prev => ({
@@ -24,17 +28,35 @@ export default function Movements({ auth, movements: initialMovements, products,
     };
 
     const applyFilters = () => {
-        router.get('/movements', filters, {
+        router.get(route('movements.index'), filters, {
             preserveState: true,
             preserveScroll: true,
+            only: ['movements']
         });
     };
 
     const handleNewMovement = (newMovement) => {
-        setMovements(prev => ({
-            ...prev,
-            data: [newMovement, ...prev.data]
-        }));
+        if (shouldIncludeMovement(newMovement)) {
+            setMovements(prev => ({
+                ...prev,
+                data: [newMovement, ...prev.data].slice(0, prev.per_page)
+            }));
+        }
+    };
+
+    const shouldIncludeMovement = (movement) => {        // Check if the movement matches current filters
+        if (filters.type && movement.type !== filters.type) return false;
+        if (filters.item_type && movement.item_type.toLowerCase() !== filters.item_type) return false;
+        if (filters.item_id && movement.item?.id != filters.item_id) return false;
+        if (filters.date_from && new Date(movement.date) < new Date(filters.date_from)) return false;
+        if (filters.date_to && new Date(movement.date) > new Date(filters.date_to)) return false;        if (filters.search) {
+            const searchLower = filters.search.toLowerCase();
+            const matchesItem = movement.item &&
+                (movement.item.name.toLowerCase().includes(searchLower) ||
+                 movement.item.code.toLowerCase().includes(searchLower));
+            if (!matchesItem) return false;
+        }
+        return true;
     };
 
     return (
@@ -172,13 +194,15 @@ export default function Movements({ auth, movements: initialMovements, products,
                                             <tr key={movement.id}>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                     {movement.date}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                </td>                                                <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="text-sm font-medium text-gray-900">
-                                                        {movement.product.code}
+                                                        {movement.item?.code}
                                                     </div>
                                                     <div className="text-sm text-gray-500">
-                                                        {movement.product.name}
+                                                        {movement.item?.name}
+                                                    </div>
+                                                    <div className="text-xs text-gray-400">
+                                                        {movement.item_type}
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">

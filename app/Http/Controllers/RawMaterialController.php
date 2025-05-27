@@ -76,16 +76,10 @@ class RawMaterialController extends Controller
 
         return redirect()->route('raw-materials.index')
             ->with('message', 'Material creado exitosamente');
-    }
-
-    public function show(RawMaterial $rawMaterial)
+    }    public function show(RawMaterial $rawMaterial)
     {
         return Inertia::render('Modules/RawMaterials/Show', [
-            'material' => $rawMaterial,
-            'movements' => $rawMaterial->movements()
-                ->with('user:id,name')
-                ->orderByDesc('created_at')
-                ->get()
+            'material' => $rawMaterial
         ]);
     }
 

@@ -20,12 +20,15 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
         setIsSubmitting(true);
         clearErrors();
 
-        post(route('movements'), {
+        post(route('movements.store', {
+            item_type: data.item_type,
+            item_id: data.item_id
+        }), {
             preserveScroll: true,
             preserveState: true,
-            onSuccess: (response) => {
-                if (response?.newMovement) {
-                    onSuccess?.(response.newMovement);
+            onSuccess: (page) => {
+                if (page?.props?.flash?.success && page?.props?.flash?.newMovement) {
+                    onSuccess?.(page.props.flash.newMovement);
                 }
                 reset();
             },
@@ -75,7 +78,7 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
 
                         <div>
                             <label htmlFor="item_id" className="block text-sm font-medium text-gray-700">
-                                {selectedItemType === 'product' ? 'Producto' : 'Materia Prima'}
+                                {data.item_type === 'product' ? 'Producto' : 'Materia Prima'}
                             </label>
                             <select
                                 id="item_id"
@@ -86,8 +89,8 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
                                 disabled={isDisabled}
                                 required
                             >
-                                <option value="">Seleccione un {selectedItemType === 'product' ? 'producto' : 'materia prima'}</option>
-                                {selectedItemType === 'product' ? (
+                                <option value="">Seleccione un {data.item_type === 'product' ? 'producto' : 'materia prima'}</option>
+                                {data.item_type === 'product' ? (
                                     products.map(item => (
                                         <option key={item.id} value={item.id}>
                                             {item.code} - {item.name} (Stock: {item.current_stock})

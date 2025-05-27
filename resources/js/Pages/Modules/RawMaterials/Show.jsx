@@ -1,11 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
 import { FaEdit } from 'react-icons/fa';
-import MovementHistory from './Partials/MovementHistory';
 import { useState } from 'react';
 
-export default function Show({ auth, material, movements: initialMovements }) {
-    const [movements, setMovements] = useState(initialMovements);
+export default function Show({ auth, material }) {
     const [currentMaterial, setCurrentMaterial] = useState(material);
       // Estado del material y sus movimientos
     return (
@@ -88,11 +86,9 @@ export default function Show({ auth, material, movements: initialMovements }) {
                                             {currentMaterial.status === 'active' ? 'Activo' : 'Inactivo'}
                                         </span>
                                     </dd>
-                                </div>
-                            </dl>
+                                </div>                            </dl>
                         </div>
-                    </div>                    {/* Historial de Movimientos */}
-                    <MovementHistory movements={movements} />
+                    </div>
 
                     {/* Botón para volver */}
                     <div className="flex justify-end">

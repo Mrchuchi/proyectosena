@@ -92,8 +92,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Entradas/Salidas
     Route::controller(ProductMovementController::class)->group(function () {
-        Route::get('/movements', 'index')->name('movements');
-        Route::post('/movements', 'store')->name('movements.store');
+        Route::get('/movements', 'index')->name('movements.index');
+        Route::post('/movements/{item_type}/{item_id}', 'store')->name('movements.store');
     });
 
     // Gestión de Usuarios
