@@ -1,7 +1,27 @@
 import { useForm, Link, router } from '@inertiajs/react';
 import { FaUserPlus, FaEdit, FaTrash } from 'react-icons/fa';
+import { useState } from 'react';
 
 export default function UserList({ users, roles }) {
+    const [error, setError] = useState(null);
+
+    // Validate props
+    if (!Array.isArray(users)) {
+        return (
+            <div className="p-4 bg-red-50 border border-red-200 rounded-md">
+                <p className="text-red-700">Error: Los datos de usuarios no son válidos</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="p-4 bg-red-50 border border-red-200 rounded-md">
+                <p className="text-red-700">{error}</p>
+            </div>
+        );
+    }
+
     return (
         <div>
             <div className="flex justify-between items-center mb-6">
@@ -44,7 +64,7 @@ export default function UserList({ users, roles }) {
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        {user.role}
+                                        {user.role ? user.role.name : 'Sin rol'}
                                     </span>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm">
