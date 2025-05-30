@@ -142,7 +142,7 @@ export default function Show({ auth, order }) {
                                                     <tr key={material.id}>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{material.name}</td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                            {(material.pivot.quantity * order.quantity).toFixed(2)} {material.unit_measure}
+                                                            {(material.pivot.quantity * order.quantity)} {material.unit_measure}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm">
                                                             <span className={`${material.current_stock < (material.pivot.quantity * order.quantity) ? 'text-red-600' : 'text-green-600'} font-medium`}>

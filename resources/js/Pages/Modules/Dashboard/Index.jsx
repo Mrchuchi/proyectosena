@@ -5,7 +5,9 @@ import { FaBoxes, FaIndustry, FaExclamationTriangle, FaDollarSign } from 'react-
 const formatCurrency = (amount) => {
     return new Intl.NumberFormat('es-CO', {
         style: 'currency',
-        currency: 'COP'
+        currency: 'COP',
+        maximumFractionDigits: 0,
+        minimumFractionDigits: 0,
     }).format(amount);
 };
 
@@ -13,7 +15,7 @@ export default function Dashboard({ auth, stats, lowStockMaterials, pendingOrder
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Inicio</h2>}
         >
             <Head title="Dashboard" />
 

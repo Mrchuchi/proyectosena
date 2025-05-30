@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('code')->unique(); // Código único de la orden
             $table->foreignId('product_id')->constrained()->onDelete('restrict');
             $table->foreignId('recipe_id')->constrained()->onDelete('restrict');
-            $table->decimal('quantity', 10, 2); // Cantidad a producir
-            $table->decimal('completed_quantity', 10, 2)->default(0); // Cantidad producida
+            $table->integer('quantity'); // Cantidad a producir
+            $table->integer('completed_quantity')->default(0); // Cantidad producida
             $table->date('planned_date'); // Fecha planificada de producción
             $table->date('start_date')->nullable(); // Fecha real de inicio
             $table->date('end_date')->nullable(); // Fecha real de finalización

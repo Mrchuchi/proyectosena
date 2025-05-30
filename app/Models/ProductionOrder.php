@@ -28,8 +28,7 @@ class ProductionOrder extends Model
         'planned_date' => 'date',
         'start_date' => 'date',
         'end_date' => 'date',
-        'quantity' => 'decimal:2',
-        'completed_quantity' => 'decimal:2',
+        
     ];
 
     public function product()

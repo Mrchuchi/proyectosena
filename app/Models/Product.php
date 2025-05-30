@@ -20,11 +20,7 @@ class Product extends Model
         'status'
     ];
 
-    protected $casts = [
-        'price' => 'decimal:2',
-        'min_stock' => 'decimal:2',
-        'current_stock' => 'decimal:2',
-    ];
+    
 
     public function recipes()
     {

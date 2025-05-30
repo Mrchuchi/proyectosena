@@ -31,12 +31,12 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();        // Calcular valores totales
         $rawMaterialsValue = RawMaterial::where('status', 'active')
-            ->sum(DB::raw('current_stock * unit_price'));
+            ->sum(DB::raw('ROUND(current_stock * unit_price)'));
             
         $productsValue = Product::where('status', 'active')
-            ->sum(DB::raw('current_stock * price'));
+            ->sum(DB::raw('ROUND(current_stock * price)'));
 
-        $totalValue = $rawMaterialsValue + $productsValue;
+        $totalValue = round($rawMaterialsValue + $productsValue);
         
         $totalProducts = Product::where('status', 'active')->count();
         $totalMaterials = RawMaterial::where('status', 'active')->count();

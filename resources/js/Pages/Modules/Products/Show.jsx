@@ -86,7 +86,7 @@ export default function Show({ auth, product }) {
                                         </div>
                                         <div className="flex justify-between py-2 border-b">
                                             <dt className="text-sm font-medium text-gray-500">Valor Total en Inventario:</dt>
-                                            <dd className="text-sm text-gray-900">${(product.current_stock * product.price).toFixed(2)}</dd>
+                                            <dd className="text-sm text-gray-900">${(product.current_stock * product.price)}</dd>
                                         </div>
                                     </dl>
                                 </div>

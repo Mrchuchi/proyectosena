@@ -12,9 +12,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('raw_material_id')->constrained()->onDelete('cascade');
             $table->enum('type', ['entrada', 'salida', 'ajuste']);
-            $table->decimal('quantity', 10, 2);
-            $table->decimal('previous_stock', 10, 2);
-            $table->decimal('new_stock', 10, 2);
+            $table->integer('quantity');
+            $table->integer('previous_stock');
+            $table->integer('new_stock');
             $table->string('reason')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();

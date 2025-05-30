@@ -13,9 +13,9 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('restrict');
             $table->foreignId('client_id')->nullable()->constrained()->onDelete('restrict');
             $table->enum('type', ['entrada', 'salida', 'ajuste']);
-            $table->decimal('quantity', 10, 2);
-            $table->decimal('previous_stock', 10, 2);
-            $table->decimal('new_stock', 10, 2);
+            $table->integer('quantity');
+            $table->integer('previous_stock');
+            $table->integer('new_stock');
             $table->string('reason')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();

@@ -14,9 +14,9 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('unit_measure'); // metros, kilogramos, unidades, etc.
-            $table->decimal('min_stock', 10, 2)->default(0);
-            $table->decimal('current_stock', 10, 2)->default(0);
-            $table->decimal('unit_price', 10, 2)->default(0);
+            $table->integer('min_stock')->default(0);
+            $table->integer('current_stock')->default(0);
+            $table->integer('unit_price')->default(0);
             $table->string('main_supplier')->nullable();
             $table->date('last_purchase')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');

@@ -21,9 +21,6 @@ class RawMaterial extends Model
     ];
 
     protected $casts = [
-        'min_stock' => 'decimal:2',
-        'current_stock' => 'decimal:2',
-        'unit_price' => 'decimal:2',
         'last_purchase' => 'date',
     ];
 

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('recipe_id')->constrained()->onDelete('cascade');
             $table->foreignId('raw_material_id')->constrained('raw_materials')->onDelete('cascade');
-            $table->decimal('quantity', 10, 2);
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
