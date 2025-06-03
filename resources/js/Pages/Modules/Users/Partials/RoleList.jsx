@@ -1,20 +1,50 @@
 import { useForm, router } from '@inertiajs/react';
 import { useState } from 'react';
 import { FaEdit, FaTrash, FaSave, FaTimes } from 'react-icons/fa';
+import axios from 'axios';
 
 export default function RoleList({ roles, permissions = {} }) {
     const [editingRole, setEditingRole] = useState(null);
-    const { data, setData, post, put, processing, errors, reset } = useForm({
+    const [error, setError] = useState(null);
+    const { data, setData, reset, processing } = useForm({
         name: '',
         description: '',
         permissions: []
     });
 
-    // Debug log
-    console.log('RoleList component props:', { roles, permissions });
-
-    // Asegurarnos de que permissions es un objeto y no undefined
     const groupedPermissions = permissions || {};
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError(null);
+
+        try {
+            if (editingRole) {
+                await axios.put(`/roles/${editingRole.id}/permissions`, data);
+            } else {
+                await axios.post('/roles', data);
+            }
+
+            setEditingRole(null);
+            reset();
+            router.reload();
+        } catch (err) {
+            setError(err.response?.data?.error || 'Ha ocurrido un error');
+        }
+    };
+
+    const handleDelete = async (roleId) => {
+        if (!confirm('¿Está seguro de que desea eliminar este rol?')) {
+            return;
+        }
+
+        try {
+            await axios.delete(`/roles/${roleId}`);
+            router.reload();
+        } catch (err) {
+            setError(err.response?.data?.error || 'Error al eliminar el rol');
+        }
+    };
 
     // Ordenar los permisos dentro de cada módulo por nombre
     Object.keys(groupedPermissions).forEach(module => {
@@ -23,37 +53,22 @@ export default function RoleList({ roles, permissions = {} }) {
         }
     });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (editingRole) {
-            put(route('roles.update', editingRole.id), {
-                onSuccess: () => {
-                    setEditingRole(null);
-                    reset();
-                }
-            });
-        } else {
-            post(route('roles.store'), {
-                onSuccess: () => {
-                    reset();
-                }
-            });
-        }
-    };    // Debug checks
-    console.log('Roles:', roles);
-    console.log('GroupedPermissions:', groupedPermissions);
-    console.log('Original permissions:', permissions);
-
     if (!roles || !Object.keys(groupedPermissions).length) {
         return (
             <div className="p-4">
-                <p className="text-gray-500">No hay roles o permisos disponibles. Roles: {JSON.stringify(roles)}, Permisos: {JSON.stringify(permissions)}</p>
+                <p className="text-gray-500">No hay roles o permisos disponibles</p>
             </div>
         );
     }
 
     return (
         <div>
+            {error && (
+                <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
+                    <p className="text-red-600">{error}</p>
+                </div>
+            )}
+
             <div className="mb-8 bg-white p-6 rounded-lg shadow">
                 <h3 className="text-lg font-medium text-gray-900 mb-4">
                     {editingRole ? 'Editar Rol' : 'Nuevo Rol'}
@@ -71,8 +86,8 @@ export default function RoleList({ roles, permissions = {} }) {
                                 value={data.name}
                                 onChange={e => setData('name', e.target.value)}
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                required
                             />
-                            {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
                         </div>
 
                         <div>
@@ -87,7 +102,6 @@ export default function RoleList({ roles, permissions = {} }) {
                                 onChange={e => setData('description', e.target.value)}
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             />
-                            {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description}</p>}
                         </div>
                     </div>
 
@@ -183,7 +197,7 @@ export default function RoleList({ roles, permissions = {} }) {
                                     </td>
                                     <td className="px-6 py-4">
                                         <div className="text-sm text-gray-500">
-                                            {role.permissions.length} permisos
+                                            {role.permissions?.length || 0} permisos
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm">
@@ -194,7 +208,7 @@ export default function RoleList({ roles, permissions = {} }) {
                                                     setData({
                                                         name: role.name,
                                                         description: role.description,
-                                                        permissions: role.permissions.map(p => p.id)
+                                                        permissions: role.permissions?.map(p => p.id) || []
                                                     });
                                                 }}
                                                 className="text-yellow-600 hover:text-yellow-900"
@@ -202,11 +216,7 @@ export default function RoleList({ roles, permissions = {} }) {
                                                 <FaEdit className="h-5 w-5" />
                                             </button>
                                             <button
-                                                onClick={() => {
-                                                    if (confirm('¿Está seguro de que desea eliminar este rol?')) {
-                                                        router.delete(route('roles.destroy', role.id));
-                                                    }
-                                                }}
+                                                onClick={() => handleDelete(role.id)}
                                                 className="text-red-600 hover:text-red-900"
                                             >
                                                 <FaTrash className="h-5 w-5" />

@@ -41,74 +41,76 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Rutas de Materia Prima
     Route::controller(RawMaterialController::class)->group(function () {
-        Route::get('/materias-primas', 'index')->name('raw-materials.index');
-        Route::get('/materias-primas/crear', 'create')->name('raw-materials.create');
-        Route::post('/materias-primas', 'store')->name('raw-materials.store');
-        Route::get('/materias-primas/{rawMaterial}', 'show')->name('raw-materials.show');
-        Route::get('/materias-primas/{rawMaterial}/editar', 'edit')->name('raw-materials.edit');
-        Route::put('/materias-primas/{rawMaterial}', 'update')->name('raw-materials.update');
-        Route::delete('/materias-primas/{rawMaterial}', 'destroy')->name('raw-materials.destroy');
+        Route::get('/materias-primas', 'index')->name('raw-materials.index')->middleware('permission:ver_materias_primas');
+        Route::get('/materias-primas/crear', 'create')->name('raw-materials.create')->middleware('permission:crear_materias_primas');
+        Route::post('/materias-primas', 'store')->name('raw-materials.store')->middleware('permission:crear_materias_primas');
+        Route::get('/materias-primas/{rawMaterial}', 'show')->name('raw-materials.show')->middleware('permission:ver_materias_primas');
+        Route::get('/materias-primas/{rawMaterial}/editar', 'edit')->name('raw-materials.edit')->middleware('permission:editar_materias_primas');
+        Route::put('/materias-primas/{rawMaterial}', 'update')->name('raw-materials.update')->middleware('permission:editar_materias_primas');
+        Route::delete('/materias-primas/{rawMaterial}', 'destroy')->name('raw-materials.destroy')->middleware('permission:eliminar_materias_primas');
     });
 
     // Rutas de Productos
     Route::controller(ProductController::class)->group(function () {
-        Route::get('/productos', 'index')->name('products.index');
-        Route::get('/productos/crear', 'create')->name('products.create');
-        Route::post('/productos', 'store')->name('products.store');
-        Route::get('/productos/{product}', 'show')->name('products.show');
-        Route::get('/productos/{product}/editar', 'edit')->name('products.edit');
-        Route::put('/productos/{product}', 'update')->name('products.update');
-        Route::delete('/productos/{product}', 'destroy')->name('products.destroy');
+        Route::get('/productos', 'index')->name('products.index')->middleware('permission:ver_productos');
+        Route::get('/productos/crear', 'create')->name('products.create')->middleware('permission:crear_productos');
+        Route::post('/productos', 'store')->name('products.store')->middleware('permission:crear_productos');
+        Route::get('/productos/{product}', 'show')->name('products.show')->middleware('permission:ver_productos');
+        Route::get('/productos/{product}/editar', 'edit')->name('products.edit')->middleware('permission:editar_productos');
+        Route::put('/productos/{product}', 'update')->name('products.update')->middleware('permission:editar_productos');
+        Route::delete('/productos/{product}', 'destroy')->name('products.destroy')->middleware('permission:eliminar_productos');
     });
 
     // Clientes
     Route::controller(ClientController::class)->group(function () {
-        Route::get('/clientes', 'index')->name('clients.index');
-        Route::get('/clientes/crear', 'create')->name('clients.create');
-        Route::post('/clientes', 'store')->name('clients.store');
-        Route::get('/clientes/{client}', 'show')->name('clients.show');
-        Route::get('/clientes/{client}/editar', 'edit')->name('clients.edit');
-        Route::put('/clientes/{client}', 'update')->name('clients.update');
-        Route::delete('/clientes/{client}', 'destroy')->name('clients.destroy');
+        Route::get('/clientes', 'index')->name('clients.index')->middleware('permission:ver_clientes');
+        Route::get('/clientes/crear', 'create')->name('clients.create')->middleware('permission:crear_clientes');
+        Route::post('/clientes', 'store')->name('clients.store')->middleware('permission:crear_clientes');
+        Route::get('/clientes/{client}', 'show')->name('clients.show')->middleware('permission:ver_clientes');
+        Route::get('/clientes/{client}/editar', 'edit')->name('clients.edit')->middleware('permission:editar_clientes');
+        Route::put('/clientes/{client}', 'update')->name('clients.update')->middleware('permission:editar_clientes');
+        Route::delete('/clientes/{client}', 'destroy')->name('clients.destroy')->middleware('permission:eliminar_clientes');
     });
 
     // Recetas
     Route::controller(RecipeController::class)->group(function () {
-        Route::get('/recipes', 'index')->name('recipes.index');
-        Route::get('/recipes/create', 'create')->name('recipes.create');
-        Route::post('/recipes', 'store')->name('recipes.store');
-        Route::get('/recipes/{recipe}', 'show')->name('recipes.show');
-        Route::get('/recipes/{recipe}/edit', 'edit')->name('recipes.edit');
-        Route::put('/recipes/{recipe}', 'update')->name('recipes.update');
-        Route::delete('/recipes/{recipe}', 'destroy')->name('recipes.destroy');
+        Route::get('/recipes', 'index')->name('recipes.index')->middleware('permission:ver_recetas');
+        Route::get('/recipes/create', 'create')->name('recipes.create')->middleware('permission:crear_recetas');
+        Route::post('/recipes', 'store')->name('recipes.store')->middleware('permission:crear_recetas');
+        Route::get('/recipes/{recipe}', 'show')->name('recipes.show')->middleware('permission:ver_recetas');
+        Route::get('/recipes/{recipe}/edit', 'edit')->name('recipes.edit')->middleware('permission:editar_recetas');
+        Route::put('/recipes/{recipe}', 'update')->name('recipes.update')->middleware('permission:editar_recetas');
+        Route::delete('/recipes/{recipe}', 'destroy')->name('recipes.destroy')->middleware('permission:eliminar_recetas');
     });
 
     // Inventario
     Route::controller(InventoryController::class)->group(function () {
-        Route::get('/inventory', 'index')->name('inventory.index');
-        Route::get('/inventory/movements', 'movements')->name('inventory.movements');
-        Route::post('/inventory/{rawMaterial}/adjust', 'adjustStock')->name('inventory.adjust');
+        Route::get('/inventory', 'index')->name('inventory.index')->middleware('permission:ver_inventario');
+        Route::get('/inventory/movements', 'movements')->name('inventory.movements')->middleware('permission:ver_movimientos');
+        Route::post('/inventory/{rawMaterial}/adjust', 'adjustStock')->name('inventory.adjust')->middleware('permission:ajustar_inventario');
     });
 
     // Entradas/Salidas
     Route::controller(ProductMovementController::class)->group(function () {
-        Route::get('/movements', 'index')->name('movements.index');
-        Route::post('/movements/{item_type}/{item_id}', 'store')->name('movements.store');
+        Route::get('/movements', 'index')->name('movements.index')->middleware('permission:ver_movimientos');
+        Route::post('/movements/{item_type}/{item_id}', 'store')->name('movements.store')->middleware('permission:crear_movimientos');
     });
 
     // Gestión de Usuarios
     Route::controller(UserManagementController::class)->group(function () {
-        Route::get('/users', 'index')->name('users.index');
-        Route::get('/users/create', 'create')->name('users.create');
-        Route::post('/users', 'store')->name('users.store');
-        Route::get('/users/{user}/edit', 'edit')->name('users.edit');
-        Route::put('/users/{user}', 'update')->name('users.update');
-        Route::delete('/users/{user}', 'destroy')->name('users.destroy');
+        Route::get('/users', 'index')->name('users.index')->middleware('permission:ver_usuarios');
+        Route::get('/users/create', 'create')->name('users.create')->middleware('permission:crear_usuarios');
+        Route::post('/users', 'store')->name('users.store')->middleware('permission:crear_usuarios');
+        Route::get('/users/{user}/edit', 'edit')->name('users.edit')->middleware('permission:editar_usuarios');
+        Route::put('/users/{user}', 'update')->name('users.update')->middleware('permission:editar_usuarios');
+        Route::delete('/users/{user}', 'destroy')->name('users.destroy')->middleware('permission:eliminar_usuarios');
     });
 
     // Gestión de Roles
-    Route::controller(RoleController::class)->group(function () {
+    Route::controller(RoleController::class)->middleware('permission:gestionar_roles')->group(function () {
+        Route::get('/roles', 'index')->name('roles.index');
         Route::post('/roles', 'store')->name('roles.store');
+        Route::get('/roles/{role}', 'show')->name('roles.show');
         Route::put('/roles/{role}', 'update')->name('roles.update');
         Route::delete('/roles/{role}', 'destroy')->name('roles.destroy');
         Route::put('/roles/{role}/permissions', 'updatePermissions')->name('roles.permissions.update');

@@ -5,11 +5,19 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Role;
 use App\Models\Permission;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
     public function run()
     {
+        Schema::disableForeignKeyConstraints();
+        DB::table('role_permission')->truncate();
+        Permission::truncate();
+        Role::truncate();
+        Schema::enableForeignKeyConstraints();
+
         // Crear permisos por módulo
         $permissions = [
             // Clientes
@@ -24,22 +32,23 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'editar_productos', 'description' => 'Editar productos existentes', 'module' => 'productos'],
             ['name' => 'eliminar_productos', 'description' => 'Eliminar productos', 'module' => 'productos'],
 
-            // Categorías
-            ['name' => 'ver_categorias', 'description' => 'Ver listado de categorías', 'module' => 'categorias'],
-            ['name' => 'crear_categorias', 'description' => 'Crear nuevas categorías', 'module' => 'categorias'],
-            ['name' => 'editar_categorias', 'description' => 'Editar categorías existentes', 'module' => 'categorias'],
-            ['name' => 'eliminar_categorias', 'description' => 'Eliminar categorías', 'module' => 'categorias'],
+            // Materias Primas
+            ['name' => 'ver_materias_primas', 'description' => 'Ver listado de materias primas', 'module' => 'materias_primas'],
+            ['name' => 'crear_materias_primas', 'description' => 'Crear nuevas materias primas', 'module' => 'materias_primas'],
+            ['name' => 'editar_materias_primas', 'description' => 'Editar materias primas existentes', 'module' => 'materias_primas'],
+            ['name' => 'eliminar_materias_primas', 'description' => 'Eliminar materias primas', 'module' => 'materias_primas'],
 
-            // Proveedores
-            ['name' => 'ver_proveedores', 'description' => 'Ver listado de proveedores', 'module' => 'proveedores'],
-            ['name' => 'crear_proveedores', 'description' => 'Crear nuevos proveedores', 'module' => 'proveedores'],
-            ['name' => 'editar_proveedores', 'description' => 'Editar proveedores existentes', 'module' => 'proveedores'],
-            ['name' => 'eliminar_proveedores', 'description' => 'Eliminar proveedores', 'module' => 'proveedores'],
+            // Recetas
+            ['name' => 'ver_recetas', 'description' => 'Ver listado de recetas', 'module' => 'recetas'],
+            ['name' => 'crear_recetas', 'description' => 'Crear nuevas recetas', 'module' => 'recetas'],
+            ['name' => 'editar_recetas', 'description' => 'Editar recetas existentes', 'module' => 'recetas'],
+            ['name' => 'eliminar_recetas', 'description' => 'Eliminar recetas', 'module' => 'recetas'],
 
-            // Entradas/Salidas
-            ['name' => 'ver_movimientos', 'description' => 'Ver movimientos de inventario', 'module' => 'movimientos'],
-            ['name' => 'crear_entradas', 'description' => 'Registrar entradas de productos', 'module' => 'movimientos'],
-            ['name' => 'crear_salidas', 'description' => 'Registrar salidas de productos', 'module' => 'movimientos'],
+            // Inventario
+            ['name' => 'ver_inventario', 'description' => 'Ver inventario', 'module' => 'inventario'],
+            ['name' => 'ajustar_inventario', 'description' => 'Ajustar inventario', 'module' => 'inventario'],
+            ['name' => 'ver_movimientos', 'description' => 'Ver movimientos de inventario', 'module' => 'inventario'],
+            ['name' => 'crear_movimientos', 'description' => 'Crear movimientos de inventario', 'module' => 'inventario'],
 
             // Usuarios
             ['name' => 'ver_usuarios', 'description' => 'Ver listado de usuarios', 'module' => 'usuarios'],
@@ -92,17 +101,21 @@ class RolesAndPermissionsSeeder extends Seeder
         $gerente->permissions()->attach($gerentePermissions);
 
         // Permisos para Vendedor
-        $vendedorPermissions = Permission::whereIn('module', ['clientes', 'productos', 'movimientos'])
+        $vendedorPermissions = Permission::whereIn('module', ['clientes', 'productos', 'inventario'])
             ->whereIn('name', [
                 'ver_clientes', 'crear_clientes', 'editar_clientes',
                 'ver_productos',
-                'ver_movimientos', 'crear_salidas'
+                'ver_inventario', 'ver_movimientos'
             ])->get();
         $vendedor->permissions()->attach($vendedorPermissions);
 
         // Permisos para Coordinador
-        $coordinadorPermissions = Permission::whereIn('module', ['productos', 'proveedores', 'movimientos', 'reportes'])
-            ->whereNotIn('name', ['eliminar_productos', 'eliminar_proveedores'])
+        $coordinadorPermissions = Permission::whereIn('module', ['productos', 'materias_primas', 'inventario', 'recetas'])
+            ->whereNotIn('name', [
+                'eliminar_productos', 
+                'eliminar_materias_primas',
+                'eliminar_recetas'
+            ])
             ->get();
         $coordinador->permissions()->attach($coordinadorPermissions);
     }

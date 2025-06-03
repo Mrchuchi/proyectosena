@@ -12,6 +12,13 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['role'];
+
     public function role()
     {
         return $this->belongsTo(Role::class);
@@ -19,7 +26,25 @@ class User extends Authenticatable
 
     public function hasPermission($permission)
     {
-        return $this->role?->hasPermission($permission);
+        return $this->role && $this->role->hasPermission($permission);
+    }
+
+    public function hasAnyPermission($permissions)
+    {
+        if (!$this->role) {
+            return false;
+        }
+
+        if (is_array($permissions)) {
+            foreach ($permissions as $permission) {
+                if ($this->role->hasPermission($permission)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        return $this->role->hasPermission($permissions);
     }
 
     /**
