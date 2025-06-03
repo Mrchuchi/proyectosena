@@ -2,6 +2,11 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import debounce from 'lodash/debounce';
+import { FaMoneyBillWave, FaExclamationTriangle, FaBox, FaIndustry } from 'react-icons/fa';
+
+function classNames(...classes) {
+    return classes.filter(Boolean).join(' ');
+}
 
 const formatCurrency = (value) => {
     return new Intl.NumberFormat('es-CO', {
@@ -55,21 +60,49 @@ export default function Inventory({ auth, products, rawMaterials, stats, filters
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     {/* Stats Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                            <h3 className="text-lg font-semibold text-gray-900">Valor Total</h3>
-                            <p className="mt-2 text-3xl font-bold text-green-600">{formatCurrency(stats.total_value)}</p>
+                        <div className="group bg-secondary transform hover:scale-105 transition-all duration-300 overflow-hidden shadow-lg rounded-lg p-6">
+                            <div className="flex items-center">
+                                <div className="p-3 rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30">
+                                    <FaMoneyBillWave className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
+                                </div>
+                                <div className="ml-4">
+                                    <h3 className="text-sm text-white/80">Valor Total</h3>
+                                    <p className="text-2xl font-semibold text-white">{formatCurrency(stats.total_value)}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                            <h3 className="text-lg font-semibold text-gray-900">Productos Bajos</h3>
-                            <p className="mt-2 text-3xl font-bold text-amber-600">{stats.low_stock_items}</p>
+                        <div className="group bg-red-600 transform hover:scale-105 transition-all duration-300 overflow-hidden shadow-lg rounded-lg p-6">
+                            <div className="flex items-center">
+                                <div className="p-3 rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30">
+                                    <FaExclamationTriangle className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
+                                </div>
+                                <div className="ml-4">
+                                    <h3 className="text-sm text-white/80">Productos Bajos</h3>
+                                    <p className="text-2xl font-semibold text-white">{stats.low_stock_items}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                            <h3 className="text-lg font-semibold text-gray-900">Total Productos</h3>
-                            <p className="mt-2 text-3xl font-bold text-blue-600">{stats.total_products}</p>
+                        <div className="group bg-primary transform hover:scale-105 transition-all duration-300 overflow-hidden shadow-lg rounded-lg p-6">
+                            <div className="flex items-center">
+                                <div className="p-3 rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30">
+                                    <FaBox className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
+                                </div>
+                                <div className="ml-4">
+                                    <h3 className="text-sm text-white/80">Total Productos</h3>
+                                    <p className="text-2xl font-semibold text-white">{stats.total_products}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                            <h3 className="text-lg font-semibold text-gray-900">Total Materias</h3>
-                            <p className="mt-2 text-3xl font-bold text-purple-600">{stats.total_materials}</p>
+                        <div className="group bg-amber-400 transform hover:scale-105 transition-all duration-300 overflow-hidden shadow-lg rounded-lg p-6">
+                            <div className="flex items-center">
+                                <div className="p-3 rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30">
+                                    <FaIndustry className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
+                                </div>
+                                <div className="ml-4">
+                                    <h3 className="text-sm text-white/80">Total Materias</h3>
+                                    <p className="text-2xl font-semibold text-white">{stats.total_materials}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -121,29 +154,39 @@ export default function Inventory({ auth, products, rawMaterials, stats, filters
 
                     {/* Tabs */}
                     <div className="mb-6">
-                        <div className="border-b border-gray-200">
-                            <nav className="-mb-px flex space-x-8">
-                                <button
-                                    onClick={() => setActiveTab('products')}
-                                    className={`${
-                                        activeTab === 'products'
-                                            ? 'border-indigo-500 text-indigo-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                    } whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm`}
-                                >
-                                    Productos ({products.length})
-                                </button>
-                                <button
-                                    onClick={() => setActiveTab('materials')}
-                                    className={`${
-                                        activeTab === 'materials'
-                                            ? 'border-indigo-500 text-indigo-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                    } whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm`}
-                                >
-                                    Materias Primas ({rawMaterials.length})
-                                </button>
-                            </nav>
+                        <div className="sm:block">
+                            <div className="border-b border-gray-200">
+                                <nav className="-mb-px flex gap-6" aria-label="Tabs">
+                                    <button
+                                        onClick={() => setActiveTab('products')}
+                                        className={classNames(
+                                            activeTab === 'products'
+                                                ? 'bg-primary text-white'
+                                                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100',
+                                            'px-4 py-2 rounded-t-lg font-medium text-sm transition-colors duration-200 ease-in-out flex items-center gap-2'
+                                        )}
+                                    >
+                                        <span>Productos</span>
+                                        <span className="bg-white/20 text-xs py-0.5 px-2 rounded-full">
+                                            {products.length}
+                                        </span>
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveTab('materials')}
+                                        className={classNames(
+                                            activeTab === 'materials'
+                                                ? 'bg-primary text-white'
+                                                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100',
+                                            'px-4 py-2 rounded-t-lg font-medium text-sm transition-colors duration-200 ease-in-out flex items-center gap-2'
+                                        )}
+                                    >
+                                        <span>Materias Primas</span>
+                                        <span className="bg-white/20 text-xs py-0.5 px-2 rounded-full">
+                                            {rawMaterials.length}
+                                        </span>
+                                    </button>
+                                </nav>
+                            </div>
                         </div>
                     </div>
 

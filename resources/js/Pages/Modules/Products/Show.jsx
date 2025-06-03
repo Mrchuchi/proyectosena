@@ -15,18 +15,18 @@ export default function Show({ auth, product }) {
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6">
                             <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-lg font-medium">Información del Producto</h3>
+                                <h3 className="text-lg font-medium text-gray-700">Información del Producto</h3>
                                 <div className="flex items-center gap-4">
                                     <Link
                                         href={route('products.edit', product.id)}
-                                        className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
+                                        className="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/80 text-white rounded-md"
                                     >
                                         <FaEdit className="h-5 w-5" />
                                         <span>Editar</span>
                                     </Link>
                                     <Link
                                         href={route('products.index')}
-                                        className="inline-flex items-center gap-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                                        className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md"
                                     >
                                         <FaArrowLeft className="h-5 w-5" />
                                         <span>Volver</span>

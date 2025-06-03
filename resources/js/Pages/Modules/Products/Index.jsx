@@ -48,20 +48,20 @@ export default function Index({ auth, products = [], filters = {} }) {
                                         <div className="relative">
                                             <input
                                                 type="text"
-                                                className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pr-10"
+                                                className="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20 focus:ring-opacity-50 pr-10"
                                                 placeholder="Buscar por código, nombre, descripción o categoría..."
                                                 value={search}
                                                 onChange={handleSearchChange}
                                             />
                                             <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-                                                <FaSearch className="h-5 w-5 text-gray-400" />
+                                                <FaSearch className="text-gray-400" />
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                                 <Link
                                     href={route('products.create')}
-                                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/80 text-white rounded-md"
                                 >
                                     <FaPlus className="h-5 w-5" />
                                     <span>Nuevo Producto</span>
@@ -106,19 +106,22 @@ export default function Index({ auth, products = [], filters = {} }) {
                                                     <div className="flex items-center gap-3">
                                                         <Link
                                                             href={route('products.show', product.id)}
-                                                            className="text-blue-600 hover:text-blue-900"
+                                                            className="text-secondary hover:text-secondary/80"
+                                                            title="Ver detalles"
                                                         >
                                                             <FaEye className="h-5 w-5" />
                                                         </Link>
                                                         <Link
                                                             href={route('products.edit', product.id)}
-                                                            className="text-yellow-600 hover:text-yellow-900"
+                                                            className="text-primary-light hover:text-primary-light/80"
+                                                            title="Editar"
                                                         >
                                                             <FaEdit className="h-5 w-5" />
                                                         </Link>
                                                         <button
                                                             onClick={() => handleDelete(product.id)}
-                                                            className="text-red-600 hover:text-red-900"
+                                                            className="text-red-600 hover:text-red-700"
+                                                            title="Eliminar"
                                                         >
                                                             <FaTrash className="h-5 w-5" />
                                                         </button>

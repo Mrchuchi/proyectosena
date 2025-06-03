@@ -25,14 +25,14 @@ export default function Show({ auth, client }) {
                                 <div className="flex items-center gap-4">
                                     <Link
                                         href={route('clients.edit', client.id)}
-                                        className="text-yellow-600 hover:text-yellow-900"
+                                        className="text-primary-light hover:text-primary-light/80"
                                         title="Editar"
                                     >
                                         <FaEdit className="h-5 w-5" />
                                     </Link>
                                     <button
                                         onClick={handleDelete}
-                                        className="text-red-600 hover:text-red-900"
+                                        className="text-red-600 hover:text-red-700"
                                         title="Eliminar"
                                     >
                                         <FaTrash className="h-5 w-5" />
@@ -106,7 +106,7 @@ export default function Show({ auth, client }) {
                             <div className="mt-6">
                                 <Link
                                     href={route('clients.index')}
-                                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
                                 >
                                     <FaArrowLeft className="h-5 w-5" />
                                     <span>Volver</span>

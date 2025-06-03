@@ -73,7 +73,7 @@ export default function Show({ auth, order }) {
                             <div className="mb-6">
                                 <Link
                                     href={route('production.index')}
-                                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                                    className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md"
                                 >
                                     Volver
                                 </Link>
@@ -166,7 +166,7 @@ export default function Show({ auth, order }) {
                                         <div className="mt-6">
                                             <button
                                                 onClick={handleStart}
-                                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                                className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/80"
                                             >
                                                 <FaPlay className="h-5 w-5" />
                                                 <span>Iniciar Producción</span>
@@ -178,7 +178,7 @@ export default function Show({ auth, order }) {
                                         <div className="mt-6">
                                             <button
                                                 onClick={handleComplete}
-                                                className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                                                className="inline-flex items-center gap-2 px-4 py-2 bg-secondary text-white rounded-md hover:bg-secondary/80"
                                             >
                                                 <FaCheck className="h-5 w-5" />
                                                 <span>Completar Producción</span>

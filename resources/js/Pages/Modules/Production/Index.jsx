@@ -65,7 +65,7 @@ export default function Index({ auth, orders = [], filters = {} }) {
                                     type="text"
                                     name="search"
                                     value={search}
-                                    className="rounded-none rounded-r-md"
+                                    className="rounded-none rounded-r-md focus:border-primary focus:ring focus:ring-primary/20"
                                     placeholder="Buscar por código o producto..."
                                     onChange={(e) => handleSearch(e.target.value)}
                                 />
@@ -73,7 +73,7 @@ export default function Index({ auth, orders = [], filters = {} }) {
                             <select
                                 value={status}
                                 onChange={(e) => handleStatusChange(e.target.value)}
-                                className="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                className="rounded-md shadow-sm border-gray-300 focus:border-primary focus:ring focus:ring-primary/20"
                             >
                                 <option value="">Todos los estados</option>
                                 <option value="pending">Pendiente</option>
@@ -82,8 +82,9 @@ export default function Index({ auth, orders = [], filters = {} }) {
                                 <option value="cancelled">Cancelada</option>
                             </select>
                         </div>
-                        <Link                            href={route('production.create')}
-                            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                        <Link
+                            href={route('production.create')}
+                            className="inline-flex items-center px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/80"
                         >
                             Nueva Orden
                         </Link>
@@ -117,14 +118,14 @@ export default function Index({ auth, orders = [], filters = {} }) {
                                                     <div className="flex space-x-2">
                                                         <Link
                                                             href={route('production.show', order.id)}
-                                                            className="text-indigo-600 hover:text-indigo-900"
+                                                            className="text-secondary hover:text-secondary/80"
                                                         >
                                                             <FaEye className="h-5 w-5" />
                                                         </Link>
                                                         {order.status === 'pending' && (
                                                             <button
                                                                 onClick={() => handleStart(order.id)}
-                                                                className="text-blue-600 hover:text-blue-900"
+                                                                className="text-primary-light hover:text-primary-light/80"
                                                             >
                                                                 <FaPlay className="h-5 w-5" />
                                                             </button>
@@ -132,7 +133,7 @@ export default function Index({ auth, orders = [], filters = {} }) {
                                                         {order.status === 'in_progress' && (
                                                             <button
                                                                 onClick={() => handleComplete(order.id)}
-                                                                className="text-green-600 hover:text-green-900"
+                                                                className="text-primary hover:text-primary/80"
                                                             >
                                                                 <FaCheck className="h-5 w-5" />
                                                             </button>

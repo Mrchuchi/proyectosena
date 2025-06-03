@@ -65,7 +65,7 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
                     <TextInput
                         id="code"
                         type="text"
-                        className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100"
+                        className="mt-1 block w-full border-gray-300 focus:border-primary focus:ring focus:ring-primary/20 bg-gray-100"
                         value={data.code}
                         disabled={true}
                         required
@@ -78,7 +78,7 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
                     <TextInput
                         id="name"
                         type="text"
-                        className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full border-gray-300 focus:border-primary focus:ring focus:ring-primary/20"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         required
@@ -92,7 +92,7 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
                     <InputLabel htmlFor="product_id" value="Producto *" className="text-gray-700" />
                     <select
                         id="product_id"
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                         value={data.product_id}
                         onChange={(e) => setData('product_id', e.target.value)}
                         required
@@ -111,7 +111,7 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
                     <InputLabel htmlFor="status" value="Estado *" className="text-gray-700" />
                     <select
                         id="status"
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                         value={data.status}
                         onChange={(e) => setData('status', e.target.value)}
                         required
@@ -127,7 +127,7 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
                     <InputLabel htmlFor="description" value="Descripción" className="text-gray-700" />
                     <textarea
                         id="description"
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                         value={data.description}
                         onChange={(e) => setData('description', e.target.value)}
                         rows="3"
@@ -145,7 +145,7 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
                         <label className="block text-sm font-medium text-gray-700">Material</label>
                         <select
                             value={selectedMaterial}
-                            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                             onChange={(e) => setSelectedMaterial(e.target.value)}
                         >
                             <option value="">Seleccione un material</option>
@@ -160,7 +160,7 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
                         <TextInput
                             type="number"
                             step="0.01"
-                            className="mt-1 block w-full"
+                            className="mt-1 block w-full border-gray-300 focus:border-primary focus:ring focus:ring-primary/20"
                             placeholder="Cantidad"
                             value={materialQuantity}
                             onChange={(e) => setMaterialQuantity(e.target.value)}
@@ -170,7 +170,7 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
                         <button
                             type="button"
                             onClick={addMaterial}
-                            className="w-full inline-flex justify-center items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                            className="w-full inline-flex justify-center items-center gap-2 px-4 py-2 bg-secondary hover:bg-secondary/80 text-white rounded-md"
                         >
                             <FaPlus className="h-4 w-4" />
                             <span>Agregar Material</span>
@@ -224,14 +224,14 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
             <div className="flex items-center justify-end gap-4 pt-4 border-t">
                 <Link
                     href={route('recipes.index')}
-                    className="text-gray-600 hover:text-gray-900 flex items-center gap-2"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md"
                 >
                     <FaArrowLeft className="h-5 w-5" />
                     <span>Volver</span>
                 </Link>
                 <button
                     type="submit"
-                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 flex items-center gap-2"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/80 text-white rounded-md"
                     disabled={processing}
                 >
                     <FaSave className="h-5 w-5" />

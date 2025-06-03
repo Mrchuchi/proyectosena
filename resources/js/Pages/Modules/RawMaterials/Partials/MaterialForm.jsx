@@ -52,7 +52,7 @@ export default function MaterialForm({ material, nextCode }) {
                     <TextInput
                         id="name"
                         type="text"
-                        className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full border-gray-300 focus:border-primary focus:ring focus:ring-primary/20"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         required
@@ -66,7 +66,7 @@ export default function MaterialForm({ material, nextCode }) {
                     <label htmlFor="description" className="block text-sm font-medium text-gray-700">Descripción</label>
                     <textarea
                         id="description"
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                         value={data.description}
                         onChange={(e) => setData('description', e.target.value)}
                         rows="3"
@@ -80,7 +80,7 @@ export default function MaterialForm({ material, nextCode }) {
                     <label htmlFor="unit_measure" className="block text-sm font-medium text-gray-700">Unidad de Medida *</label>
                     <select
                         id="unit_measure"
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                         value={data.unit_measure}
                         onChange={(e) => setData('unit_measure', e.target.value)}
                         required
@@ -201,14 +201,14 @@ export default function MaterialForm({ material, nextCode }) {
             <div className="flex items-center justify-end gap-4 pt-4 border-t">
                 <Link
                     href={route('raw-materials.index')}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
                 >
                     <FaArrowLeft className="h-5 w-5" />
                     <span>Volver</span>
                 </Link>
                 <button
                     type="submit"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/80"
                     disabled={processing}
                 >
                     <FaSave className="h-5 w-5" />

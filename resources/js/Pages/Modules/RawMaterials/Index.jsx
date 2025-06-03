@@ -48,7 +48,7 @@ export default function Index({ auth, materials, filters }) {
                                         <div className="relative">
                                             <input
                                                 type="text"
-                                                className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pr-10"
+                                                className="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20 focus:ring-opacity-50 pr-10"
                                                 placeholder="Buscar por código, nombre, descripción o proveedor..."
                                                 value={search}
                                                 onChange={handleSearchChange}
@@ -61,7 +61,7 @@ export default function Index({ auth, materials, filters }) {
                                 </div>
                                 <Link
                                     href={route('raw-materials.create')}
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                    className="px-4 py-2 bg-primary hover:bg-primary/80 text-white rounded-md"
                                 >
                                     Nuevo Material
                                 </Link>
@@ -103,21 +103,21 @@ export default function Index({ auth, materials, filters }) {
                                                     <div className="flex items-center gap-2">
                                                         <Link
                                                             href={route('raw-materials.show', material.id)}
-                                                            className="text-blue-600 hover:text-blue-900"
+                                                            className="text-secondary hover:text-secondary/80"
                                                             title="Ver detalles"
                                                         >
                                                             <FaEye className="h-5 w-5" />
                                                         </Link>
                                                         <Link
                                                             href={route('raw-materials.edit', material.id)}
-                                                            className="text-yellow-600 hover:text-yellow-900"
+                                                            className="text-primary-light hover:text-primary-light/80"
                                                             title="Editar"
                                                         >
                                                             <FaEdit className="h-5 w-5" />
                                                         </Link>
                                                         <button
                                                             onClick={() => handleDelete(material.id)}
-                                                            className="text-red-600 hover:text-red-900"
+                                                            className="text-red-600 hover:text-red-700"
                                                             title="Eliminar"
                                                         >
                                                             <FaTrash className="h-5 w-5" />

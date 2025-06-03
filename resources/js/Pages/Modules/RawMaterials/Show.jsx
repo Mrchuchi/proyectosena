@@ -24,12 +24,14 @@ export default function Show({ auth, material }) {
                                         Código: {currentMaterial.code}
                                     </p>
                                 </div>
+                                <div>
                                 <Link
                                     href={route('raw-materials.edit', material.id)}
-                                    className="text-yellow-600 hover:text-yellow-900"
+                                    className="text-primary-light hover:text-primary-light/80"
                                 >
                                     <FaEdit className="h-5 w-5" />
                                 </Link>
+                            </div>
                             </div>
                         </div>
                         <div className="border-t border-gray-200">
@@ -94,7 +96,7 @@ export default function Show({ auth, material }) {
                     <div className="flex justify-end">
                         <Link
                             href={route('raw-materials.index')}
-                            className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
                         >
                             Volver a la lista
                         </Link>

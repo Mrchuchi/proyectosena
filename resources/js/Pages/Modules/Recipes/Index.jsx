@@ -43,7 +43,7 @@ export default function Index({ auth, recipes, filters }) {
                                         </div>
                                         <TextInput
                                             type="text"
-                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm"
                                             placeholder="Buscar recetas..."
                                             value={searchTerm}
                                             onChange={handleSearch}
@@ -53,7 +53,7 @@ export default function Index({ auth, recipes, filters }) {
                                 
                                 <Link
                                     href={route('recipes.create')}
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                    className="px-4 py-2 bg-primary hover:bg-primary/80 text-white rounded-md"
                                 >
                                     Nueva Receta
                                 </Link>
@@ -109,19 +109,22 @@ export default function Index({ auth, recipes, filters }) {
                                                     <div className="flex items-center space-x-3">
                                                         <Link
                                                             href={route('recipes.show', recipe.id)}
-                                                            className="text-blue-600 hover:text-blue-900"
+                                                            className="text-secondary hover:text-secondary/80"
+                                                            title="Ver detalles"
                                                         >
                                                             <FaEye className="h-5 w-5" />
                                                         </Link>
                                                         <Link
                                                             href={route('recipes.edit', recipe.id)}
-                                                            className="text-yellow-600 hover:text-yellow-900"
+                                                            className="text-primary-light hover:text-primary-light/80"
+                                                            title="Editar"
                                                         >
                                                             <FaEdit className="h-5 w-5" />
                                                         </Link>
                                                         <button
                                                             onClick={() => handleDelete(recipe.id)}
-                                                            className="text-red-600 hover:text-red-900"
+                                                            className="text-red-600 hover:text-red-700"
+                                                            title="Eliminar"
                                                         >
                                                             <FaTrash className="h-5 w-5" />
                                                         </button>

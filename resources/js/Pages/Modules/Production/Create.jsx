@@ -40,7 +40,7 @@ export default function Create({ auth, nextCode, products, recipes }) {
                                         <h3 className="text-lg font-medium text-gray-700">Nueva Orden de Producción</h3>
                                         <a
                                             href={route('production.index')}
-                                            className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                                            className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md"
                                         >
                                             Volver
                                         </a>
@@ -63,8 +63,9 @@ export default function Create({ auth, nextCode, products, recipes }) {
                                         <InputLabel htmlFor="product_id" value="Producto" className="block text-sm font-medium text-gray-700" />
                                         <select
                                             name="product_id"
-                                            id="product_id"                                            value={data.product_id}
-                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                            id="product_id"
+                                            value={data.product_id}
+                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                                             onChange={(e) => {
                                                 setData('product_id', e.target.value);
                                                 setData('recipe_id', ''); // Reset recipe when product changes
@@ -83,7 +84,7 @@ export default function Create({ auth, nextCode, products, recipes }) {
                                             name="recipe_id"
                                             id="recipe_id"
                                             value={data.recipe_id}
-                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                                             onChange={(e) => setData('recipe_id', e.target.value)}
                                             required
                                             disabled={!data.product_id}
@@ -103,7 +104,7 @@ export default function Create({ auth, nextCode, products, recipes }) {
                                             min="0.01"
                                             name="quantity"
                                             value={data.quantity}
-                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                                             autoComplete="off"
                                             onChange={(e) => setData('quantity', e.target.value)}
                                             required
@@ -116,7 +117,7 @@ export default function Create({ auth, nextCode, products, recipes }) {
                                             type="date"
                                             name="planned_date"
                                             value={data.planned_date}
-                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                                             onChange={(e) => setData('planned_date', e.target.value)}
                                             required
                                         />
@@ -128,7 +129,7 @@ export default function Create({ auth, nextCode, products, recipes }) {
                                         name="notes"
                                         id="notes"
                                         value={data.notes}
-                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                                         rows="4"
                                         onChange={(e) => setData('notes', e.target.value)}
                                     ></textarea>
@@ -136,14 +137,14 @@ export default function Create({ auth, nextCode, products, recipes }) {
                                 </div>                                        <div className="mt-6 flex justify-end space-x-4">
                                             <a
                                                 href={route('production.index')}
-                                                className="inline-flex items-center gap-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                                                className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md"
                                             >
                                                 <FaTimes className="h-5 w-5" />
                                                 <span>Cancelar</span>
                                             </a>
                                             <button
                                                 type="submit"
-                                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                                className="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/80 text-white rounded-md"
                                                 disabled={processing}
                                             >
                                                 <FaSave className="h-5 w-5" />

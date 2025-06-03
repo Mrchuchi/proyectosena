@@ -33,7 +33,7 @@ export default function ProductForm({ product, nextCode }) {
                     <TextInput
                         id="code"
                         type="text"
-                        className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100"
+                        className="mt-1 block w-full border-gray-300 focus:border-primary focus:ring focus:ring-primary/20 bg-gray-100"
                         value={data.code}
                         disabled={true}
                         required
@@ -46,7 +46,7 @@ export default function ProductForm({ product, nextCode }) {
                     <TextInput
                         id="name"
                         type="text"
-                        className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full border-gray-300 focus:border-primary focus:ring focus:ring-primary/20"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         required
@@ -59,7 +59,7 @@ export default function ProductForm({ product, nextCode }) {
                     <label htmlFor="size" className="block text-sm font-medium text-gray-700">Tamaño *</label>
                     <select
                         id="size"
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                         value={data.size}
                         onChange={(e) => setData('size', e.target.value)}
                         required
@@ -78,7 +78,7 @@ export default function ProductForm({ product, nextCode }) {
                     <label htmlFor="category" className="block text-sm font-medium text-gray-700">Categoría *</label>
                     <select
                         id="category"
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                         value={data.category}
                         onChange={(e) => setData('category', e.target.value)}
                         required
@@ -91,11 +91,25 @@ export default function ProductForm({ product, nextCode }) {
                 </div>
 
                 <div className="space-y-2">
+                    <label htmlFor="min_stock" className="block text-sm font-medium text-gray-700">Stock Mínimo *</label>
+                    <TextInput
+                        id="min_stock"
+                        type="number"
+                        className="mt-1 block w-full border-gray-300 focus:border-primary focus:ring focus:ring-primary/20"
+                        value={data.min_stock}
+                        onChange={(e) => setData('min_stock', e.target.value)}
+                        required
+                        min="0"
+                    />
+                    <InputError message={errors.min_stock} className="mt-2" />
+                </div>
+
+                <div className="space-y-2">
                     <label htmlFor="current_stock" className="block text-sm font-medium text-gray-700">Stock Actual *</label>
                     <TextInput
                         id="current_stock"
                         type="number"
-                        className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full border-gray-300 focus:border-primary focus:ring focus:ring-primary/20"
                         value={data.current_stock}
                         onChange={(e) => setData('current_stock', e.target.value)}
                         required
@@ -114,7 +128,7 @@ export default function ProductForm({ product, nextCode }) {
                             id="price"
                             type="number"
                             step="0.01"
-                            className="mt-1 block w-full pl-7 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                            className="mt-1 block w-full pl-7 border-gray-300 focus:border-primary focus:ring focus:ring-primary/20"
                             value={data.price}
                             onChange={(e) => setData('price', e.target.value)}
                             required
@@ -128,7 +142,7 @@ export default function ProductForm({ product, nextCode }) {
                     <label htmlFor="status" className="block text-sm font-medium text-gray-700">Estado *</label>
                     <select
                         id="status"
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                         value={data.status}
                         onChange={(e) => setData('status', e.target.value)}
                         required
@@ -143,7 +157,7 @@ export default function ProductForm({ product, nextCode }) {
                     <label htmlFor="description" className="block text-sm font-medium text-gray-700">Descripción</label>
                     <textarea
                         id="description"
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                         value={data.description}
                         onChange={(e) => setData('description', e.target.value)}
                         rows="3"
@@ -156,14 +170,14 @@ export default function ProductForm({ product, nextCode }) {
             <div className="flex items-center justify-end gap-4 pt-4 border-t">
                 <Link
                     href={route('products.index')}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md"
                 >
                     <FaArrowLeft className="h-5 w-5" />
                     <span>Volver</span>
                 </Link>
                 <button
                     type="submit"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/80 text-white rounded-md"
                     disabled={processing}
                 >
                     <FaSave className="h-5 w-5" />
