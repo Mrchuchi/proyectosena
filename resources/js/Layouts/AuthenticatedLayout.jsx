@@ -9,43 +9,44 @@ export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100">
+        <div className="min-h-screen bg-gray-50">
+            <nav className="bg-primary/80 border-b border-primary/20">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
                         <div className="flex-none flex items-center">
                             <Link href="/">
-                                <ApplicationLogo className="block h-14 w-auto fill-current text-gray-800" />
+                                <ApplicationLogo className="block h-14 w-auto" />
                             </Link>
                         </div>
 
                         <div className="flex-1 flex justify-center items-center px-4">
                             <div className="hidden space-x-6 sm:-my-px sm:flex mx-auto">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                <NavLink href={route('dashboard')} active={route().current('dashboard')} 
+                                    className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
                                     Inicio
                                 </NavLink>
-                                <NavLink href={route('clients.index')} active={route().current('clients.*')}>
+                                <NavLink href={route('clients.index')} active={route().current('clients.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
                                     Clientes
                                 </NavLink>
-                                <NavLink href={route('raw-materials.index')} active={route().current('raw-materials.*')}>
+                                <NavLink href={route('raw-materials.index')} active={route().current('raw-materials.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
                                     Materia Prima
                                 </NavLink>
-                                <NavLink href={route('products.index')} active={route().current('products.*')}>
+                                <NavLink href={route('products.index')} active={route().current('products.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
                                     Productos
                                 </NavLink>
-                                <NavLink href={route('recipes.index')} active={route().current('recipes.*')}>
+                                <NavLink href={route('recipes.index')} active={route().current('recipes.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
                                     Recetas
                                 </NavLink>
-                                <NavLink href={route('production.index')} active={route().current('production.*')}>
+                                <NavLink href={route('production.index')} active={route().current('production.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
                                     Producción
                                 </NavLink>
-                                <NavLink href={route('inventory.index')} active={route().current('inventory.*')}>
+                                <NavLink href={route('inventory.index')} active={route().current('inventory.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
                                     Inventario
                                 </NavLink>
-                                <NavLink href={route('movements.index')} active={route().current('movements.*')}>
+                                <NavLink href={route('movements.index')} active={route().current('movements.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
                                     Entradas/Salidas
                                 </NavLink>
-                                <NavLink href={route('users.index')} active={route().current('users.*')}>
+                                <NavLink href={route('users.index')} active={route().current('users.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
                                     Usuarios
                                 </NavLink>
                             </div>
@@ -58,7 +59,7 @@ export default function Authenticated({ user, header, children }) {
                                         <span className="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white hover:text-primary-light focus:outline-none transition ease-in-out duration-150"
                                             >
                                                 {user.name}
 
@@ -79,8 +80,10 @@ export default function Authenticated({ user, header, children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Perfil</Dropdown.Link>
-                                        <Dropdown.Link href={route('logout')} method="post" as="button">
+                                        <Dropdown.Link href={route('profile.edit')} className="text-primary hover:bg-primary-light/10">
+                                            Perfil
+                                        </Dropdown.Link>
+                                        <Dropdown.Link href={route('logout')} method="post" as="button" className="text-primary hover:bg-primary-light/10">
                                             Cerrar Sesión
                                         </Dropdown.Link>
                                     </Dropdown.Content>
@@ -92,7 +95,7 @@ export default function Authenticated({ user, header, children }) {
                         <div className="-mr-2 flex items-center sm:hidden">
                             <button
                                 onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
-                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                                className="inline-flex items-center justify-center p-2 rounded-md text-primary-light hover:text-white hover:bg-primary-light/10 focus:outline-none focus:bg-primary-light/10 focus:text-white transition duration-150 ease-in-out"
                             >
                                 <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path
@@ -116,46 +119,68 @@ export default function Authenticated({ user, header, children }) {
                 </div>
 
                 {/* Responsive Navigation Menu */}
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
+                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden bg-primary-light/5'}>
                     <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
+                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}
+                            className="text-primary-light hover:text-white hover:bg-primary-light/10"
+                            activeClassName="bg-primary text-white">
                             Inicio
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('clients.index')} active={route().current('clients.*')}>
+                        <ResponsiveNavLink href={route('clients.index')} active={route().current('clients.*')}
+                            className="text-primary-light hover:text-white hover:bg-primary-light/10"
+                            activeClassName="bg-primary text-white">
                             Clientes
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('raw-materials.index')} active={route().current('raw-materials.*')}>
+                        <ResponsiveNavLink href={route('raw-materials.index')} active={route().current('raw-materials.*')}
+                            className="text-primary-light hover:text-white hover:bg-primary-light/10"
+                            activeClassName="bg-primary text-white">
                             Materia Prima
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('products.index')} active={route().current('products.*')}>
+                        <ResponsiveNavLink href={route('products.index')} active={route().current('products.*')}
+                            className="text-primary-light hover:text-white hover:bg-primary-light/10"
+                            activeClassName="bg-primary text-white">
                             Productos
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('recipes.index')} active={route().current('recipes.*')}>
+                        <ResponsiveNavLink href={route('recipes.index')} active={route().current('recipes.*')}
+                            className="text-primary-light hover:text-white hover:bg-primary-light/10"
+                            activeClassName="bg-primary text-white">
                             Recetas
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('production.index')} active={route().current('production.*')}>
+                        <ResponsiveNavLink href={route('production.index')} active={route().current('production.*')}
+                            className="text-primary-light hover:text-white hover:bg-primary-light/10"
+                            activeClassName="bg-primary text-white">
                             Producción
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('inventory.index')} active={route().current('inventory.*')}>
+                        <ResponsiveNavLink href={route('inventory.index')} active={route().current('inventory.*')}
+                            className="text-primary-light hover:text-white hover:bg-primary-light/10"
+                            activeClassName="bg-primary text-white">
                             Inventario
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('movements.index')} active={route().current('movements.*')}>
+                        <ResponsiveNavLink href={route('movements.index')} active={route().current('movements.*')}
+                            className="text-primary-light hover:text-white hover:bg-primary-light/10"
+                            activeClassName="bg-primary text-white">
                             Entradas/Salidas
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('users.index')} active={route().current('users.*')}>
+                        <ResponsiveNavLink href={route('users.index')} active={route().current('users.*')}
+                            className="text-primary-light hover:text-white hover:bg-primary-light/10"
+                            activeClassName="bg-primary text-white">
                             Usuarios
                         </ResponsiveNavLink>
                     </div>
 
-                    <div className="pt-4 pb-1 border-t border-gray-200">
+                    <div className="pt-4 pb-1 border-t border-primary-light/20">
                         <div className="px-4">
-                            <div className="font-medium text-base text-gray-800">{user.name}</div>
-                            <div className="font-medium text-sm text-gray-500">{user.email}</div>
+                            <div className="font-medium text-base text-white">{user.name}</div>
+                            <div className="font-medium text-sm text-primary-light">{user.email}</div>
                         </div>
 
                         <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>Perfil</ResponsiveNavLink>
-                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
+                            <ResponsiveNavLink href={route('profile.edit')} 
+                                className="text-primary-light hover:text-white hover:bg-primary-light/10">
+                                Perfil
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink method="post" href={route('logout')} as="button"
+                                className="text-primary-light hover:text-white hover:bg-primary-light/10">
                                 Cerrar Sesión
                             </ResponsiveNavLink>
                         </div>
@@ -164,12 +189,12 @@ export default function Authenticated({ user, header, children }) {
             </nav>
 
             {header && (
-                <header className="bg-white shadow">
+                <header className="bg-white shadow-sm border-b border-primary/10">
                     <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
                 </header>
             )}
 
-            <main>{children}</main>
+            <main className="py-6">{children}</main>
         </div>
     );
 }
