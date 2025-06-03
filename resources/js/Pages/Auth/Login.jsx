@@ -31,7 +31,7 @@ export default function Login({ status, canResetPassword }) {
             <Head title="Iniciar Sesión - Esencial Hogar" />
             
             <div className="mb-8 text-center">
-                <h2 className="text-3xl font-bold text-indigo-600 mb-2">¡Bienvenido!</h2>
+                <h2 className="text-3xl font-bold text-primary mb-2">¡Bienvenido!</h2>
                 <p className="text-gray-600">Ingresa a tu cuenta para continuar</p>
             </div>
 
@@ -83,7 +83,7 @@ export default function Login({ status, canResetPassword }) {
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}
-                            className="text-sm text-indigo-600 hover:text-indigo-500"
+                            className="text-sm text-primary hover:text-primary/80"
                         >
                             ¿Olvidaste tu contraseña?
                         </Link>

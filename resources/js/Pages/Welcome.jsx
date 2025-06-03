@@ -45,10 +45,10 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 </nav>
 
                 {/* Hero Section */}
-                <div className="relative bg-transparent overflow-hidden">
+                <div className="relative bg-transparent overflow-hidden mt-8">
                     <div className="max-w-7xl mx-auto">
                         <div className="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
-                            <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+                            <main className="mt-6 mx-auto max-w-7xl px-4 sm:mt-8 sm:px-6 md:mt-12 lg:mt-16 lg:px-8 xl:mt-20">
                                 <div className="sm:text-center lg:text-left">
                                     <h1 className="text-4xl tracking-tight font-extrabold text-primary sm:text-5xl md:text-6xl">
                                         <span className="block">Calidez y Confort</span>
@@ -71,6 +71,61 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                     </div>
                                 </div>
                             </main>
+                        </div>
+                    </div>
+                    <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+                        <div className="flex items-center justify-center h-full mt-8 sm:mt-10 lg:mt-0">
+                            <Swiper
+                                spaceBetween={30}
+                                slidesPerView={1}
+                                speed={600}
+                                autoplay={{
+                                    delay: 3000,
+                                    disableOnInteraction: false,
+                                }}
+                                pagination={{
+                                    clickable: true,
+                                    dynamicBullets: true
+                                }}
+                                modules={[Autoplay, Pagination]}
+                                className="w-full h-48 sm:h-56 md:h-64 lg:h-72 max-w-lg lg:max-w-xl"
+                            >
+                                <SwiperSlide>
+                                    <img 
+                                        className="w-full h-full object-cover rounded-lg shadow-lg" 
+                                        src="images/pillow-1.jpg" 
+                                        alt="Almohada premium" 
+                                    />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img 
+                                        className="w-full h-full object-cover rounded-lg shadow-lg" 
+                                        src="images/pillow-2.jpg" 
+                                        alt="Almohada de plumas" 
+                                    />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img 
+                                        className="w-full h-full object-cover rounded-lg shadow-lg" 
+                                        src="images/pillow-3.jpg" 
+                                        alt="Almohada ortopédica" 
+                                    />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img 
+                                        className="w-full h-full object-cover rounded-lg shadow-lg" 
+                                        src="images/pillow-4.jpg" 
+                                        alt="Almohada de memory foam" 
+                                    />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img 
+                                        className="w-full h-full object-cover rounded-lg shadow-lg" 
+                                        src="images/pillow-5.jpg" 
+                                        alt="Almohada especial" 
+                                    />
+                                </SwiperSlide>
+                            </Swiper>
                         </div>
                     </div>
                 </div>
