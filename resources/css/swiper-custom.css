@@ -38,9 +38,9 @@
 
 .swiper-button-next,
 .swiper-button-prev {
-    color: #4F46E5 !important;
+    color: #1B3160 !important; /* primary color */
 }
 
 .swiper-pagination-bullet-active {
-    background: #4F46E5 !important;
+    background: #1B3160 !important; /* primary color */
 }

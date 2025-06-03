@@ -15,6 +15,16 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                primary: {
+                    DEFAULT: '#1B3160', // Azul marino oscuro del "Esencial"
+                    light: '#A4B6CD',   // Azul claro/gris del "HOGAR"
+                },
+                secondary: {
+                    DEFAULT: '#17937C',  // Verde turquesa de "calidez en tu vida"
+                    accent: '#FFD700',   // Amarillo de las líneas decorativas
+                },
+            },
         },
     },
 

@@ -4,7 +4,7 @@ export default function ApplicationLogo(props) {
             {...props}
             src="/images/logo.png"
             alt="Esencial Hogar - Calidez en tu vida"
-            className="h-40 w-auto"
+            className="h-44 w-auto"
         />
     );
 }
