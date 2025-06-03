@@ -1,5 +1,5 @@
 import { useForm, Link, router } from '@inertiajs/react';
-import { FaUserPlus, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaUserPlus, FaEdit, FaTrash, FaEye } from 'react-icons/fa';
 import { useState } from 'react';
 
 export default function UserList({ users, roles }) {
@@ -25,17 +25,17 @@ export default function UserList({ users, roles }) {
     return (
         <div>
             <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-medium text-gray-900">Usuarios del Sistema</h3>
+                <h3 className="text-lg font-medium text-gray-900">Lista de Usuarios</h3>
                 <Link
                     href={route('users.create')}
-                    className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-md transition shadow-sm"
                 >
-                    <FaUserPlus className="w-4 h-4 mr-2" />
-                    Nuevo Usuario
+                    <FaUserPlus className="w-4 h-4" />
+                    <span>Nuevo Usuario</span>
                 </Link>
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto rounded-lg border border-gray-200">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
@@ -48,32 +48,44 @@ export default function UserList({ users, roles }) {
                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Rol
                             </th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Acciones
                             </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                         {users.map((user) => (
-                            <tr key={user.id}>
+                            <tr key={user.id} className="hover:bg-gray-50 transition-colors duration-200">
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                                    <div className="flex items-center">
+                                        <div>
+                                            <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm text-gray-500">{user.email}</div>
+                                    <div className="text-sm text-gray-600">{user.email}</div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    <span className="px-2.5 py-1 inline-flex text-xs leading-5 font-medium rounded-full bg-primary/10 text-primary">
                                         {user.role ? user.role.name : 'Sin rol'}
                                     </span>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                    <div className="flex items-center gap-2">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
+                                    <div className="flex items-center justify-center gap-3">
+                                        <Link
+                                            href={route('users.show', user.id)}
+                                            className="text-gray-400 hover:text-gray-600 transition-colors"
+                                            title="Ver detalles"
+                                        >
+                                            <FaEye className="h-4 w-4" />
+                                        </Link>
                                         <Link
                                             href={route('users.edit', user.id)}
-                                            className="text-yellow-600 hover:text-yellow-900"
+                                            className="text-primary hover:text-primary/80 transition-colors"
+                                            title="Editar usuario"
                                         >
-                                            <FaEdit className="h-5 w-5" />
+                                            <FaEdit className="h-4 w-4" />
                                         </Link>
                                         <button
                                             onClick={() => {
@@ -81,9 +93,10 @@ export default function UserList({ users, roles }) {
                                                     router.delete(route('users.destroy', user.id));
                                                 }
                                             }}
-                                            className="text-red-600 hover:text-red-900"
+                                            className="text-red-500 hover:text-red-600 transition-colors"
+                                            title="Eliminar usuario"
                                         >
-                                            <FaTrash className="h-5 w-5" />
+                                            <FaTrash className="h-4 w-4" />
                                         </button>
                                     </div>
                                 </td>

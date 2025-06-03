@@ -3,6 +3,7 @@ import { Head, Link } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import UserList from './Partials/UserList';
 import RoleList from './Partials/RoleList';
+import { classNames } from '@/utils';
 
 export default function Users({ auth, users, roles, permissions }) {
     const [activeTab, setActiveTab] = useState('users');
@@ -55,33 +56,53 @@ export default function Users({ auth, users, roles, permissions }) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     {/* Tabs */}
-                    <div className="mb-4 border-b border-gray-200">
-                        <nav className="-mb-px flex" aria-label="Tabs">
-                            <button
-                                onClick={() => setActiveTab('users')}
-                                className={`${
-                                    activeTab === 'users'
-                                        ? 'border-indigo-500 text-indigo-600'
-                                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                                } whitespace-nowrap py-4 px-6 border-b-2 font-medium text-sm`}
-                            >
-                                Usuarios
-                            </button>
-                            <button
-                                onClick={() => setActiveTab('roles')}
-                                className={`${
-                                    activeTab === 'roles'
-                                        ? 'border-indigo-500 text-indigo-600'
-                                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                                } whitespace-nowrap py-4 px-6 border-b-2 font-medium text-sm`}
-                            >
-                                Roles y Permisos
-                            </button>
-                        </nav>
+                    <div className="bg-white overflow-hidden shadow-md sm:rounded-lg mb-6">
+                        <div className="border-b border-gray-200">
+                            <nav className="flex space-x-4 px-6 py-4" aria-label="Tabs">
+                                <button
+                                    onClick={() => setActiveTab('users')}
+                                    className={classNames(
+                                        activeTab === 'users'
+                                            ? 'bg-primary text-white shadow-sm'
+                                            : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50',
+                                        'px-4 py-2.5 rounded-md font-medium text-sm transition-all duration-200 ease-in-out flex items-center gap-2'
+                                    )}
+                                >
+                                    <span>Usuarios</span>
+                                    <span className={classNames(
+                                        activeTab === 'users' 
+                                            ? 'bg-white/20' 
+                                            : 'bg-gray-100 text-gray-600',
+                                        'text-xs py-0.5 px-2.5 rounded-full font-semibold'
+                                    )}>
+                                        {users.length}
+                                    </span>
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('roles')}
+                                    className={classNames(
+                                        activeTab === 'roles'
+                                            ? 'bg-primary text-white shadow-sm'
+                                            : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50',
+                                        'px-4 py-2.5 rounded-md font-medium text-sm transition-all duration-200 ease-in-out flex items-center gap-2'
+                                    )}
+                                >
+                                    <span>Roles y Permisos</span>
+                                    <span className={classNames(
+                                        activeTab === 'roles' 
+                                            ? 'bg-white/20' 
+                                            : 'bg-gray-100 text-gray-600',
+                                        'text-xs py-0.5 px-2.5 rounded-full font-semibold'
+                                    )}>
+                                        {roles.length}
+                                    </span>
+                                </button>
+                            </nav>
+                        </div>
                     </div>
 
-                {/* Content */}
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    {/* Content */}
+                    <div className="bg-white overflow-hidden shadow-md sm:rounded-lg">
                         <div className="p-6">
                             {activeTab === 'users' ? (
                                 <UserList users={users} roles={roles} />

@@ -101,6 +101,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/users', 'index')->name('users.index')->middleware('permission:ver_usuarios');
         Route::get('/users/create', 'create')->name('users.create')->middleware('permission:crear_usuarios');
         Route::post('/users', 'store')->name('users.store')->middleware('permission:crear_usuarios');
+        Route::get('/users/{user}', 'show')->name('users.show')->middleware('permission:ver_usuarios');
         Route::get('/users/{user}/edit', 'edit')->name('users.edit')->middleware('permission:editar_usuarios');
         Route::put('/users/{user}', 'update')->name('users.update')->middleware('permission:editar_usuarios');
         Route::delete('/users/{user}', 'destroy')->name('users.destroy')->middleware('permission:eliminar_usuarios');

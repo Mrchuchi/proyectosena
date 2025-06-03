@@ -209,4 +209,28 @@ class UserManagementController extends Controller
             return back()->with('error', 'Error al eliminar el usuario: ' . $e->getMessage());
         }
     }
+
+    public function show(User $user): Response
+    {
+        try {
+            return Inertia::render('Modules/Users/Show', [
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role' => $user->role ? [
+                        'id' => $user->role->id,
+                        'name' => $user->role->name,
+                        'description' => $user->role->description
+                    ] : null,
+                    'active' => $user->active,
+                    'created_at' => $user->created_at->format('d/m/Y H:i:s'),
+                    'updated_at' => $user->updated_at->format('d/m/Y H:i:s'),
+                ]
+            ]);
+        } catch (Exception $e) {
+            Log::error('Error in UserManagementController@show: ' . $e->getMessage());
+            return back()->with('error', 'Error al cargar los detalles del usuario');
+        }
+    }
 }

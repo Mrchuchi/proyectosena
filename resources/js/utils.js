@@ -6,3 +6,12 @@ export const formatCurrency = (value) => {
         maximumFractionDigits: 0,
     }).format(value);
 };
+
+/**
+ * Combines multiple class names into a single string, filtering out falsy values
+ * @param  {...string} classes - Class names to combine
+ * @returns {string} - Combined class names
+ */
+export function classNames(...classes) {
+    return classes.filter(Boolean).join(' ');
+}
