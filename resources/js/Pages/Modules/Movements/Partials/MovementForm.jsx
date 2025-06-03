@@ -54,19 +54,19 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
     const isDisabled = processing || isSubmitting;
 
     return (
-        <div className="bg-white rounded-lg overflow-hidden">
+        <div className="bg-white rounded-lg overflow-hidden shadow-sm">
             <form onSubmit={handleSubmit}>
                 <div className="p-6">
-                    <h3 className="text-lg font-medium text-gray-900 mb-4">Registrar Movimiento</h3>
-                    <div className="space-y-4">
+                    <h3 className="text-lg font-medium text-gray-900 mb-6">Registrar Movimiento</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label htmlFor="item_type" className="block text-sm font-medium text-gray-700">Tipo de Ítem</label>
+                            <label htmlFor="item_type" className="block text-sm font-medium text-gray-700 mb-1">Tipo de Ítem</label>
                             <select
                                 id="item_type"
                                 name="item_type"
                                 value={data.item_type}
                                 onChange={handleItemTypeChange}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                                 disabled={isDisabled}
                                 required
                             >
@@ -77,7 +77,7 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
                         </div>
 
                         <div>
-                            <label htmlFor="item_id" className="block text-sm font-medium text-gray-700">
+                            <label htmlFor="item_id" className="block text-sm font-medium text-gray-700 mb-1">
                                 {data.item_type === 'product' ? 'Producto' : 'Materia Prima'}
                             </label>
                             <select
@@ -85,7 +85,7 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
                                 name="item_id"
                                 value={data.item_id}
                                 onChange={e => setData('item_id', e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                                 disabled={isDisabled}
                                 required
                             >
@@ -108,13 +108,13 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
                         </div>
 
                         <div>
-                            <label htmlFor="type" className="block text-sm font-medium text-gray-700">Tipo de Movimiento</label>
+                            <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-1">Tipo de Movimiento</label>
                             <select
                                 id="type"
                                 name="type"
                                 value={data.type}
                                 onChange={e => setData('type', e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                                 disabled={isDisabled}
                                 required
                             >
@@ -126,13 +126,13 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
 
                         {data.type === 'salida' && (
                             <div>
-                                <label htmlFor="client_id" className="block text-sm font-medium text-gray-700">Cliente</label>
+                                <label htmlFor="client_id" className="block text-sm font-medium text-gray-700 mb-1">Cliente</label>
                                 <select
                                     id="client_id"
                                     name="client_id"
                                     value={data.client_id}
                                     onChange={e => setData('client_id', e.target.value)}
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                                     disabled={isDisabled}
                                     required={data.type === 'salida'}
                                 >
@@ -148,14 +148,14 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
                         )}
 
                         <div>
-                            <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">Cantidad</label>
+                            <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-1">Cantidad</label>
                             <input
                                 type="number"
                                 id="quantity"
                                 name="quantity"
                                 value={data.quantity}
                                 onChange={e => setData('quantity', e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                                 disabled={isDisabled}
                                 required
                                 min="0.01"
@@ -164,15 +164,15 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
                             {errors.quantity && <p className="mt-1 text-sm text-red-600">{errors.quantity}</p>}
                         </div>
 
-                        <div>
-                            <label htmlFor="reason" className="block text-sm font-medium text-gray-700">Motivo</label>
+                        <div className="md:col-span-2">
+                            <label htmlFor="reason" className="block text-sm font-medium text-gray-700 mb-1">Motivo</label>
                             <input
                                 type="text"
                                 id="reason"
                                 name="reason"
                                 value={data.reason}
                                 onChange={e => setData('reason', e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                                 disabled={isDisabled}
                                 required
                             />
@@ -181,12 +181,12 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
                     </div>
                 </div>
 
-                <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <div className="bg-gray-50 px-6 py-4 flex justify-end">
                     <button
                         type="submit"
                         disabled={isDisabled}
-                        className={`w-full inline-flex justify-center items-center gap-2 rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm ${
-                            isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+                        className={`inline-flex items-center gap-2 px-4 py-2 bg-primary border border-transparent rounded-md font-medium text-sm text-white transition-colors duration-200 ${
+                            isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/20'
                         }`}
                     >
                         <FaSave className="h-5 w-5" />

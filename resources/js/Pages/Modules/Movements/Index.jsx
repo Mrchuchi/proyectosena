@@ -67,10 +67,11 @@ export default function Movements({ auth, movements: initialMovements, products,
             <Head title="Entradas/Salidas" />
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    {/* Formulario de Registro */}
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                         <div className="p-6">
+                            <h3 className="text-lg font-semibold text-gray-900 mb-6">Registrar Nuevo Movimiento</h3>
                             <MovementForm 
-                                className="mb-6" 
                                 products={products} 
                                 clients={clients}
                                 rawMaterials={rawMaterials}
@@ -79,14 +80,17 @@ export default function Movements({ auth, movements: initialMovements, products,
                         </div>
                     </div>
 
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    {/* Filtros de Búsqueda */}
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                         <div className="p-6">
-                            {/* Filters */}
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="text-lg font-semibold text-gray-900">Filtros de Búsqueda</h3>
+                            </div>
                             <div className="mb-6 grid grid-cols-1 md:grid-cols-5 gap-4">
                                 <div>
                                     <select
                                         name="item_type"
-                                        className="rounded-md w-full"
+                                        className="rounded-md w-full border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                                         value={filters.item_type}
                                         onChange={handleFilterChange}
                                     >
@@ -99,7 +103,7 @@ export default function Movements({ auth, movements: initialMovements, products,
                                 <div>
                                     <select
                                         name="item_id"
-                                        className="rounded-md w-full"
+                                        className="rounded-md w-full border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                                         value={filters.item_id}
                                         onChange={handleFilterChange}
                                         disabled={!filters.item_type}
@@ -122,13 +126,14 @@ export default function Movements({ auth, movements: initialMovements, products,
                                     type="text"
                                     name="search"
                                     placeholder="Buscar..."
-                                    className="rounded-md w-full"
+                                    className="rounded-md w-full border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                                     value={filters.search}
                                     onChange={handleFilterChange}
                                 />
+
                                 <select
                                     name="type"
-                                    className="rounded-md"
+                                    className="rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                                     value={filters.type}
                                     onChange={handleFilterChange}
                                 >
@@ -136,29 +141,38 @@ export default function Movements({ auth, movements: initialMovements, products,
                                     <option value="entrada">Entrada</option>
                                     <option value="salida">Salida</option>
                                 </select>
-                                <input
-                                    type="date"
-                                    name="date_from"
-                                    className="rounded-md"
-                                    value={filters.date_from}
-                                    onChange={handleFilterChange}
-                                />
-                                <input
-                                    type="date"
-                                    name="date_to"
-                                    className="rounded-md"
-                                    value={filters.date_to}
-                                    onChange={handleFilterChange}
-                                />
-                                <button
-                                    onClick={applyFilters}
-                                    className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
-                                >
-                                    Aplicar Filtros
-                                </button>
-                            </div>
 
-                            {/* Table */}
+                                <div className="grid grid-cols-2 gap-2">
+                                    <input
+                                        type="date"
+                                        name="date_from"
+                                        className="rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
+                                        value={filters.date_from}
+                                        onChange={handleFilterChange}
+                                    />
+                                    <input
+                                        type="date"
+                                        name="date_to"
+                                        className="rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
+                                        value={filters.date_to}
+                                        onChange={handleFilterChange}
+                                    />
+                                </div>
+
+                                <div className="md:col-span-5 flex justify-end">
+                                    <button
+                                        onClick={applyFilters}
+                                        className="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/80 text-white rounded-md transition-colors duration-200"
+                                    >
+                                        Aplicar Filtros
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div className="p-6">
                             <div className="overflow-x-auto">
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">
@@ -191,36 +205,39 @@ export default function Movements({ auth, movements: initialMovements, products,
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
                                         {movements.data.map((movement) => (
-                                            <tr key={movement.id}>
+                                            <tr key={movement.id} className="hover:bg-gray-50 transition-colors duration-200">
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                     {movement.date}
-                                                </td>                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="text-sm font-medium text-gray-900">
                                                         {movement.item?.code}
                                                     </div>
                                                     <div className="text-sm text-gray-500">
                                                         {movement.item?.name}
                                                     </div>
-                                                    <div className="text-xs text-gray-400">
+                                                    <div className="text-xs text-primary-light">
                                                         {movement.item_type}
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                                                        movement.type === 'entrada' ? 'bg-green-100 text-green-800' :
-                                                        movement.type === 'salida' ? 'bg-red-100 text-red-800' :
-                                                        'bg-yellow-100 text-yellow-800'
+                                                        movement.type === 'entrada'
+                                                            ? 'bg-green-100 text-green-800'
+                                                            : movement.type === 'salida'
+                                                            ? 'bg-red-100 text-red-800'
+                                                            : 'bg-yellow-100 text-yellow-800'
                                                     }`}>
-                                                        {movement.type}
+                                                        {movement.type === 'entrada' ? 'Entrada' : movement.type === 'salida' ? 'Salida' : movement.type}
                                                     </span>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                     {movement.quantity}
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                     {movement.previous_stock}
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                     {movement.new_stock}
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -236,11 +253,18 @@ export default function Movements({ auth, movements: initialMovements, products,
                                                 </td>
                                             </tr>
                                         ))}
+                                        {movements.data.length === 0 && (
+                                            <tr>
+                                                <td colSpan="8" className="px-6 py-4 text-center text-gray-500">
+                                                    No hay movimientos registrados
+                                                </td>
+                                            </tr>
+                                        )}
                                     </tbody>
                                 </table>
                             </div>
 
-                            {/* Pagination */}
+                            {/* Paginación */}
                             {movements.links && (
                                 <div className="mt-4">
                                     <nav className="flex items-center justify-between">
@@ -250,7 +274,7 @@ export default function Movements({ auth, movements: initialMovements, products,
                                                     key={index}
                                                     className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium rounded-md ${
                                                         link.active
-                                                            ? 'bg-indigo-600 text-white'
+                                                            ? 'bg-primary text-white'
                                                             : 'bg-white text-gray-700 hover:bg-gray-50'
                                                     }`}
                                                     disabled={!link.url}
