@@ -10,6 +10,9 @@ export default function RoleList({ roles, permissions = {} }) {
         permissions: []
     });
 
+    // Debug log
+    console.log('RoleList component props:', { roles, permissions });
+
     // Asegurarnos de que permissions es un objeto y no undefined
     const groupedPermissions = permissions || {};
 
@@ -36,75 +39,83 @@ export default function RoleList({ roles, permissions = {} }) {
                 }
             });
         }
-    };
+    };    // Debug checks
+    console.log('Roles:', roles);
+    console.log('GroupedPermissions:', groupedPermissions);
+    console.log('Original permissions:', permissions);
 
     if (!roles || !Object.keys(groupedPermissions).length) {
         return (
             <div className="p-4">
-                <p className="text-gray-500">No hay roles o permisos disponibles.</p>
+                <p className="text-gray-500">No hay roles o permisos disponibles. Roles: {JSON.stringify(roles)}, Permisos: {JSON.stringify(permissions)}</p>
             </div>
         );
     }
 
     return (
         <div>
-            <div className="mb-8">
+            <div className="mb-8 bg-white p-6 rounded-lg shadow">
                 <h3 className="text-lg font-medium text-gray-900 mb-4">
                     {editingRole ? 'Editar Rol' : 'Nuevo Rol'}
                 </h3>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                            Nombre del Rol
-                        </label>
-                        <input
-                            type="text"
-                            name="name"
-                            id="name"
-                            value={data.name}
-                            onChange={e => setData('name', e.target.value)}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        />
-                        {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                                Nombre del Rol
+                            </label>
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                value={data.name}
+                                onChange={e => setData('name', e.target.value)}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            />
+                            {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
+                        </div>
+
+                        <div>
+                            <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                                Descripción
+                            </label>
+                            <input
+                                type="text"
+                                name="description"
+                                id="description"
+                                value={data.description}
+                                onChange={e => setData('description', e.target.value)}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            />
+                            {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description}</p>}
+                        </div>
                     </div>
 
-                    <div>
-                        <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                            Descripción
-                        </label>
-                        <input
-                            type="text"
-                            name="description"
-                            id="description"
-                            value={data.description}
-                            onChange={e => setData('description', e.target.value)}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        />
-                        {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description}</p>}
-                    </div>
-
-                    <div>
-                        <h4 className="text-sm font-medium text-gray-700 mb-2">Permisos</h4>
-                        <div className="space-y-2 grid grid-cols-1 md:grid-cols-3 gap-4">
-                            {Object.entries(groupedPermissions).map(([module, permissions]) => (
-                                <div key={module} className="bg-gray-50 p-4 rounded-md">
-                                    <h5 className="font-medium text-gray-700 mb-2 capitalize">{module}</h5>
-                                    <div className="space-y-2">
-                                        {permissions.map(permission => (
-                                            <label key={permission.id} className="flex items-start">
+                    <div className="mt-6">
+                        <h4 className="text-base font-medium text-gray-900 mb-4">Permisos</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {Object.entries(groupedPermissions).map(([module, perms]) => (
+                                <div key={module} className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                                    <h5 className="text-sm font-medium text-gray-900 mb-4 capitalize">
+                                        {module.replace('_', ' ')}
+                                    </h5>
+                                    <div className="space-y-3">
+                                        {perms.map(permission => (
+                                            <label key={permission.id} className="flex items-start space-x-3">
                                                 <input
                                                     type="checkbox"
                                                     checked={data.permissions.includes(permission.id)}
                                                     onChange={e => {
-                                                        const value = parseInt(permission.id);
-                                                        setData('permissions', e.target.checked
-                                                            ? [...data.permissions, value]
-                                                            : data.permissions.filter(id => id !== value)
+                                                        const value = permission.id;
+                                                        setData('permissions', 
+                                                            e.target.checked
+                                                                ? [...data.permissions, value]
+                                                                : data.permissions.filter(id => id !== value)
                                                         );
                                                     }}
                                                     className="mt-1 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                                 />
-                                                <span className="ml-2 text-sm text-gray-600">{permission.description}</span>
+                                                <span className="text-sm text-gray-700">{permission.description}</span>
                                             </label>
                                         ))}
                                     </div>
@@ -113,7 +124,7 @@ export default function RoleList({ roles, permissions = {} }) {
                         </div>
                     </div>
 
-                    <div className="flex justify-end space-x-3">
+                    <div className="flex justify-end space-x-3 pt-4">
                         {editingRole && (
                             <button
                                 type="button"
@@ -121,7 +132,7 @@ export default function RoleList({ roles, permissions = {} }) {
                                     setEditingRole(null);
                                     reset();
                                 }}
-                                className="inline-flex items-center bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                                 <FaTimes className="w-4 h-4 mr-2" />
                                 Cancelar
@@ -130,7 +141,7 @@ export default function RoleList({ roles, permissions = {} }) {
                         <button
                             type="submit"
                             disabled={processing}
-                            className="inline-flex items-center justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             <FaSave className="w-4 h-4 mr-2" />
                             {processing ? 'Guardando...' : editingRole ? 'Actualizar' : 'Crear'}

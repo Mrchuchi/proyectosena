@@ -108,7 +108,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Gestión de Roles
     Route::controller(RoleController::class)->group(function () {
-        Route::get('/roles', 'index')->name('roles.index');
         Route::post('/roles', 'store')->name('roles.store');
         Route::put('/roles/{role}', 'update')->name('roles.update');
         Route::delete('/roles/{role}', 'destroy')->name('roles.destroy');

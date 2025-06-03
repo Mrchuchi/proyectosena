@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react';
 import UserList from './Partials/UserList';
 import RoleList from './Partials/RoleList';
 
-export default function Users({ auth, users, roles }) {
+export default function Users({ auth, users, roles, permissions }) {
     const [activeTab, setActiveTab] = useState('users');
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        console.log('Users component props:', { users, roles, permissions });
+        
         // Validar que tenemos todas las props necesarias
         if (!users || !roles) {
             console.error('Missing required props:', { users, roles });
@@ -78,13 +80,13 @@ export default function Users({ auth, users, roles }) {
                         </nav>
                     </div>
 
-                    {/* Content */}
+                {/* Content */}
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6">
                             {activeTab === 'users' ? (
                                 <UserList users={users} roles={roles} />
                             ) : (
-                                <RoleList roles={roles} />
+                                <RoleList roles={roles} permissions={permissions} />
                             )}
                         </div>
                     </div>

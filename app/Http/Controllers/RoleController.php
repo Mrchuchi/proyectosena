@@ -11,9 +11,21 @@ class RoleController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Modules/Users/Roles/Index', [
+        // Agrupar permisos por módulo
+        $groupedPermissions = Permission::all()->groupBy('module')->map(function($permissions) {
+            return $permissions->map(function($permission) {
+                return [
+                    'id' => $permission->id,
+                    'name' => $permission->name,
+                    'description' => $permission->description,
+                    'module' => $permission->module
+                ];
+            });
+        });
+
+        return response()->json([
             'roles' => Role::with('permissions')->get(),
-            'permissions' => Permission::all()
+            'permissions' => $groupedPermissions
         ]);
     }
 
