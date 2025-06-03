@@ -23,49 +23,49 @@ export default function Dashboard({ auth, stats, lowStockMaterials, pendingOrder
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Estadísticas Principales */}
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                        <div className="group bg-gradient-to-br from-green-400 to-green-600 overflow-hidden shadow-lg rounded-lg p-6 transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:-translate-y-1">
+                        <div className="group bg-secondary overflow-hidden shadow-lg rounded-lg p-6 transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:-translate-y-1">
                             <div className="flex items-center">
-                                <div className="p-3 rounded-full bg-green-800 bg-opacity-30 transition-all duration-300 group-hover:bg-opacity-50">
+                                <div className="p-3 rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30">
                                     <FaDollarSign className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
                                 </div>
                                 <div className="ml-4">
-                                    <p className="text-sm text-green-100">Valor Total Inventario</p>
+                                    <p className="text-sm text-white/80">Valor Total Inventario</p>
                                     <p className="text-2xl font-semibold text-white">{formatCurrency(stats.totalValue)}</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="group bg-gradient-to-br from-blue-400 to-blue-600 overflow-hidden shadow-lg rounded-lg p-6 transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:-translate-y-1">
+                        <div className="group bg-primary overflow-hidden shadow-lg rounded-lg p-6 transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:-translate-y-1">
                             <div className="flex items-center">
-                                <div className="p-3 rounded-full bg-blue-800 bg-opacity-30 transition-all duration-300 group-hover:bg-opacity-50">
+                                <div className="p-3 rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30">
                                     <FaBoxes className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
                                 </div>
                                 <div className="ml-4">
-                                    <p className="text-sm text-blue-100">Total Productos</p>
+                                    <p className="text-sm text-white/80">Total Productos</p>
                                     <p className="text-2xl font-semibold text-white">{stats.totalProducts}</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="group bg-gradient-to-br from-purple-400 to-purple-600 overflow-hidden shadow-lg rounded-lg p-6 transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:-translate-y-1">
+                        <div className="group bg-amber-500 overflow-hidden shadow-lg rounded-lg p-6 transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:-translate-y-1">
                             <div className="flex items-center">
-                                <div className="p-3 rounded-full bg-purple-800 bg-opacity-30 transition-all duration-300 group-hover:bg-opacity-50">
+                                <div className="p-3 rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30">
                                     <FaIndustry className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
                                 </div>
                                 <div className="ml-4">
-                                    <p className="text-sm text-purple-100">Total Materiales</p>
+                                    <p className="text-sm text-white/80">Total Materiales</p>
                                     <p className="text-2xl font-semibold text-white">{stats.totalMaterials}</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="group bg-gradient-to-br from-red-400 to-red-600 overflow-hidden shadow-lg rounded-lg p-6 transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:-translate-y-1">
+                        <div className="group bg-red-600 overflow-hidden shadow-lg rounded-lg p-6 transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:-translate-y-1">
                             <div className="flex items-center">
-                                <div className="p-3 rounded-full bg-red-800 bg-opacity-30 transition-all duration-300 group-hover:bg-opacity-50">
+                                <div className="p-3 rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30">
                                     <FaExclamationTriangle className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
                                 </div>
                                 <div className="ml-4">
-                                    <p className="text-sm text-red-100">Materiales Bajos</p>
+                                    <p className="text-sm text-white/80">Materiales Bajos</p>
                                     <p className="text-2xl font-semibold text-white">{stats.lowStockCount}</p>
                                 </div>
                             </div>
