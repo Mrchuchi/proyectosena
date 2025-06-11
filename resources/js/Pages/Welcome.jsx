@@ -22,7 +22,6 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 <ApplicationLogo className="h-16 w-auto" />
                             </div>
                             <div className="sm:flex sm:space-x-8 items-center">
-                                <a href="#productos" className="text-primary-light hover:text-white px-4 py-2 text-sm font-medium transition-colors">Productos</a>
                                 {auth.user ? (
                                     <Link
                                         href={route('dashboard')}
@@ -58,11 +57,6 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                     </p>
                                     <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                                         <div className="rounded-md shadow">
-                                            <a href="#productos" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors md:py-4 md:text-lg md:px-10">
-                                                Ver Productos
-                                            </a>
-                                        </div>
-                                        <div className="mt-3 sm:mt-0 sm:ml-3">
                                             <a href="#contacto" className="w-full flex items-center justify-center px-8 py-3 border border-secondary text-base font-medium rounded-md text-secondary hover:text-white hover:bg-secondary transition-colors md:py-4 md:text-lg md:px-10">
                                                 Contactar
                                             </a>
