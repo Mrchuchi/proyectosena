@@ -1,12 +1,26 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import { FaEdit, FaTrash, FaArrowLeft } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 export default function Show({ auth, client }) {
-    const handleDelete = () => {
-        if (confirm('¿Estás seguro de eliminar este cliente?')) {
-            router.delete(route('clients.destroy', client.id));
-        }
+    const handleDelete = () => {        Swal.fire({
+            title: '¿Eliminar cliente?',
+            text: '¿Estás seguro de que deseas eliminar este cliente? Esta acción no se puede deshacer.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                container: 'font-sans'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.delete(route('clients.destroy', client.id));
+            }
+        });
     };
 
     return (

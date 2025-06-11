@@ -4,6 +4,7 @@ import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import { useState } from 'react';
 import { FaSave, FaArrowLeft, FaPlus, FaTrash } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 export default function RecipeForm({ recipe, nextCode, products, rawMaterials }) {
     const { data, setData, post, put, processing, errors } = useForm({
@@ -35,7 +36,16 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
 
         const materialExists = data.materials.some(m => m.id === parseInt(selectedMaterial));
         if (materialExists) {
-            alert('Este material ya está en la receta');
+            Swal.fire({
+                title: 'Material duplicado',
+                text: 'Este material ya está en la receta',
+                icon: 'warning',
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#3085d6',
+                customClass: {
+                    container: 'font-sans'
+                }
+            });
             return;
         }
 

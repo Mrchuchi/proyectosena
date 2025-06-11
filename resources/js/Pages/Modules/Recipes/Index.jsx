@@ -3,6 +3,7 @@ import { Head, Link, router } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import TextInput from '@/Components/TextInput';
 import { FaSearch, FaEdit, FaEye, FaTrash } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 export default function Index({ auth, recipes, filters }) {
     const [searchTerm, setSearchTerm] = useState(filters?.search || '');
@@ -19,9 +20,23 @@ export default function Index({ auth, recipes, filters }) {
     };
 
     const handleDelete = (recipeId) => {
-        if (confirm('¿Estás seguro de que deseas eliminar esta receta?')) {
-            router.delete(route('recipes.destroy', recipeId));
-        }
+        Swal.fire({
+            title: '¿Eliminar receta?',
+            text: '¿Estás seguro de que deseas eliminar esta receta? Esta acción no se puede deshacer.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                container: 'font-sans'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.delete(route('recipes.destroy', recipeId));
+            }
+        });
     };
 
     return (

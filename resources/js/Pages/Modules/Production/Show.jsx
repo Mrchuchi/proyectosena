@@ -1,6 +1,9 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { FaPlay, FaCheck } from 'react-icons/fa';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
+import { FaCheck, FaEdit, FaPlay } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 import { useEffect } from 'react';
 
 export default function Show({ auth, order }) {
@@ -53,21 +56,56 @@ export default function Show({ auth, order }) {
                 return `${material.name} (Faltante: ${missing} ${material.unit_measure})`;
             }).join('\n');
             
-            alert(
-                `No hay suficientes materias primas para iniciar esta producción:\n\n${materialsText}`
-            );
+            Swal.fire({
+                title: 'No hay suficientes materias primas',
+                html: `<div class="text-left">Para iniciar esta producción faltan:</div><pre class="text-left text-red-600 mt-2">${materialsText}</pre>`,
+                icon: 'warning',
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#3085d6',
+                customClass: {
+                    container: 'font-sans'
+                }
+            });
             return;
         }
 
-        if (window.confirm('¿Estás seguro de que deseas iniciar esta orden de producción?')) {
-            router.post(route('production.start', order.id));
-        }
+        Swal.fire({
+            title: '¿Iniciar producción?',
+            text: '¿Estás seguro de que deseas iniciar esta orden de producción?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, iniciar',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                container: 'font-sans'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.post(route('production.start', order.id));
+            }
+        });
     };
 
     const handleComplete = () => {
-        if (window.confirm('¿Estás seguro de que deseas completar esta orden de producción?')) {
-            router.post(route('production.complete', order.id));
-        }
+        Swal.fire({
+            title: '¿Completar producción?',
+            text: '¿Estás seguro de que deseas completar esta orden de producción?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, completar',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                container: 'font-sans'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.post(route('production.complete', order.id));
+            }
+        });
     };
 
     const statusColors = {

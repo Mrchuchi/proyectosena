@@ -3,6 +3,7 @@ import { Head, Link, router } from '@inertiajs/react';
 import { useState, useCallback } from 'react';
 import debounce from 'lodash/debounce';
 import { FaSearch, FaEdit, FaEye, FaTrash } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 export default function Index({ auth, materials, filters }) {
     const [search, setSearch] = useState(filters.search || '');
@@ -22,12 +23,24 @@ export default function Index({ auth, materials, filters }) {
         const query = e.target.value;
         setSearch(query);
         debouncedSearch(query);
-    };
-
-    const handleDelete = (id) => {
-        if (confirm('¿Estás seguro de eliminar este material?')) {
-            router.delete(route('raw-materials.destroy', id));
-        }
+    };    const handleDelete = (id) => {
+        Swal.fire({
+            title: '¿Eliminar material?',
+            text: '¿Estás seguro de que deseas eliminar esta materia prima? Esta acción no se puede deshacer.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                container: 'font-sans'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.delete(route('raw-materials.destroy', id));
+            }
+        });
     };
 
     return (
