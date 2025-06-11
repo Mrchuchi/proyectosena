@@ -17,13 +17,12 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 {/* Barra de navegación */}
                 <nav className="bg-primary/80 shadow-lg">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex justify-between h-16">
+                        <div className="flex justify-between h-20">
                             <div className="flex-shrink-0 flex items-center">
-                                <ApplicationLogo className="h-14 w-auto" />
+                                <ApplicationLogo className="h-16 w-auto" />
                             </div>
                             <div className="sm:flex sm:space-x-8 items-center">
-                                <a href="#productos" className="text-primary-light hover:text-white px-3 py-2 text-sm font-medium transition-colors">Productos</a>
-                                <a href="#contacto" className="text-primary-light hover:text-white px-3 py-2 text-sm font-medium transition-colors">Contacto</a>
+                                <a href="#productos" className="text-primary-light hover:text-white px-4 py-2 text-sm font-medium transition-colors">Productos</a>
                                 {auth.user ? (
                                     <Link
                                         href={route('dashboard')}
