@@ -33,7 +33,32 @@ export default function Show({ auth, order }) {
         );
     }
 
+    const validateMaterials = () => {
+        const insufficientMaterials = order.recipe.rawMaterials.filter(
+            material => material.current_stock < (material.pivot.quantity * order.quantity)
+        );
+        return {
+            valid: insufficientMaterials.length === 0,
+            insufficientMaterials
+        };
+    };
+
     const handleStart = () => {
+        const { valid, insufficientMaterials } = validateMaterials();
+
+        if (!valid) {
+            const materialsText = insufficientMaterials.map(material => {
+                const required = material.pivot.quantity * order.quantity;
+                const missing = required - material.current_stock;
+                return `${material.name} (Faltante: ${missing} ${material.unit_measure})`;
+            }).join('\n');
+            
+            alert(
+                `No hay suficientes materias primas para iniciar esta producción:\n\n${materialsText}`
+            );
+            return;
+        }
+
         if (window.confirm('¿Estás seguro de que deseas iniciar esta orden de producción?')) {
             router.post(route('production.start', order.id));
         }
