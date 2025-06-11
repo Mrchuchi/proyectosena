@@ -230,7 +230,10 @@ class UserManagementController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error('Error in UserManagementController@show: ' . $e->getMessage());
-            return back()->with('error', 'Error al cargar los detalles del usuario');
+            return Inertia::render('Modules/Users/Show', [
+                'user' => null,
+                'error' => 'Error al cargar los detalles del usuario'
+            ]);
         }
     }
 }

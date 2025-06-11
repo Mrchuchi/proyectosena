@@ -53,7 +53,7 @@ export default function Dashboard({ auth, stats, lowStockMaterials, pendingOrder
                                     <FaIndustry className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
                                 </div>
                                 <div className="ml-4">
-                                    <p className="text-sm text-white/80">Total Materiales</p>
+                                    <p className="text-sm text-white/80">Total Materias Primas</p>
                                     <p className="text-2xl font-semibold text-white">{stats.totalMaterials}</p>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@ export default function Dashboard({ auth, stats, lowStockMaterials, pendingOrder
                                     <FaExclamationTriangle className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
                                 </div>
                                 <div className="ml-4">
-                                    <p className="text-sm text-white/80">Materiales Bajos</p>
+                                    <p className="text-sm text-white/80">Materias Primas Bajas</p>
                                     <p className="text-2xl font-semibold text-white">{stats.lowStockCount}</p>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@ export default function Dashboard({ auth, stats, lowStockMaterials, pendingOrder
                         <div className="bg-white overflow-hidden shadow-lg rounded-lg">
                             <div className="px-6 py-4 border-b border-gray-200">
                                 <h3 className="text-lg font-semibold text-gray-900">
-                                    Materiales con Bajo Stock
+                                    Materias Primas con Bajo Stock
                                 </h3>
                             </div>
                             <div className="p-6">
@@ -86,7 +86,7 @@ export default function Dashboard({ auth, stats, lowStockMaterials, pendingOrder
                                     <table className="min-w-full divide-y divide-gray-200">
                                         <thead>
                                             <tr>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Material</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Materia Prima</th>
                                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Stock Actual</th>
                                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Stock Mínimo</th>
                                             </tr>
@@ -108,7 +108,7 @@ export default function Dashboard({ auth, stats, lowStockMaterials, pendingOrder
                                             {lowStockMaterials.length === 0 && (
                                                 <tr>
                                                     <td colSpan="3" className="px-6 py-4 text-center text-gray-500">
-                                                        No hay materiales con bajo stock
+                                                        No hay materias primas con bajo stock
                                                     </td>
                                                 </tr>
                                             )}

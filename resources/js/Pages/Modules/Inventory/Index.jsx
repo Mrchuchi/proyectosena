@@ -77,7 +77,7 @@ export default function Inventory({ auth, products, rawMaterials, stats, filters
                                     <FaExclamationTriangle className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
                                 </div>
                                 <div className="ml-4">
-                                    <h3 className="text-sm text-white/80">Productos Bajos</h3>
+                                    <h3 className="text-sm text-white/80">Materias Primas Bajas</h3>
                                     <p className="text-2xl font-semibold text-white">{stats.low_stock_items}</p>
                                 </div>
                             </div>
@@ -93,13 +93,13 @@ export default function Inventory({ auth, products, rawMaterials, stats, filters
                                 </div>
                             </div>
                         </div>
-                        <div className="group bg-amber-400 transform hover:scale-105 transition-all duration-300 overflow-hidden shadow-lg rounded-lg p-6">
+                        <div className="group bg-amber-500 transform hover:scale-105 transition-all duration-300 overflow-hidden shadow-lg rounded-lg p-6">
                             <div className="flex items-center">
                                 <div className="p-3 rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30">
                                     <FaIndustry className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
                                 </div>
                                 <div className="ml-4">
-                                    <h3 className="text-sm text-white/80">Total Materias</h3>
+                                    <h3 className="text-sm text-white/80">Total Materias Primas</h3>
                                     <p className="text-2xl font-semibold text-white">{stats.total_materials}</p>
                                 </div>
                             </div>
