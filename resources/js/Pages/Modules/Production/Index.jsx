@@ -22,18 +22,28 @@ export default function Index({ auth, orders = [], filters = {} }) {
             preserveState: true,
             preserveScroll: true,
         });
-    };
+    };    const validateMaterials = (order) => {
+        console.log('Validando materiales para orden:', order);
+        if (!order.recipe || !order.recipe.rawMaterials) {
+            console.error('La orden no tiene receta o materiales:', order);
+            return { valid: false, insufficientMaterials: [] };
+        }
 
-    const validateMaterials = (order) => {
-        const insufficientMaterials = order.recipe.rawMaterials.filter(
-            material => material.current_stock < (material.pivot.quantity * order.quantity)
-        );
+        const insufficientMaterials = order.recipe.rawMaterials.filter(material => {
+            const required = material.pivot.quantity * order.quantity;
+            console.log(`Material ${material.name}: necesita ${required}, tiene ${material.current_stock}`);
+            return material.current_stock < required;
+        });
+
+        console.log('Materiales insuficientes:', insufficientMaterials);
         return {
             valid: insufficientMaterials.length === 0,
-            insufficientMaterials        };
+            insufficientMaterials
+        };
     };
     
     const handleStart = (order) => {
+        console.log('Iniciando orden:', order);
         const { valid, insufficientMaterials } = validateMaterials(order);
 
         if (!valid) {
