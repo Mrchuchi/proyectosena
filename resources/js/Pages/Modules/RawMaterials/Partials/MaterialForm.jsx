@@ -41,10 +41,33 @@ export default function MaterialForm({ material, nextCode }) {
             }
         }).then((result) => {
             if (result.isConfirmed) {
+                const options = {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: '¡Éxito!',
+                            text: material ? 'Materia prima actualizada exitosamente.' : 'Materia prima creada exitosamente.',
+                            icon: 'success',
+                            customClass: {
+                                container: 'font-sans'
+                            }
+                        });
+                    },
+                    onError: () => {
+                        Swal.fire({
+                            title: 'Error',
+                            text: material ? 'No se pudo actualizar la materia prima.' : 'No se pudo crear la materia prima.',
+                            icon: 'error',
+                            customClass: {
+                                container: 'font-sans'
+                            }
+                        });
+                    }
+                };
+
                 if (material) {
-                    put(route('raw-materials.update', material.id));
+                    put(route('raw-materials.update', material.id), options);
                 } else {
-                    post(route('raw-materials.store'));
+                    post(route('raw-materials.store'), options);
                 }
             }
         });

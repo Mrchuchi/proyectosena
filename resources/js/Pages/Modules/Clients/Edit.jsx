@@ -1,10 +1,21 @@
 import { Head, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import ClientForm from './Partials/ClientForm';
+import Swal from 'sweetalert2';
 
-export default function Edit({ auth, client }) {
-    const handleSubmit = (data) => {
-        router.put(route('clients.update', client.id), data);
+export default function Edit({ auth, client }) {    const handleSubmit = (data) => {
+        router.put(route('clients.update', client.id), data, {
+            onSuccess: () => {
+                Swal.fire({
+                    title: '¡Cliente actualizado!',
+                    text: 'El cliente ha sido actualizado exitosamente.',
+                    icon: 'success',
+                    customClass: {
+                        container: 'font-sans'
+                    }
+                });
+            }
+        });
     };
 
     return (

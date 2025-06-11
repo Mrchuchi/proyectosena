@@ -42,9 +42,59 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
         }).then((result) => {
             if (result.isConfirmed) {
                 if (recipe) {
-                    put(route('recipes.update', recipe.id));
+                    put(route('recipes.update', recipe.id), {
+                        onSuccess: () => {
+                            Swal.fire({
+                                title: '¡Receta actualizada!',
+                                text: 'La receta ha sido actualizada exitosamente.',
+                                icon: 'success',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Aceptar',
+                                customClass: {
+                                    container: 'font-sans'
+                                }
+                            });
+                        },
+                        onError: () => {
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'No se pudo actualizar la receta. Por favor, revise los datos e intente nuevamente.',
+                                icon: 'error',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Aceptar',
+                                customClass: {
+                                    container: 'font-sans'
+                                }
+                            });
+                        }
+                    });
                 } else {
-                    post(route('recipes.store'));
+                    post(route('recipes.store'), {
+                        onSuccess: () => {
+                            Swal.fire({
+                                title: '¡Receta creada!',
+                                text: 'La receta ha sido creada exitosamente.',
+                                icon: 'success',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Aceptar',
+                                customClass: {
+                                    container: 'font-sans'
+                                }
+                            });
+                        },
+                        onError: () => {
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'No se pudo crear la receta. Por favor, revise los datos e intente nuevamente.',
+                                icon: 'error',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Aceptar',
+                                customClass: {
+                                    container: 'font-sans'
+                                }
+                            });
+                        }
+                    });
                 }
             }
         });

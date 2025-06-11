@@ -47,27 +47,25 @@ export default function Index({ auth, orders = [], filters = {} }) {
             const materialsList = insufficientMaterials.map(material => {
                 const required = material.pivot.quantity * order.quantity;
                 const missing = required - material.current_stock;
-                return `<li class="mb-1">
-                    <span class="font-medium">${material.name}</span>
-                    <br>
-                    <span class="text-sm">
-                        Necesario: ${required} ${material.unit_measure}
-                        <br>
-                        Stock actual: ${material.current_stock} ${material.unit_measure}
-                        <br>
-                        <span class="text-red-600">Faltante: ${missing} ${material.unit_measure}</span>
-                    </span>
+                return `<li class="mb-2">
+                    <span class="font-medium text-gray-900">${material.name}</span>
+                    <div class="text-sm mt-1">
+                        <div>Necesario: <span class="font-medium">${required} ${material.unit_measure}</span></div>
+                        <div>Stock actual: <span class="font-medium">${material.current_stock} ${material.unit_measure}</span></div>
+                        <div class="text-red-600 font-medium">Faltante: ${missing} ${material.unit_measure}</div>
+                    </div>
                 </li>`;
             }).join('');
             
             Swal.fire({
-                title: 'No hay suficientes materias primas',
+                title: 'Stock Insuficiente',
                 html: `
                     <div class="text-left">
-                        <p class="mb-3">Para iniciar esta producción faltan los siguientes materiales:</p>
-                        <ul class="list-disc pl-5">
+                        <p class="mb-4">No hay suficientes materias primas para iniciar esta producción:</p>
+                        <ul class="list-none">
                             ${materialsList}
                         </ul>
+                        <p class="mt-4 text-sm text-gray-600">Por favor, verifica el stock de materias primas antes de continuar.</p>
                     </div>
                 `,
                 icon: 'warning',
@@ -75,7 +73,7 @@ export default function Index({ auth, orders = [], filters = {} }) {
                 confirmButtonColor: '#3085d6',
                 customClass: {
                     container: 'font-sans',
-                    htmlContainer: 'text-left'
+                    htmlContainer: 'break-words'
                 }
             });
             return;
@@ -83,7 +81,14 @@ export default function Index({ auth, orders = [], filters = {} }) {
 
         Swal.fire({
             title: '¿Iniciar producción?',
-            text: '¿Estás seguro de que deseas iniciar esta orden de producción?',
+            html: `
+                <div class="text-left">
+                    <p>¿Estás seguro de que deseas iniciar esta orden de producción?</p>
+                    <p class="mt-2 text-sm text-gray-600">
+                        Se descontarán los materiales del inventario al iniciar la producción.
+                    </p>
+                </div>
+            `,
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -95,7 +100,26 @@ export default function Index({ auth, orders = [], filters = {} }) {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                router.post(route('production.start', order.id));
+                router.post(route('production.start', order.id), {}, {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: '¡Producción iniciada!',
+                            text: 'La orden de producción se ha iniciado exitosamente.',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            customClass: { container: 'font-sans' }
+                        });
+                    },
+                    onError: () => {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'No se pudo iniciar la orden de producción. Por favor, intenta de nuevo.',
+                            icon: 'error',
+                            confirmButtonColor: '#3085d6',
+                            customClass: { container: 'font-sans' }
+                        });
+                    }
+                });
             }
         });
     };
@@ -103,7 +127,14 @@ export default function Index({ auth, orders = [], filters = {} }) {
     const handleComplete = (orderId) => {
         Swal.fire({
             title: '¿Completar producción?',
-            text: '¿Estás seguro de que deseas completar esta orden de producción?',
+            html: `
+                <div class="text-left">
+                    <p>¿Estás seguro de que deseas completar esta orden de producción?</p>
+                    <p class="mt-2 text-sm text-gray-600">
+                        El producto terminado se agregará al inventario al completar la producción.
+                    </p>
+                </div>
+            `,
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -115,7 +146,26 @@ export default function Index({ auth, orders = [], filters = {} }) {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                router.post(route('production.complete', orderId));
+                router.post(route('production.complete', orderId), {}, {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: '¡Producción completada!',
+                            text: 'La orden de producción se ha completado exitosamente.',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            customClass: { container: 'font-sans' }
+                        });
+                    },
+                    onError: () => {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'No se pudo completar la orden de producción. Por favor, intenta de nuevo.',
+                            icon: 'error',
+                            confirmButtonColor: '#3085d6',
+                            customClass: { container: 'font-sans' }
+                        });
+                    }
+                });
             }
         });
     };

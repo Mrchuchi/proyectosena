@@ -1,11 +1,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import debounce from 'lodash/debounce';
 import { FaSearch, FaEdit, FaEye, FaTrash } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 
-export default function Index({ auth, clients = [], filters = {} }) {
+export default function Index({ auth, clients = [], filters = {}, flash = {} }) {
     const [search, setSearch] = useState(filters.search || '');
 
     const debouncedSearch = useCallback(
@@ -40,10 +40,45 @@ export default function Index({ auth, clients = [], filters = {} }) {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                router.delete(route('clients.destroy', id));
+                router.delete(route('clients.destroy', id), {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: '¡Eliminado!',
+                            text: 'El cliente ha sido eliminado exitosamente.',
+                            icon: 'success',
+                            customClass: {
+                                container: 'font-sans'
+                            }
+                        });
+                    },
+                    onError: () => {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'No se pudo eliminar el cliente. Por favor, intente nuevamente.',
+                            icon: 'error',
+                            customClass: {
+                                container: 'font-sans'
+                            }
+                        });
+                    }
+                });
             }
         });
     };
+
+    useEffect(() => {
+        // Mostrar mensaje de éxito si existe
+        if (flash?.success) {
+            Swal.fire({
+                title: '¡Éxito!',
+                text: flash.success,
+                icon: 'success',
+                customClass: {
+                    container: 'font-sans'
+                }
+            });
+        }
+    }, [flash?.success]); // Se ejecuta cuando flash.success cambia
 
     return (
         <AuthenticatedLayout

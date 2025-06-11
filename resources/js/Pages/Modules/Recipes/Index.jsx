@@ -5,13 +5,23 @@ import TextInput from '@/Components/TextInput';
 import { FaSearch, FaEdit, FaEye, FaTrash } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 
-export default function Index({ auth, recipes, filters }) {
+export default function Index({ auth, recipes, filters = {}, flash = {} }) {
     const [searchTerm, setSearchTerm] = useState(filters?.search || '');
 
-    // Debug output
     useEffect(() => {
-        console.log('Recipes:', recipes);
-    }, [recipes]);
+        if (flash.success) {
+            Swal.fire({
+                title: '¡Éxito!',
+                text: flash.success,
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar',
+                customClass: {
+                    container: 'font-sans'
+                }
+            });
+        }
+    }, [flash.success]);
 
     const handleSearch = (e) => {
         const term = e.target.value;
@@ -34,7 +44,32 @@ export default function Index({ auth, recipes, filters }) {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                router.delete(route('recipes.destroy', recipeId));
+                router.delete(route('recipes.destroy', recipeId), {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: '¡Receta eliminada!',
+                            text: 'La receta ha sido eliminada exitosamente.',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Aceptar',
+                            customClass: {
+                                container: 'font-sans'
+                            }
+                        });
+                    },
+                    onError: () => {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'No se pudo eliminar la receta. Por favor intente nuevamente.',
+                            icon: 'error',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Aceptar',
+                            customClass: {
+                                container: 'font-sans'
+                            }
+                        });
+                    }
+                });
             }
         });
     };

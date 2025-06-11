@@ -50,20 +50,36 @@ export default function Show({ auth, order }) {
         const { valid, insufficientMaterials } = validateMaterials();
 
         if (!valid) {
-            const materialsText = insufficientMaterials.map(material => {
+            const materialsList = insufficientMaterials.map(material => {
                 const required = material.pivot.quantity * order.quantity;
                 const missing = required - material.current_stock;
-                return `${material.name} (Faltante: ${missing} ${material.unit_measure})`;
-            }).join('\n');
+                return `<li class="mb-2">
+                    <span class="font-medium text-gray-900">${material.name}</span>
+                    <div class="text-sm mt-1">
+                        <div>Necesario: <span class="font-medium">${required} ${material.unit_measure}</span></div>
+                        <div>Stock actual: <span class="font-medium">${material.current_stock} ${material.unit_measure}</span></div>
+                        <div class="text-red-600 font-medium">Faltante: ${missing} ${material.unit_measure}</div>
+                    </div>
+                </li>`;
+            }).join('');
             
             Swal.fire({
-                title: 'No hay suficientes materias primas',
-                html: `<div class="text-left">Para iniciar esta producción faltan:</div><pre class="text-left text-red-600 mt-2">${materialsText}</pre>`,
+                title: 'Stock Insuficiente',
+                html: `
+                    <div class="text-left">
+                        <p class="mb-4">No hay suficientes materias primas para iniciar esta producción:</p>
+                        <ul class="list-none">
+                            ${materialsList}
+                        </ul>
+                        <p class="mt-4 text-sm text-gray-600">Por favor, verifica el stock de materias primas antes de continuar.</p>
+                    </div>
+                `,
                 icon: 'warning',
                 confirmButtonText: 'Entendido',
                 confirmButtonColor: '#3085d6',
                 customClass: {
-                    container: 'font-sans'
+                    container: 'font-sans',
+                    htmlContainer: 'break-words'
                 }
             });
             return;
@@ -71,7 +87,14 @@ export default function Show({ auth, order }) {
 
         Swal.fire({
             title: '¿Iniciar producción?',
-            text: '¿Estás seguro de que deseas iniciar esta orden de producción?',
+            html: `
+                <div class="text-left">
+                    <p>¿Estás seguro de que deseas iniciar esta orden de producción?</p>
+                    <p class="mt-2 text-sm text-gray-600">
+                        Se descontarán los materiales del inventario al iniciar la producción.
+                    </p>
+                </div>
+            `,
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -83,7 +106,26 @@ export default function Show({ auth, order }) {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                router.post(route('production.start', order.id));
+                router.post(route('production.start', order.id), {}, {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: '¡Producción iniciada!',
+                            text: 'La orden de producción se ha iniciado exitosamente.',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            customClass: { container: 'font-sans' }
+                        });
+                    },
+                    onError: () => {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'No se pudo iniciar la orden de producción. Por favor, intenta de nuevo.',
+                            icon: 'error',
+                            confirmButtonColor: '#3085d6',
+                            customClass: { container: 'font-sans' }
+                        });
+                    }
+                });
             }
         });
     };
@@ -91,7 +133,14 @@ export default function Show({ auth, order }) {
     const handleComplete = () => {
         Swal.fire({
             title: '¿Completar producción?',
-            text: '¿Estás seguro de que deseas completar esta orden de producción?',
+            html: `
+                <div class="text-left">
+                    <p>¿Estás seguro de que deseas completar esta orden de producción?</p>
+                    <p class="mt-2 text-sm text-gray-600">
+                        El producto terminado se agregará al inventario al completar la producción.
+                    </p>
+                </div>
+            `,
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -103,7 +152,28 @@ export default function Show({ auth, order }) {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                router.post(route('production.complete', order.id));
+                router.post(route('production.complete', order.id), {}, {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: '¡Producción completada!',
+                            text: 'La orden de producción se ha completado exitosamente.',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            customClass: { container: 'font-sans' }
+                        }).then(() => {
+                            router.visit(route('production.index'));
+                        });
+                    },
+                    onError: () => {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'No se pudo completar la orden de producción. Por favor, intenta de nuevo.',
+                            icon: 'error',
+                            confirmButtonColor: '#3085d6',
+                            customClass: { container: 'font-sans' }
+                        });
+                    }
+                });
             }
         });
     };

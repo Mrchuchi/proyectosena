@@ -1,12 +1,25 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import debounce from 'lodash/debounce';
 import { FaSearch, FaEdit, FaEye, FaTrash } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 
-export default function Index({ auth, materials, filters }) {
+export default function Index({ auth, materials, filters = {}, flash = {} }) {
     const [search, setSearch] = useState(filters.search || '');
+
+    useEffect(() => {
+        if (flash?.success) {
+            Swal.fire({
+                title: '¡Éxito!',
+                text: flash.success,
+                icon: 'success',
+                customClass: {
+                    container: 'font-sans'
+                }
+            });
+        }
+    }, [flash?.success]);
 
     const debouncedSearch = useCallback(
         debounce((query) => {
@@ -38,7 +51,28 @@ export default function Index({ auth, materials, filters }) {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                router.delete(route('raw-materials.destroy', id));
+                router.delete(route('raw-materials.destroy', id), {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: '¡Eliminado!',
+                            text: 'La materia prima ha sido eliminada exitosamente.',
+                            icon: 'success',
+                            customClass: {
+                                container: 'font-sans'
+                            }
+                        });
+                    },
+                    onError: () => {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'No se pudo eliminar la materia prima. Por favor, intente nuevamente.',
+                            icon: 'error',
+                            customClass: {
+                                container: 'font-sans'
+                            }
+                        });
+                    }
+                });
             }
         });
     };

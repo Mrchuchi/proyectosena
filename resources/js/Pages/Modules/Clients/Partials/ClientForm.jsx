@@ -28,7 +28,7 @@ export default function ClientForm({ client = {}, onSubmit }) {
             text: client.id ? 
                 '¿Estás seguro de que deseas actualizar este cliente?' : 
                 '¿Estás seguro de que deseas crear este nuevo cliente?',
-            icon: 'question',
+            icon: 'question', 
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',

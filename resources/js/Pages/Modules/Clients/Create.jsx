@@ -1,10 +1,21 @@
 import { Head, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import ClientForm from './Partials/ClientForm';
+import Swal from 'sweetalert2';
 
-export default function Create({ auth, nextCode }) {
-    const handleSubmit = (data) => {
-        router.post(route('clients.store'), data);
+export default function Create({ auth, nextCode }) {    const handleSubmit = (data) => {
+        router.post(route('clients.store'), data, {
+            onSuccess: () => {
+                Swal.fire({
+                    title: '¡Cliente creado!',
+                    text: 'El cliente ha sido creado exitosamente.',
+                    icon: 'success',
+                    customClass: {
+                        container: 'font-sans'
+                    }
+                });
+            }
+        });
     };
 
     return (

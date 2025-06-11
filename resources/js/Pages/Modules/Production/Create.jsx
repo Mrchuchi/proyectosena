@@ -22,7 +22,17 @@ export default function Create({ auth, nextCode, products, recipes }) {
         
         Swal.fire({
             title: '¿Crear orden de producción?',
-            text: '¿Estás seguro de que deseas crear esta nueva orden de producción?',
+            html: `
+                <div class="text-left">
+                    <p class="mb-4">¿Estás seguro de que deseas crear esta orden de producción?</p>
+                    <div class="text-sm bg-gray-50 p-3 rounded-lg">
+                        <div class="mb-2"><span class="font-medium">Código:</span> ${data.code}</div>
+                        <div class="mb-2"><span class="font-medium">Producto:</span> ${products.find(p => p.id === parseInt(data.product_id))?.name}</div>
+                        <div class="mb-2"><span class="font-medium">Cantidad:</span> ${data.quantity}</div>
+                        <div><span class="font-medium">Fecha planificada:</span> ${data.planned_date}</div>
+                    </div>
+                </div>
+            `,
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -34,7 +44,28 @@ export default function Create({ auth, nextCode, products, recipes }) {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                post(route('production.store'));
+                post(route('production.store'), {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: '¡Orden creada!',
+                            text: 'La orden de producción se ha creado exitosamente.',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            customClass: { container: 'font-sans' }
+                        }).then(() => {
+                            router.visit(route('production.index'));
+                        });
+                    },
+                    onError: () => {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'No se pudo crear la orden de producción. Por favor, revisa los datos e intenta de nuevo.',
+                            icon: 'error',
+                            confirmButtonColor: '#3085d6',
+                            customClass: { container: 'font-sans' }
+                        });
+                    }
+                });
             }
         });
     };

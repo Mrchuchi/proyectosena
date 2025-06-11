@@ -40,7 +40,32 @@ export default function Index({ auth, products = [], filters = {} }) {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                router.delete(route('products.destroy', id));
+                router.delete(route('products.destroy', id), {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: '¡Producto eliminado!',
+                            text: 'El producto ha sido eliminado exitosamente.',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Aceptar',
+                            customClass: {
+                                container: 'font-sans'
+                            }
+                        });
+                    },
+                    onError: () => {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'No se pudo eliminar el producto. Por favor intente nuevamente.',
+                            icon: 'error',
+                            confirmButtonColor: '#3085d6', 
+                            confirmButtonText: 'Aceptar',
+                            customClass: {
+                                container: 'font-sans'
+                            }
+                        });
+                    }
+                });
             }
         });
     };

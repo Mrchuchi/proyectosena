@@ -34,13 +34,62 @@ export default function ProductForm({ product, nextCode }) {
             customClass: {
                 container: 'font-sans'
             }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                if (product) {
-                    put(route('products.update', product.id));
-                } else {
-                    post(route('products.store'));
-                }
+        }).then((result) => {                if (result.isConfirmed) {
+                    if (product) {
+                        put(route('products.update', product.id), {
+                            onSuccess: () => {
+                                Swal.fire({
+                                    title: '¡Producto actualizado!',
+                                    text: 'El producto ha sido actualizado exitosamente.',
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Aceptar',
+                                    customClass: {
+                                        container: 'font-sans'
+                                    }
+                                });
+                            },
+                            onError: () => {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Ha ocurrido un error. Por favor revise los datos e intente nuevamente.',
+                                    icon: 'error',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Aceptar',
+                                    customClass: {
+                                        container: 'font-sans'
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        post(route('products.store'), {
+                            onSuccess: () => {
+                                Swal.fire({
+                                    title: '¡Producto creado!',
+                                    text: 'El producto ha sido creado exitosamente.',
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Aceptar',
+                                    customClass: {
+                                        container: 'font-sans'
+                                    }
+                                });
+                            },
+                            onError: () => {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Ha ocurrido un error. Por favor revise los datos e intente nuevamente.',
+                                    icon: 'error',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Aceptar',
+                                    customClass: {
+                                        container: 'font-sans'
+                                    }
+                                });
+                            }
+                        });
+                    }
             }
         });
     };
