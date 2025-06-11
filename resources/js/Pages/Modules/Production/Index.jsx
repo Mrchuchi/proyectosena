@@ -30,23 +30,19 @@ export default function Index({ auth, orders = [], filters = {} }) {
         );
         return {
             valid: insufficientMaterials.length === 0,
-            insufficientMaterials
-        };
+            insufficientMaterials        };
     };
-
+    
     const handleStart = (order) => {
         const { valid, insufficientMaterials } = validateMaterials(order);
 
         if (!valid) {
-            const materialsText = insufficientMaterials.map(material => {
+            const formattedMessage = insufficientMaterials.map(material => {
                 const required = material.pivot.quantity * order.quantity;
                 const missing = required - material.current_stock;
                 return `${material.name} (Faltante: ${missing} ${material.unit_measure})`;
             }).join('\n');
-            
-            alert(
-                `No hay suficientes materias primas para iniciar esta producción:\n\n${materialsText}`
-            );
+            alert(`No hay suficientes materias primas para iniciar esta producción:\n\n${formattedMessage}`);
             return;
         }
 

@@ -16,7 +16,12 @@ class ProductionOrderController extends Controller
         $search = $request->input('search');
         $status = $request->input('status');
 
-        $orders = ProductionOrder::with(['product', 'recipe'])
+        $orders = ProductionOrder::with([
+                'product',
+                'recipe.rawMaterials' => function($query) {
+                    $query->select('raw_materials.id', 'raw_materials.name', 'raw_materials.current_stock', 'raw_materials.unit_measure');
+                }
+            ])
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('code', 'like', "%{$search}%")
