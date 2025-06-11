@@ -52,10 +52,10 @@ export default function Index({ auth, products = [], filters = {} }) {
         >
             <Head title="Productos" />
 
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6">
+            <div className="py-6 sm:py-8 lg:py-12">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="bg-white overflow-hidden shadow-sm rounded-lg sm:rounded-lg">
+                        <div className="p-4 sm:p-6">
                             <div className="flex justify-between items-center mb-6">
                                 <div className="flex items-center flex-1 gap-4">
                                     <h3 className="text-lg font-medium">Lista de Productos</h3>
@@ -83,11 +83,11 @@ export default function Index({ auth, products = [], filters = {} }) {
                                 </Link>
                             </div>
 
-                            <div className="overflow-x-auto">
+                            <div className="overflow-x-auto -mx-4 sm:mx-0">
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">
-                                        <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código</th>
+                                        <tr className="text-xs sm:text-sm">
+                                            <th className="px-3 sm:px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Código</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tamaño</th>
@@ -100,10 +100,10 @@ export default function Index({ auth, products = [], filters = {} }) {
                                     <tbody className="bg-white divide-y divide-gray-200">
                                         {products?.map((product) => (
                                             <tr key={product.id}>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.code}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.name}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.category}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.size}</td>
+                                                <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">{product.code}</td>
+                                                <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">{product.name}</td>
+                                                <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">{product.category}</td>
+                                                <td className="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">{product.size}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <span className={`text-sm ${product.current_stock <= product.min_stock ? 'text-red-600 font-semibold' : 'text-gray-900'}`}>
                                                         {product.current_stock}

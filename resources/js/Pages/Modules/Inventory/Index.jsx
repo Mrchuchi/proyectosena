@@ -2,7 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import debounce from 'lodash/debounce';
-import { FaMoneyBillWave, FaExclamationTriangle, FaBox, FaIndustry } from 'react-icons/fa';
+import { FaDollarSign, FaExclamationTriangle, FaBoxes, FaIndustry } from 'react-icons/fa';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -63,7 +63,7 @@ export default function Inventory({ auth, products, rawMaterials, stats, filters
                         <div className="group bg-secondary transform hover:scale-105 transition-all duration-300 overflow-hidden shadow-lg rounded-lg p-6">
                             <div className="flex items-center">
                                 <div className="p-3 rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30">
-                                    <FaMoneyBillWave className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
+                                    <FaDollarSign className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
                                 </div>
                                 <div className="ml-4">
                                     <h3 className="text-sm text-white/80">Valor Total</h3>
@@ -85,7 +85,7 @@ export default function Inventory({ auth, products, rawMaterials, stats, filters
                         <div className="group bg-primary transform hover:scale-105 transition-all duration-300 overflow-hidden shadow-lg rounded-lg p-6">
                             <div className="flex items-center">
                                 <div className="p-3 rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30">
-                                    <FaBox className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
+                                    <FaBoxes className="h-8 w-8 text-white transform transition-transform group-hover:rotate-12" />
                                 </div>
                                 <div className="ml-4">
                                     <h3 className="text-sm text-white/80">Total Productos</h3>

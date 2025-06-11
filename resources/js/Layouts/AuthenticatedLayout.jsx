@@ -20,9 +20,9 @@ export default function Authenticated({ user, header, children }) {
                         </div>
 
                         <div className="flex-1 flex justify-center items-center px-4">
-                            <div className="hidden space-x-6 sm:-my-px sm:flex mx-auto">
+                            <div className="hidden space-x-4 lg:space-x-6 lg:-my-px lg:flex mx-auto text-sm lg:text-base">
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')} 
-                                    className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
+                                    className="text-primary-light hover:text-white whitespace-nowrap" activeClassName="text-white border-secondary-accent">
                                     Inicio
                                 </NavLink>
                                 <NavLink href={route('clients.index')} active={route().current('clients.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
@@ -52,14 +52,14 @@ export default function Authenticated({ user, header, children }) {
                             </div>
                         </div>
 
-                        <div className="hidden sm:flex sm:items-center sm:ml-6">
-                            <div className="ml-3 relative">
+                        <div className="hidden lg:flex lg:items-center">
+                            <div className="relative">
                                 <Dropdown>
                                     <Dropdown.Trigger>
                                         <span className="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white hover:text-primary-light focus:outline-none transition ease-in-out duration-150"
+                                                className="inline-flex items-center px-2 sm:px-3 py-1.5 sm:py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white hover:text-primary-light focus:outline-none transition-colors duration-150"
                                             >
                                                 {user.name}
 
@@ -92,7 +92,7 @@ export default function Authenticated({ user, header, children }) {
                         </div>
 
                         {/* Mobile menu button */}
-                        <div className="-mr-2 flex items-center sm:hidden">
+                        <div className="-mr-2 flex items-center lg:hidden">
                             <button
                                 onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
                                 className="inline-flex items-center justify-center p-2 rounded-md text-primary-light hover:text-white hover:bg-primary-light/10 focus:outline-none focus:bg-primary-light/10 focus:text-white transition duration-150 ease-in-out"
@@ -119,10 +119,10 @@ export default function Authenticated({ user, header, children }) {
                 </div>
 
                 {/* Responsive Navigation Menu */}
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden bg-primary-light/5'}>
+                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' lg:hidden bg-primary-light/5 max-h-[calc(100vh-5rem)] overflow-y-auto'}>
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}
-                            className="text-primary-light hover:text-white hover:bg-primary-light/10"
+                            className="text-primary-light hover:text-white hover:bg-primary-light/10 transition-colors duration-200"
                             activeClassName="bg-primary text-white">
                             Inicio
                         </ResponsiveNavLink>

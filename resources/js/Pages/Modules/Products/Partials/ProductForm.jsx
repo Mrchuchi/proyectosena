@@ -46,9 +46,9 @@ export default function ProductForm({ product, nextCode }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl mx-auto bg-white p-6 rounded-lg shadow">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
+        <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl mx-auto bg-white p-4 sm:p-6 rounded-lg shadow">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                <div className="space-y-1 sm:space-y-2">
                     <label htmlFor="code" className="block text-sm font-medium text-gray-700">Código *</label>
                     <TextInput
                         id="code"
