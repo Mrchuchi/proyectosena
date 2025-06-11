@@ -24,7 +24,6 @@ export default function Index({ auth, orders = [], filters = {} }) {
             preserveScroll: true,
         });
     };    const validateMaterials = (order) => {
-        console.log('Validando materiales para orden:', order);
         if (!order.recipe || !order.recipe.rawMaterials) {
             console.error('La orden no tiene receta o materiales:', order);
             return { valid: false, insufficientMaterials: [] };
@@ -32,11 +31,9 @@ export default function Index({ auth, orders = [], filters = {} }) {
 
         const insufficientMaterials = order.recipe.rawMaterials.filter(material => {
             const required = material.pivot.quantity * order.quantity;
-            console.log(`Material ${material.name}: necesita ${required}, tiene ${material.current_stock}`);
             return material.current_stock < required;
         });
 
-        console.log('Materiales insuficientes:', insufficientMaterials);
         return {
             valid: insufficientMaterials.length === 0,
             insufficientMaterials
@@ -44,24 +41,41 @@ export default function Index({ auth, orders = [], filters = {} }) {
     };
     
     const handleStart = (order) => {
-        console.log('Iniciando orden:', order);
         const { valid, insufficientMaterials } = validateMaterials(order);
 
         if (!valid) {
-            const formattedMessage = insufficientMaterials.map(material => {
+            const materialsList = insufficientMaterials.map(material => {
                 const required = material.pivot.quantity * order.quantity;
                 const missing = required - material.current_stock;
-                return `• ${material.name} (Faltante: ${missing} ${material.unit_measure})`;
-            }).join('\\n');
+                return `<li class="mb-1">
+                    <span class="font-medium">${material.name}</span>
+                    <br>
+                    <span class="text-sm">
+                        Necesario: ${required} ${material.unit_measure}
+                        <br>
+                        Stock actual: ${material.current_stock} ${material.unit_measure}
+                        <br>
+                        <span class="text-red-600">Faltante: ${missing} ${material.unit_measure}</span>
+                    </span>
+                </li>`;
+            }).join('');
             
             Swal.fire({
                 title: 'No hay suficientes materias primas',
-                html: `<div class="text-left">Para iniciar esta producción faltan:</div><pre class="text-left text-red-600 mt-2">${formattedMessage}</pre>`,
+                html: `
+                    <div class="text-left">
+                        <p class="mb-3">Para iniciar esta producción faltan los siguientes materiales:</p>
+                        <ul class="list-disc pl-5">
+                            ${materialsList}
+                        </ul>
+                    </div>
+                `,
                 icon: 'warning',
                 confirmButtonText: 'Entendido',
                 confirmButtonColor: '#3085d6',
                 customClass: {
-                    container: 'font-sans'
+                    container: 'font-sans',
+                    htmlContainer: 'text-left'
                 }
             });
             return;

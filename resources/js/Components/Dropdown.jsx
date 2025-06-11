@@ -1,8 +1,30 @@
 import { useState, createContext, useContext, Fragment } from 'react';
-import { Link } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
+import Swal from 'sweetalert2';
 
 const DropDownContext = createContext();
+
+const confirmLogout = (event) => {
+    event.preventDefault();
+    Swal.fire({
+        title: '¿Cerrar sesión?',
+        text: '¿Estás seguro de que deseas cerrar sesión?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, cerrar sesión',
+        cancelButtonText: 'Cancelar',
+        customClass: {
+            container: 'font-sans'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.post(route('logout'));
+        }
+    });
+};
 
 const Dropdown = ({ children }) => {
     const [open, setOpen] = useState(false);
@@ -70,12 +92,29 @@ const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 bg-whit
     );
 };
 
-const DropdownLink = ({ className = '', children, ...props }) => {
+const DropdownLink = ({ className = '', children, onClick, href, method = 'get', as = 'a' }) => {
+    if (href === route('logout')) {
+        return (
+            <button
+                onClick={confirmLogout}
+                className={
+                    'block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out ' +
+                    className
+                }
+            >
+                {children}
+            </button>
+        );
+    }
+
     return (
         <Link
-            {...props}
+            href={href}
+            method={method}
+            as={as}
+            onClick={onClick}
             className={
-                'block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out ' +
+                'block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out ' +
                 className
             }
         >

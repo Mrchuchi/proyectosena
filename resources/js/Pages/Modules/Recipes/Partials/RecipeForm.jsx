@@ -24,11 +24,30 @@ export default function RecipeForm({ recipe, nextCode, products, rawMaterials })
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (recipe) {
-            put(route('recipes.update', recipe.id));
-        } else {
-            post(route('recipes.store'));
-        }
+
+        Swal.fire({
+            title: recipe ? '¿Actualizar receta?' : '¿Crear receta?',
+            text: recipe ? 
+                '¿Estás seguro de que deseas actualizar esta receta?' : 
+                '¿Estás seguro de que deseas crear esta nueva receta?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: recipe ? 'Sí, actualizar' : 'Sí, crear',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                container: 'font-sans'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (recipe) {
+                    put(route('recipes.update', recipe.id));
+                } else {
+                    post(route('recipes.store'));
+                }
+            }
+        });
     };
 
     const addMaterial = () => {

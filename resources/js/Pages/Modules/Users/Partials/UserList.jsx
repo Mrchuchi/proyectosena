@@ -1,9 +1,30 @@
 import { useForm, Link, router } from '@inertiajs/react';
 import { FaUserPlus, FaEdit, FaTrash, FaEye } from 'react-icons/fa';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 
 export default function UserList({ users, roles }) {
     const [error, setError] = useState(null);
+
+    const handleDelete = (userId) => {
+        Swal.fire({
+            title: '¿Eliminar usuario?',
+            text: '¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                container: 'font-sans'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.delete(route('users.destroy', userId));
+            }
+        });
+    };
 
     // Validate props
     if (!Array.isArray(users)) {
@@ -88,11 +109,7 @@ export default function UserList({ users, roles }) {
                                             <FaEdit className="h-4 w-4" />
                                         </Link>
                                         <button
-                                            onClick={() => {
-                                                if (confirm('¿Está seguro de que desea eliminar este usuario?')) {
-                                                    router.delete(route('users.destroy', user.id));
-                                                }
-                                            }}
+                                            onClick={() => handleDelete(user.id)}
                                             className="text-red-500 hover:text-red-600 transition-colors"
                                             title="Eliminar usuario"
                                         >

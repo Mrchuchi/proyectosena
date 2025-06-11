@@ -4,6 +4,7 @@ import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import { useEffect } from 'react';
 import { FaSave, FaArrowLeft } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 export default function MaterialForm({ material, nextCode }) {
     const today = new Date().toISOString().split('T')[0];
@@ -23,11 +24,30 @@ export default function MaterialForm({ material, nextCode }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (material) {
-            put(route('raw-materials.update', material.id));
-        } else {
-            post(route('raw-materials.store'));
-        }
+
+        Swal.fire({
+            title: material ? '¿Actualizar material?' : '¿Crear material?',
+            text: material ? 
+                '¿Estás seguro de que deseas actualizar esta materia prima?' : 
+                '¿Estás seguro de que deseas crear esta nueva materia prima?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: material ? 'Sí, actualizar' : 'Sí, crear',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                container: 'font-sans'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (material) {
+                    put(route('raw-materials.update', material.id));
+                } else {
+                    post(route('raw-materials.store'));
+                }
+            }
+        });
     };
 
     return (

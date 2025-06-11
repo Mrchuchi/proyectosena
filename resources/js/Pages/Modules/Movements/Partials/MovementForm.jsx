@@ -1,6 +1,7 @@
 import { useForm } from '@inertiajs/react';
 import { useState } from 'react';
 import { FaSave } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 export default function MovementForm({ onSuccess, products, clients, rawMaterials }) {
     const [selectedItemType, setSelectedItemType] = useState('product');
@@ -17,26 +18,60 @@ export default function MovementForm({ onSuccess, products, clients, rawMaterial
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsSubmitting(true);
         clearErrors();
 
-        post(route('movements.store', {
-            item_type: data.item_type,
-            item_id: data.item_id
-        }), {
-            preserveScroll: true,
-            preserveState: true,
-            onSuccess: (page) => {
-                if (page?.props?.flash?.success && page?.props?.flash?.newMovement) {
-                    onSuccess?.(page.props.flash.newMovement);
-                }
-                reset();
-            },
-            onError: () => {
-                // Los errores se manejan automáticamente por el formulario
-            },
-            onFinish: () => {
-                setIsSubmitting(false);
+        // Get item name
+        const item = data.item_type === 'product' 
+            ? products.find(p => p.id == data.item_id)
+            : rawMaterials.find(m => m.id == data.item_id);
+
+        const itemName = item ? `${item.code} - ${item.name}` : 'este ítem';
+        const action = data.type === 'entrada' ? 'entrada' : 'salida';
+
+        Swal.fire({
+            title: `¿Registrar ${action}?`,
+            text: `¿Estás seguro de registrar la ${action} de ${data.quantity} unidades de ${itemName}?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, registrar',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                container: 'font-sans'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setIsSubmitting(true);
+                post(route('movements.store', {
+                    item_type: data.item_type,
+                    item_id: data.item_id
+                }), {
+                    preserveScroll: true,
+                    preserveState: true,
+                    onSuccess: (page) => {
+                        if (page?.props?.flash?.success && page?.props?.flash?.newMovement) {
+                            onSuccess?.(page.props.flash.newMovement);
+                        }
+                        reset();
+                        Swal.fire({
+                            title: 'Movimiento registrado',
+                            text: 'El movimiento ha sido registrado exitosamente',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Entendido',
+                            customClass: {
+                                container: 'font-sans'
+                            }
+                        });
+                    },
+                    onError: () => {
+                        // Los errores se manejan automáticamente por el formulario
+                    },
+                    onFinish: () => {
+                        setIsSubmitting(false);
+                    }
+                });
             }
         });
     };

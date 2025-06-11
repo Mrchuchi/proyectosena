@@ -2,6 +2,7 @@ import { Head, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InputError from '@/Components/InputError';
 import { FaSave } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 export default function Create({ auth, roles }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -14,7 +15,24 @@ export default function Create({ auth, roles }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('users.store'));
+        
+        Swal.fire({
+            title: '¿Crear usuario?',
+            text: '¿Estás seguro de que deseas crear este nuevo usuario?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, crear',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                container: 'font-sans'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                post(route('users.store'));
+            }
+        });
     };
 
     return (

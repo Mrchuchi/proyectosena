@@ -2,6 +2,7 @@ import { useForm, Link } from '@inertiajs/react';
 import InputError from '@/Components/InputError';
 import TextInput from '@/Components/TextInput';
 import { FaSave, FaArrowLeft } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 export default function ProductForm({ product, nextCode }) {
     const { data, setData, post, put, processing, errors } = useForm({
@@ -18,11 +19,30 @@ export default function ProductForm({ product, nextCode }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (product) {
-            put(route('products.update', product.id));
-        } else {
-            post(route('products.store'));
-        }
+        
+        Swal.fire({
+            title: product ? '¿Actualizar producto?' : '¿Crear producto?',
+            text: product ? 
+                '¿Estás seguro de que deseas actualizar este producto?' : 
+                '¿Estás seguro de que deseas crear este nuevo producto?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: product ? 'Sí, actualizar' : 'Sí, crear',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                container: 'font-sans'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (product) {
+                    put(route('products.update', product.id));
+                } else {
+                    post(route('products.store'));
+                }
+            }
+        });
     };
 
     return (

@@ -5,6 +5,7 @@ import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import { FaSave, FaTimes } from 'react-icons/fa';
 import { useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 export default function Create({ auth, nextCode, products, recipes }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -18,7 +19,24 @@ export default function Create({ auth, nextCode, products, recipes }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route('production.store'));
+        
+        Swal.fire({
+            title: '¿Crear orden de producción?',
+            text: '¿Estás seguro de que deseas crear esta nueva orden de producción?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, crear',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                container: 'font-sans'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                post(route('production.store'));
+            }
+        });
     };
 
     // Filtrar recetas cuando se selecciona un producto

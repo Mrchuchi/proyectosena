@@ -5,6 +5,7 @@ import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
 import { Link } from '@inertiajs/react';
 import { FaSave, FaArrowLeft } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 export default function ClientForm({ client = {}, onSubmit }) {
     const { data, setData, processing, errors } = useForm({
@@ -21,7 +22,26 @@ export default function ClientForm({ client = {}, onSubmit }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(data);
+        
+        Swal.fire({
+            title: client.id ? '¿Actualizar cliente?' : '¿Crear cliente?',
+            text: client.id ? 
+                '¿Estás seguro de que deseas actualizar este cliente?' : 
+                '¿Estás seguro de que deseas crear este nuevo cliente?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: client.id ? 'Sí, actualizar' : 'Sí, crear',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                container: 'font-sans'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                onSubmit(data);
+            }
+        });
     };
 
     return (

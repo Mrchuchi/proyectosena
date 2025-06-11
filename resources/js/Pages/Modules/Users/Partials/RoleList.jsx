@@ -2,6 +2,7 @@ import { useForm, router } from '@inertiajs/react';
 import { useState } from 'react';
 import { FaEdit, FaTrash, FaSave, FaTimes } from 'react-icons/fa';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default function RoleList({ roles, permissions = {} }) {
     const [editingRole, setEditingRole] = useState(null);
@@ -18,31 +19,95 @@ export default function RoleList({ roles, permissions = {} }) {
         e.preventDefault();
         setError(null);
 
-        try {
-            if (editingRole) {
-                await axios.put(`/roles/${editingRole.id}/permissions`, data);
-            } else {
-                await axios.post('/roles', data);
+        const action = editingRole ? 'actualizar' : 'crear';
+        
+        const result = await Swal.fire({
+            title: `¿${action === 'crear' ? 'Crear' : 'Actualizar'} rol?`,
+            text: `¿Estás seguro de que deseas ${action} este rol${editingRole ? ' y sus permisos' : ''}?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: `Sí, ${action}`,
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                container: 'font-sans'
             }
+        });
 
-            setEditingRole(null);
-            reset();
-            router.reload();
-        } catch (err) {
-            setError(err.response?.data?.error || 'Ha ocurrido un error');
+        if (result.isConfirmed) {
+            try {
+                if (editingRole) {
+                    await axios.put(`/roles/${editingRole.id}/permissions`, data);
+                } else {
+                    await axios.post('/roles', data);
+                }
+
+                setEditingRole(null);
+                reset();
+                router.reload();
+
+                Swal.fire({
+                    title: '¡Completado!',
+                    text: `El rol se ha ${action}do exitosamente.`,
+                    icon: 'success',
+                    customClass: {
+                        container: 'font-sans'
+                    }
+                });
+            } catch (err) {
+                setError(err.response?.data?.error || 'Ha ocurrido un error');
+                Swal.fire({
+                    title: 'Error',
+                    text: err.response?.data?.error || `Error al ${action} el rol`,
+                    icon: 'error',
+                    customClass: {
+                        container: 'font-sans'
+                    }
+                });
+            }
         }
     };
 
     const handleDelete = async (roleId) => {
-        if (!confirm('¿Está seguro de que desea eliminar este rol?')) {
-            return;
-        }
+        const result = await Swal.fire({
+            title: '¿Eliminar rol?',
+            text: 'Esta acción eliminará el rol y sus permisos asignados. ¿Estás seguro?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                container: 'font-sans'
+            }
+        });
 
-        try {
-            await axios.delete(`/roles/${roleId}`);
-            router.reload();
-        } catch (err) {
-            setError(err.response?.data?.error || 'Error al eliminar el rol');
+        if (result.isConfirmed) {
+            try {
+                await axios.delete(`/roles/${roleId}`);
+                router.reload();
+
+                Swal.fire({
+                    title: '¡Eliminado!',
+                    text: 'El rol ha sido eliminado exitosamente.',
+                    icon: 'success',
+                    customClass: {
+                        container: 'font-sans'
+                    }
+                });
+            } catch (err) {
+                setError(err.response?.data?.error || 'Error al eliminar el rol');
+                Swal.fire({
+                    title: 'Error',
+                    text: err.response?.data?.error || 'Error al eliminar el rol',
+                    icon: 'error',
+                    customClass: {
+                        container: 'font-sans'
+                    }
+                });
+            }
         }
     };
 
