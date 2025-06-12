@@ -11,7 +11,7 @@ export default function Authenticated({ user, header, children }) {
     return (
         <div className="min-h-screen bg-gray-50">
             <nav className="bg-primary/80 border-b border-primary/20">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="w-full mx-auto px-2 sm:px-4 lg:px-6">
                     <div className="flex justify-between items-center h-20">
                         <div className="flex-none flex items-center">
                             <Link href="/">
@@ -19,36 +19,46 @@ export default function Authenticated({ user, header, children }) {
                             </Link>
                         </div>
 
-                        <div className="flex-1 flex justify-center items-center px-4">
-                            <div className="hidden space-x-4 lg:space-x-6 lg:-my-px lg:flex mx-auto text-sm lg:text-base">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')} 
-                                    className="text-primary-light hover:text-white whitespace-nowrap" activeClassName="text-white border-secondary-accent">
-                                    Inicio
-                                </NavLink>
-                                <NavLink href={route('clients.index')} active={route().current('clients.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
+                        <div className="flex-1 flex justify-center items-center">
+                            <div className="hidden lg:flex lg:-my-px mx-auto text-sm lg:text-base">
+                                <div className="flex flex-wrap justify-center gap-x-2 xl:gap-x-4 2xl:gap-x-6">
+                                    <NavLink href={route('dashboard')} active={route().current('dashboard')} 
+                                        className="text-primary-light hover:text-white whitespace-nowrap px-2 py-1" activeClassName="text-white border-secondary-accent">
+                                        Inicio
+                                    </NavLink>
+                                <NavLink href={route('clients.index')} active={route().current('clients.*')} 
+                                    className="text-primary-light hover:text-white whitespace-nowrap px-2 py-1" activeClassName="text-white border-secondary-accent">
                                     Clientes
                                 </NavLink>
-                                <NavLink href={route('raw-materials.index')} active={route().current('raw-materials.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
+                                <NavLink href={route('raw-materials.index')} active={route().current('raw-materials.*')} 
+                                    className="text-primary-light hover:text-white whitespace-nowrap px-2 py-1" activeClassName="text-white border-secondary-accent">
                                     Materia Prima
                                 </NavLink>
-                                <NavLink href={route('products.index')} active={route().current('products.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
+                                <NavLink href={route('products.index')} active={route().current('products.*')} 
+                                    className="text-primary-light hover:text-white whitespace-nowrap px-2 py-1" activeClassName="text-white border-secondary-accent">
                                     Productos
                                 </NavLink>
-                                <NavLink href={route('recipes.index')} active={route().current('recipes.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
+                                <NavLink href={route('recipes.index')} active={route().current('recipes.*')} 
+                                    className="text-primary-light hover:text-white whitespace-nowrap px-2 py-1" activeClassName="text-white border-secondary-accent">
                                     Recetas
                                 </NavLink>
-                                <NavLink href={route('production.index')} active={route().current('production.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
+                                <NavLink href={route('production.index')} active={route().current('production.*')} 
+                                    className="text-primary-light hover:text-white whitespace-nowrap px-2 py-1" activeClassName="text-white border-secondary-accent">
                                     Producción
                                 </NavLink>
-                                <NavLink href={route('inventory.index')} active={route().current('inventory.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
+                                <NavLink href={route('inventory.index')} active={route().current('inventory.*')} 
+                                    className="text-primary-light hover:text-white whitespace-nowrap px-2 py-1" activeClassName="text-white border-secondary-accent">
                                     Inventario
                                 </NavLink>
-                                <NavLink href={route('movements.index')} active={route().current('movements.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
+                                <NavLink href={route('movements.index')} active={route().current('movements.*')} 
+                                    className="text-primary-light hover:text-white whitespace-nowrap px-2 py-1" activeClassName="text-white border-secondary-accent">
                                     Entradas/Salidas
                                 </NavLink>
-                                <NavLink href={route('users.index')} active={route().current('users.*')} className="text-primary-light hover:text-white" activeClassName="text-white border-secondary-accent">
+                                <NavLink href={route('users.index')} active={route().current('users.*')} 
+                                    className="text-primary-light hover:text-white whitespace-nowrap px-2 py-1" activeClassName="text-white border-secondary-accent">
                                     Usuarios
                                 </NavLink>
+                                </div>
                             </div>
                         </div>
 
@@ -190,11 +200,15 @@ export default function Authenticated({ user, header, children }) {
 
             {header && (
                 <header className="bg-white shadow-sm border-b border-primary/10">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
+                    <div className="max-w-[1600px] w-full mx-auto py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8 2xl:px-16">{header}</div>
                 </header>
             )}
 
-            <main className="py-6">{children}</main>
+            <main className="py-6 sm:py-8 lg:py-10 2xl:py-12">
+                <div className="max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 2xl:px-16">
+                    {children}
+                </div>
+            </main>
         </div>
     );
 }
