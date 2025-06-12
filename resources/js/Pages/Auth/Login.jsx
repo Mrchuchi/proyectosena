@@ -6,8 +6,10 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
+import { useTransition } from '@/Components/TransitionProvider';
 
 export default function Login({ status, canResetPassword }) {
+    const { setDirection } = useTransition();
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -19,6 +21,10 @@ export default function Login({ status, canResetPassword }) {
             reset('password');
         };
     }, []);
+
+    const handleBackToWelcome = () => {
+        setDirection('backward');
+    };
 
     const submit = (e) => {
         e.preventDefault();
@@ -70,32 +76,25 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="flex items-center justify-between mt-4">
-                    <label className="inline-flex items-center">
-                        <Checkbox
-                            name="remember"
-                            checked={data.remember}
-                            onChange={(e) => setData('remember', e.target.checked)}
-                            className="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
-                        />
-                        <span className="ms-2 text-sm text-gray-600">Recordarme</span>
-                    </label>
+                    <Link
+                        href="/"
+                        onClick={handleBackToWelcome}
+                        className="auth-link underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                        Volver al inicio
+                    </Link>
 
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}
-                            className="text-sm text-primary hover:text-primary/80"
+                            className="auth-link underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             ¿Olvidaste tu contraseña?
                         </Link>
                     )}
-                </div>
 
-                <div className="mt-6">
-                    <PrimaryButton 
-                        className="w-full justify-center py-3 bg-indigo-600 hover:bg-indigo-700" 
-                        disabled={processing}
-                    >
-                        {processing ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+                    <PrimaryButton className="auth-button ms-4" disabled={processing}>
+                        Ingresar
                     </PrimaryButton>
                 </div>
             </form>

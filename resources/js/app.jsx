@@ -4,6 +4,7 @@ import '../css/app.css';
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import TransitionProvider from '@/Components/TransitionProvider';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -13,9 +14,21 @@ createInertiaApp({
     setup({ el, App, props }) {
         const root = createRoot(el);
 
-        root.render(<App {...props} />);
+        // Envolver App con TransitionProvider
+        const Wrapped = () => (
+            <App {...props}>
+                {({ Component, key, props: pageProps }) => (
+                    <TransitionProvider>
+                        <Component key={key} {...pageProps} />
+                    </TransitionProvider>
+                )}
+            </App>
+        );
+
+        root.render(<Wrapped />);
     },
     progress: {
         color: '#4B5563',
+        delay: 0,
     },
 });

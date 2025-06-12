@@ -4,6 +4,7 @@ import { MdHighQuality } from 'react-icons/md';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import AnimateOnScroll from '@/Components/AnimateOnScroll';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useTransition } from '@/Components/TransitionProvider';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
@@ -12,6 +13,12 @@ import '@/../../resources/css/swiper-custom.css';
 import '@/../../resources/css/animations.css';
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
+    const { setDirection } = useTransition();
+
+    const handleAuthClick = () => {
+        setDirection('forward');
+    };
+
     return (
         <>
             <Head title="Esencial Hogar - Calidez en tu vida" />
@@ -28,14 +35,15 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 {auth.user ? (
                                     <Link
                                         href={route('dashboard')}
-                                        className="inline-flex items-center bg-secondary text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary/90 transition-colors"
+                                        className="auth-button inline-flex items-center bg-secondary text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary/90 transition-colors"
                                     >
                                         Dashboard
                                     </Link>
                                 ) : (
                                     <Link
                                         href={route('login')}
-                                        className="inline-flex items-center bg-secondary text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary/90 transition-colors"
+                                        onClick={handleAuthClick}
+                                        className="auth-button inline-flex items-center bg-secondary text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary/90 transition-colors"
                                     >
                                         Iniciar Sesión
                                     </Link>

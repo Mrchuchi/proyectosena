@@ -4,9 +4,16 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
+import { useTransition } from '@/Components/TransitionProvider';
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const { setDirection } = useTransition();
+
+    const handleNavigation = (path) => {
+        const currentPath = window.location.pathname;
+        setDirection(path === '/' || path < currentPath ? 'backward' : 'forward');
+    };
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -14,7 +21,7 @@ export default function Authenticated({ user, header, children }) {
                 <div className="w-full mx-auto px-2 sm:px-4 lg:px-6">
                     <div className="flex justify-between items-center h-20">
                         <div className="flex-none flex items-center">
-                            <Link href="/">
+                            <Link href="/" onClick={() => handleNavigation('/')}>
                                 <ApplicationLogo className="block h-14 w-auto" />
                             </Link>
                         </div>
@@ -199,16 +206,12 @@ export default function Authenticated({ user, header, children }) {
             </nav>
 
             {header && (
-                <header className="bg-white shadow-sm border-b border-primary/10">
-                    <div className="max-w-[1600px] w-full mx-auto py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8 2xl:px-16">{header}</div>
+                <header className="bg-white shadow">
+                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
                 </header>
             )}
 
-            <main className="py-6 sm:py-8 lg:py-10 2xl:py-12">
-                <div className="max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 2xl:px-16">
-                    {children}
-                </div>
-            </main>
+            <main>{children}</main>
         </div>
     );
 }
