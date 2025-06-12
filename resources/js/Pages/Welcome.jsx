@@ -215,37 +215,37 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 lg:gap-8 items-center justify-items-center">
                             <AnimateOnScroll animation="zoom-in" className="w-full">
                                 <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full flex items-center justify-center h-32">
-                                    <img src="/images/brands/spring.png" alt="Spring" className="max-h-16 w-auto object-contain" />
+                                    <img src="/images/brands/spring.png" alt="Spring" className="max-h-28 w-auto object-contain" />
                                 </div>
                             </AnimateOnScroll>
                             <AnimateOnScroll animation="zoom-in" className="delay-100 w-full">
                                 <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full flex items-center justify-center h-32">
-                                    <img src="/images/brands/ikea.png" alt="IKEA" className="max-h-16 w-auto object-contain" />
+                                    <img src="/images/brands/ikea.png" alt="IKEA" className="max-h-28 w-auto object-contain" />
                                 </div>
                             </AnimateOnScroll>
                             <AnimateOnScroll animation="zoom-in" className="delay-200 w-full">
                                 <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full flex items-center justify-center h-32">
-                                    <img src="/images/brands/homecenter.png" alt="HomeCenter" className="max-h-16 w-auto object-contain" />
+                                    <img src="/images/brands/homecenter.png" alt="HomeCenter" className="max-h-28 w-auto object-contain" />
                                 </div>
                             </AnimateOnScroll>
                             <AnimateOnScroll animation="zoom-in" className="delay-300 w-full">
                                 <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full flex items-center justify-center h-32">
-                                    <img src="/images/brands/fatelares.png" alt="Fatelares" className="max-h-16 w-auto object-contain" />
+                                    <img src="/images/brands/fatelares.png" alt="Fatelares" className="max-h-28 w-auto object-contain" />
                                 </div>
                             </AnimateOnScroll>
                             <AnimateOnScroll animation="zoom-in" className="delay-400 w-full">
                                 <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full flex items-center justify-center h-32">
-                                    <img src="/images/brands/Falabella.png" alt="Falabella" className="max-h-16 w-auto object-contain" />
+                                    <img src="/images/brands/Falabella.png" alt="Falabella" className="max-h-28 w-auto object-contain" />
                                 </div>
                             </AnimateOnScroll>
                             <AnimateOnScroll animation="zoom-in" className="delay-500 w-full">
                                 <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full flex items-center justify-center h-32">
-                                    <img src="/images/brands/exito.png" alt="Éxito" className="max-h-28 w-auto object-contain" />
+                                    <img src="/images/brands/exito.png" alt="Éxito" className="max-h-36 w-auto object-contain" />
                                 </div>
                             </AnimateOnScroll>
                             <AnimateOnScroll animation="zoom-in" className="delay-600 w-full">
                                 <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full flex items-center justify-center h-32">
-                                    <img src="/images/brands/dollarcity.png" alt="Dollar City" className="max-h-16 w-auto object-contain" />
+                                    <img src="/images/brands/dollarcity.png" alt="Dollar City" className="max-h-28 w-auto object-contain" />
                                 </div>
                             </AnimateOnScroll>
                             <AnimateOnScroll animation="zoom-in" className="delay-700 w-full">
@@ -260,7 +260,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             </AnimateOnScroll>
                             <AnimateOnScroll animation="zoom-in" className="delay-900 w-full">
                                 <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full flex items-center justify-center h-32">
-                                    <img src="/images/brands/Comodisimos.png" alt="Comodísimos" className="max-h-20 w-auto object-contain" />
+                                    <img src="/images/brands/Comodisimos.png" alt="Comodísimos" className="max-h-28 w-auto object-contain" />
                                 </div>
                             </AnimateOnScroll>
                         </div>
