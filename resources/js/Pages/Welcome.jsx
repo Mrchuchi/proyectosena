@@ -2,12 +2,14 @@ import { Link, Head } from '@inertiajs/react';
 import { FaWhatsapp, FaInstagram, FaBox, FaHeart, FaStar, FaCheckCircle, FaUserFriends, FaRecycle, FaMedal } from 'react-icons/fa';
 import { MdHighQuality } from 'react-icons/md';
 import ApplicationLogo from '@/Components/ApplicationLogo';
+import AnimateOnScroll from '@/Components/AnimateOnScroll';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 import { Autoplay, Pagination } from 'swiper/modules';
 import '@/../../resources/css/swiper-custom.css';
+import '@/../../resources/css/animations.css';
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
     return (
@@ -48,25 +50,32 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                     <div className="max-w-[1600px] mx-auto">
                         <div className="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:max-w-3xl lg:w-full lg:pb-28 xl:pb-32">
                             <main className="mt-6 mx-auto max-w-[1600px] px-4 sm:mt-8 sm:px-6 md:mt-12 lg:mt-16 lg:px-8 2xl:px-16 xl:mt-20">
-                                <div className="sm:text-center lg:text-left">                                <h1 className="text-4xl tracking-tight font-extrabold text-primary sm:text-5xl md:text-6xl 2xl:text-7xl">
-                                    <span className="block">Calidez y Confort</span>
-                                    <span className="block text-secondary">para tu Hogar</span>
-                                </h1>
-                                    <p className="mt-3 text-base text-gray-600 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                                        Descubre nuestra línea premium de productos para el hogar, diseñados para brindarte el mejor confort y la mayor comodidad.
-                                    </p>
-                                    <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                                        <div className="rounded-md shadow">
-                                            <a href="#contacto" className="w-full flex items-center justify-center px-8 py-3 border border-secondary text-base font-medium rounded-md text-white bg-secondary hover:bg-white hover:text-secondary transition-colors md:py-4 md:text-lg md:px-10">
-                                                Contactar
-                                            </a>
-                                        </div>
+                                <AnimateOnScroll animation="fade-right">
+                                    <div className="sm:text-center lg:text-left">
+                                        <h1 className="mb-4">
+                                            <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-primary">¿Por qué deberías</span>
+                                            <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-secondary">elegirnos?</span>
+                                        </h1>
+                                        <AnimateOnScroll animation="fade-up" className="delay-200">
+                                            <p className="mt-3 text-base text-gray-600 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                                                Descubre nuestra línea premium de productos para el hogar, diseñados para brindarte el mejor confort y la mayor comodidad.
+                                            </p>
+                                        </AnimateOnScroll>
+                                        <AnimateOnScroll animation="fade-up" className="delay-300">
+                                            <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                                                <div className="rounded-md shadow">
+                                                    <a href="#contacto" className="w-full flex items-center justify-center px-8 py-3 border border-secondary text-base font-medium rounded-md text-white bg-secondary hover:bg-white hover:text-secondary transition-colors md:py-4 md:text-lg md:px-10">
+                                                        Contactar
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </AnimateOnScroll>
                                     </div>
-                                </div>
+                                </AnimateOnScroll>
                             </main>
                         </div>
                     </div>
-                    <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+                    <AnimateOnScroll animation="fade-left" className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
                         <div className="flex items-center justify-center h-full mt-8 sm:mt-10 lg:mt-0">
                             <Swiper
                                 spaceBetween={30}
@@ -120,54 +129,64 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 </SwiperSlide>
                             </Swiper>
                         </div>
-                    </div>
+                    </AnimateOnScroll>
                 </div>
 
                 {/* Por qué elegirnos */}
                 <section className="py-16 sm:py-20 bg-gradient-to-b from-gray-50 to-white">
                     <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center mb-12">
-                            <span className="bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-semibold inline-block mb-4">Nuestra Diferencia</span>
-                            <h2 className="mb-4">
-                                <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-primary">¿Por qué deberías</span>
-                                <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-secondary">elegirnos?</span>
-                            </h2>
-                            <p className="text-gray-600 max-w-2xl mx-auto text-lg">Nos destacamos por ofrecer productos de la más alta calidad, comprometidos con tu comodidad y satisfacción.</p>
-                        </div>
+                        <AnimateOnScroll animation="fade-down">
+                            <div className="text-center mb-12">
+                                <span className="bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-semibold inline-block mb-4">Nuestra Diferencia</span>
+                                <h2 className="mb-4">
+                                    <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-primary">¿Por qué deberías</span>
+                                    <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-secondary">elegirnos?</span>
+                                </h2>
+                                <p className="text-gray-600 max-w-2xl mx-auto text-lg">Nos destacamos por ofrecer productos de la más alta calidad, comprometidos con tu comodidad y satisfacción.</p>
+                            </div>
+                        </AnimateOnScroll>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
                             <div className="absolute inset-0 bg-primary/5 transform -skew-y-6 rounded-3xl"></div>
-                            <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
-                                <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full mb-4 group-hover:scale-110 transition-transform">
-                                    <MdHighQuality className="h-8 w-8 text-primary" />
+                            <AnimateOnScroll animation="fade-up" className="delay-100">
+                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
+                                    <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full mb-4 group-hover:scale-110 transition-transform">
+                                        <MdHighQuality className="h-8 w-8 text-primary" />
+                                    </div>
+                                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Calidad Premium</h3>
+                                    <p className="text-gray-600">Utilizamos los mejores materiales para garantizar productos duraderos y confortables.</p>
+                                    <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
                                 </div>
-                                <h3 className="text-lg font-semibold text-gray-800 mb-2">Calidad Premium</h3>
-                                <p className="text-gray-600">Utilizamos los mejores materiales para garantizar productos duraderos y confortables.</p>
-                                <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
-                            </div>
-                            <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
-                                <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full mb-4 group-hover:scale-110 transition-transform">
-                                    <FaUserFriends className="h-8 w-8 text-primary" />
+                            </AnimateOnScroll>
+                            <AnimateOnScroll animation="fade-up" className="delay-200">
+                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
+                                    <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full mb-4 group-hover:scale-110 transition-transform">
+                                        <FaUserFriends className="h-8 w-8 text-primary" />
+                                    </div>
+                                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Atención Personalizada</h3>
+                                    <p className="text-gray-600">Nuestro equipo está comprometido con brindarte la mejor asesoría y servicio.</p>
+                                    <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
                                 </div>
-                                <h3 className="text-lg font-semibold text-gray-800 mb-2">Atención Personalizada</h3>
-                                <p className="text-gray-600">Nuestro equipo está comprometido con brindarte la mejor asesoría y servicio.</p>
-                                <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
-                            </div>
-                            <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
-                                <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full mb-4 group-hover:scale-110 transition-transform">
-                                    <FaRecycle className="h-8 w-8 text-primary" />
+                            </AnimateOnScroll>
+                            <AnimateOnScroll animation="fade-up" className="delay-300">
+                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
+                                    <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full mb-4 group-hover:scale-110 transition-transform">
+                                        <FaRecycle className="h-8 w-8 text-primary" />
+                                    </div>
+                                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Sostenibilidad</h3>
+                                    <p className="text-gray-600">Comprometidos con el medio ambiente en nuestros procesos de producción.</p>
+                                    <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
                                 </div>
-                                <h3 className="text-lg font-semibold text-gray-800 mb-2">Sostenibilidad</h3>
-                                <p className="text-gray-600">Comprometidos con el medio ambiente en nuestros procesos de producción.</p>
-                                <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
-                            </div>
-                            <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
-                                <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full mb-4 group-hover:scale-110 transition-transform">
-                                    <FaMedal className="h-8 w-8 text-primary" />
+                            </AnimateOnScroll>
+                            <AnimateOnScroll animation="fade-up" className="delay-400">
+                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
+                                    <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full mb-4 group-hover:scale-110 transition-transform">
+                                        <FaMedal className="h-8 w-8 text-primary" />
+                                    </div>
+                                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Experiencia</h3>
+                                    <p className="text-gray-600">Años de experiencia nos respaldan en la fabricación de productos de calidad.</p>
+                                    <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
                                 </div>
-                                <h3 className="text-lg font-semibold text-gray-800 mb-2">Experiencia</h3>
-                                <p className="text-gray-600">Años de experiencia nos respaldan en la fabricación de productos de calidad.</p>
-                                <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
-                            </div>
+                            </AnimateOnScroll>
                         </div>
                     </div>
                 </section>
@@ -175,45 +194,67 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 {/* Nuestras Marcas */}
                 <section className="py-16 sm:py-20 bg-gradient-to-b from-white to-gray-50/50">
                     <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center mb-12">
-                            <span className="bg-secondary/10 text-secondary px-4 py-1.5 rounded-full text-sm font-semibold inline-block mb-4">Confían en Nosotros</span>
-                            <h2 className="mb-4">
-                                <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-primary">Fabricamos para las</span>
-                                <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-secondary">Mejores Marcas</span>
-                            </h2>
-                            <p className="text-gray-600 max-w-2xl mx-auto text-lg">Fabricamos productos de la más alta calidad para las marcas más reconocidas del mercado</p>
-                        </div>
+                        <AnimateOnScroll animation="fade-down">
+                            <div className="text-center mb-12">
+                                <span className="bg-secondary/10 text-secondary px-4 py-1.5 rounded-full text-sm font-semibold inline-block mb-4">Confían en Nosotros</span>
+                                <h2 className="mb-4">
+                                    <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-primary">Fabricamos para las</span>
+                                    <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-secondary">Mejores Marcas</span>
+                                </h2>
+                                <p className="text-gray-600 max-w-2xl mx-auto text-lg">Fabricamos productos de la más alta calidad para las marcas más reconocidas del mercado</p>
+                            </div>
+                        </AnimateOnScroll>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 lg:gap-8 items-center justify-items-center">
-                            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
-                                <img src="images/brand-1.png" alt="Marca 1" className="h-16 w-auto object-contain mx-auto filter hover:brightness-110" />
-                            </div>
-                            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
-                                <img src="images/brand-2.png" alt="Marca 2" className="h-16 w-auto object-contain mx-auto filter hover:brightness-110" />
-                            </div>
-                            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
-                                <img src="images/brand-3.png" alt="Marca 3" className="h-16 w-auto object-contain mx-auto filter hover:brightness-110" />
-                            </div>
-                            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
-                                <img src="images/brand-4.png" alt="Marca 4" className="h-16 w-auto object-contain mx-auto filter hover:brightness-110" />
-                            </div>
-                            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
-                                <img src="images/brand-5.png" alt="Marca 5" className="h-16 w-auto object-contain mx-auto filter hover:brightness-110" />
-                            </div>
-                            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
-                                <img src="images/brand-6.png" alt="Marca 6" className="h-16 w-auto object-contain mx-auto filter hover:brightness-110" />
-                            </div>
-                            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
-                                <img src="images/brand-7.png" alt="Marca 7" className="h-16 w-auto object-contain mx-auto filter hover:brightness-110" />
-                            </div>
-                            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
-                                <img src="images/brand-8.png" alt="Marca 8" className="h-16 w-auto object-contain mx-auto filter hover:brightness-110" />
-                            </div>
-                            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
-                                <img src="images/brand-9.png" alt="Marca 9" className="h-16 w-auto object-contain mx-auto filter hover:brightness-110" />
-                            </div>
-                            <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
-                                <img src="images/brand-10.png" alt="Marca 10" className="h-16 w-auto object-contain mx-auto filter hover:brightness-110" />
-                            </div>
+                            <AnimateOnScroll animation="zoom-in" className="w-full">
+                                <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
+                                    <img src="/images/brands/dimarco.png" alt="DiMarco" className="h-12 w-auto object-contain mx-auto" />
+                                </div>
+                            </AnimateOnScroll>
+                            <AnimateOnScroll animation="zoom-in" className="delay-100 w-full">
+                                <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
+                                    <img src="/images/brands/karsten.png" alt="Karsten" className="h-12 w-auto object-contain mx-auto" />
+                                </div>
+                            </AnimateOnScroll>
+                            <AnimateOnScroll animation="zoom-in" className="delay-200 w-full">
+                                <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
+                                    <img src="/images/brands/zara-home.png" alt="Zara Home" className="h-12 w-auto object-contain mx-auto" />
+                                </div>
+                            </AnimateOnScroll>
+                            <AnimateOnScroll animation="zoom-in" className="delay-300 w-full">
+                                <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
+                                    <img src="/images/brands/sheridan.png" alt="Sheridan" className="h-12 w-auto object-contain mx-auto" />
+                                </div>
+                            </AnimateOnScroll>
+                            <AnimateOnScroll animation="zoom-in" className="delay-400 w-full">
+                                <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
+                                    <img src="/images/brands/hm-home.png" alt="H&M Home" className="h-12 w-auto object-contain mx-auto" />
+                                </div>
+                            </AnimateOnScroll>
+                            <AnimateOnScroll animation="zoom-in" className="delay-500 w-full">
+                                <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
+                                    <img src="/images/brands/crate-and-barrel.png" alt="Crate & Barrel" className="h-12 w-auto object-contain mx-auto" />
+                                </div>
+                            </AnimateOnScroll>
+                            <AnimateOnScroll animation="zoom-in" className="delay-600 w-full">
+                                <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
+                                    <img src="/images/brands/corta-vento.png" alt="Corta Vento" className="h-12 w-auto object-contain mx-auto" />
+                                </div>
+                            </AnimateOnScroll>
+                            <AnimateOnScroll animation="zoom-in" className="delay-700 w-full">
+                                <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
+                                    <img src="/images/brands/west-elm.png" alt="West Elm" className="h-12 w-auto object-contain mx-auto" />
+                                </div>
+                            </AnimateOnScroll>
+                            <AnimateOnScroll animation="zoom-in" className="delay-800 w-full">
+                                <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
+                                    <img src="/images/brands/ikea.png" alt="IKEA" className="h-12 w-auto object-contain mx-auto" />
+                                </div>
+                            </AnimateOnScroll>
+                            <AnimateOnScroll animation="zoom-in" className="delay-900 w-full">
+                                <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 w-full grayscale hover:grayscale-0">
+                                    <img src="/images/brands/pottery-barn.png" alt="Pottery Barn" className="h-12 w-auto object-contain mx-auto" />
+                                </div>
+                            </AnimateOnScroll>
                         </div>
                     </div>
                 </section>
@@ -221,43 +262,51 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 {/* Características */}
                 <section className="py-16 sm:py-20 bg-gradient-to-b from-gray-50/50 to-white">
                     <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center mb-12">
-                            <span className="bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-semibold inline-block mb-4">Nuestros Productos</span>
-                            <h2 className="mb-4">
-                                <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-primary">Lo que nos hace</span>
-                                <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-secondary">Diferentes</span>
-                            </h2>
-                            <p className="text-gray-600 max-w-2xl mx-auto text-lg">La mejor calidad y confort para tu hogar, respaldados por nuestra experiencia y dedicación</p>
-                        </div>
+                        <AnimateOnScroll animation="fade-down">
+                            <div className="text-center mb-12">
+                                <span className="bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-semibold inline-block mb-4">Nuestros Productos</span>
+                                <h2 className="mb-4">
+                                    <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-primary">Lo que nos hace</span>
+                                    <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-secondary">Diferentes</span>
+                                </h2>
+                                <p className="text-gray-600 max-w-2xl mx-auto text-lg">La mejor calidad y confort para tu hogar, respaldados por nuestra experiencia y dedicación</p>
+                            </div>
+                        </AnimateOnScroll>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
                             <div className="absolute inset-0 bg-secondary/5 transform -skew-y-6 rounded-3xl"></div>
-                            <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
-                                <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-secondary/10 rounded-full mb-4">
-                                    <FaBox className="h-8 w-8 text-primary" />
+                            <AnimateOnScroll animation="fade-right" className="delay-100">
+                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
+                                    <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-secondary/10 rounded-full mb-4">
+                                        <FaBox className="h-8 w-8 text-primary" />
+                                    </div>
+                                    <h3 className="text-xl font-semibold text-gray-800 mb-3">Materiales Premium</h3>
+                                    <p className="text-gray-600">Utilizamos los mejores materiales para garantizar la durabilidad y comodidad de nuestros productos.</p>
+                                    <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
                                 </div>
-                                <h3 className="text-xl font-semibold text-gray-800 mb-3">Materiales Premium</h3>
-                                <p className="text-gray-600">Utilizamos los mejores materiales para garantizar la durabilidad y comodidad de nuestros productos.</p>
-                                <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
-                            </div>
+                            </AnimateOnScroll>
 
-                            <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
-                                <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-secondary/10 rounded-full mb-4">
-                                    <FaHeart className="h-8 w-8 text-primary" />
+                            <AnimateOnScroll animation="fade-up" className="delay-200">
+                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
+                                    <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-secondary/10 rounded-full mb-4">
+                                        <FaHeart className="h-8 w-8 text-primary" />
+                                    </div>
+                                    <h3 className="text-xl font-semibold text-gray-800 mb-3">Diseño con Amor</h3>
+                                    <p className="text-gray-600">Cada producto está diseñado pensando en tu confort y el de tu familia, con atención a cada detalle.</p>
+                                    <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
                                 </div>
-                                <h3 className="text-xl font-semibold text-gray-800 mb-3">Diseño con Amor</h3>
-                                <p className="text-gray-600">Cada producto está diseñado pensando en tu confort y el de tu familia, con atención a cada detalle.</p>
-                                <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
-                            </div>
+                            </AnimateOnScroll>
 
-                            <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
-                                <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-secondary/10 rounded-full mb-4">
-                                    <FaStar className="h-8 w-8 text-primary" />
+                            <AnimateOnScroll animation="fade-left" className="delay-300">
+                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
+                                    <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-secondary/10 rounded-full mb-4">
+                                        <FaStar className="h-8 w-8 text-primary" />
+                                    </div>
+                                    <h3 className="text-xl font-semibold text-gray-800 mb-3">Calidad Garantizada</h3>
+                                    <p className="text-gray-600">Todos nuestros productos pasan por rigurosos controles de calidad para tu tranquilidad.</p>
+                                    <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
                                 </div>
-                                <h3 className="text-xl font-semibold text-gray-800 mb-3">Calidad Garantizada</h3>
-                                <p className="text-gray-600">Todos nuestros productos pasan por rigurosos controles de calidad para tu tranquilidad.</p>
-                                <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
-                            </div>
+                            </AnimateOnScroll>
                         </div>
                     </div>
                 </section>
