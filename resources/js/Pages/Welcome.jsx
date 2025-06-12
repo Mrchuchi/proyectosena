@@ -16,7 +16,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
         <>
             <Head title="Esencial Hogar - Calidez en tu vida" />
             
-            <div className="min-h-screen bg-gradient-to-b from-white to-primary-light/5">
+            <div className="min-h-screen bg-gradient-to-b from-white to-primary-light">
                 {/* Barra de navegación */}
                 <nav className="bg-primary/80 shadow-lg">
                     <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-16">
@@ -53,12 +53,12 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 <AnimateOnScroll animation="fade-right">
                                     <div className="sm:text-center lg:text-left">
                                         <h1 className="mb-4">
-                                            <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-primary">¿Por qué deberías</span>
-                                            <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-secondary">elegirnos?</span>
+                                            <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-primary">Bienvenidos a</span>
+                                            <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-secondary">Esencial Hogar</span>
                                         </h1>
                                         <AnimateOnScroll animation="fade-up" className="delay-200">
                                             <p className="mt-3 text-base text-gray-600 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                                                Descubre nuestra línea premium de productos para el hogar, diseñados para brindarte el mejor confort y la mayor comodidad.
+                                                Creamos productos para el hogar que elevan tu comodidad al siguiente nivel. Descubre nuestra línea premium diseñada para brindarte el mejor confort.
                                             </p>
                                         </AnimateOnScroll>
                                         <AnimateOnScroll animation="fade-up" className="delay-300">
@@ -148,42 +148,42 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
                             <div className="absolute inset-0 bg-primary/5 transform -skew-y-6 rounded-3xl"></div>
                             <AnimateOnScroll animation="fade-up" className="delay-100">
-                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
+                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10 h-full">
                                     <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full mb-4 group-hover:scale-110 transition-transform">
                                         <MdHighQuality className="h-8 w-8 text-primary" />
                                     </div>
                                     <h3 className="text-lg font-semibold text-gray-800 mb-2">Calidad Premium</h3>
-                                    <p className="text-gray-600">Utilizamos los mejores materiales para garantizar productos duraderos y confortables.</p>
+                                    <p className="text-gray-600">Los mejores materiales seleccionados para asegurar máxima calidad.</p>
                                     <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
                                 </div>
                             </AnimateOnScroll>
                             <AnimateOnScroll animation="fade-up" className="delay-200">
-                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
+                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10 h-full">
                                     <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full mb-4 group-hover:scale-110 transition-transform">
                                         <FaUserFriends className="h-8 w-8 text-primary" />
                                     </div>
                                     <h3 className="text-lg font-semibold text-gray-800 mb-2">Atención Personalizada</h3>
-                                    <p className="text-gray-600">Nuestro equipo está comprometido con brindarte la mejor asesoría y servicio.</p>
+                                    <p className="text-gray-600">Equipo dedicado a brindarte la mejor asesoría y servicio.</p>
                                     <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
                                 </div>
                             </AnimateOnScroll>
                             <AnimateOnScroll animation="fade-up" className="delay-300">
-                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
+                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10 h-full">
                                     <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full mb-4 group-hover:scale-110 transition-transform">
                                         <FaRecycle className="h-8 w-8 text-primary" />
                                     </div>
                                     <h3 className="text-lg font-semibold text-gray-800 mb-2">Sostenibilidad</h3>
-                                    <p className="text-gray-600">Comprometidos con el medio ambiente en nuestros procesos de producción.</p>
+                                    <p className="text-gray-600">Comprometidos con el medio ambiente en cada producto.</p>
                                     <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
                                 </div>
                             </AnimateOnScroll>
                             <AnimateOnScroll animation="fade-up" className="delay-400">
-                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
+                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10 h-full">
                                     <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full mb-4 group-hover:scale-110 transition-transform">
                                         <FaMedal className="h-8 w-8 text-primary" />
                                     </div>
                                     <h3 className="text-lg font-semibold text-gray-800 mb-2">Experiencia</h3>
-                                    <p className="text-gray-600">Años de experiencia nos respaldan en la fabricación de productos de calidad.</p>
+                                    <p className="text-gray-600">Años de trayectoria respaldando cada producto.</p>
                                     <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
                                 </div>
                             </AnimateOnScroll>
@@ -273,10 +273,10 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             </div>
                         </AnimateOnScroll>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
                             <div className="absolute inset-0 bg-secondary/5 transform -skew-y-6 rounded-3xl"></div>
-                            <AnimateOnScroll animation="fade-right" className="delay-100">
-                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
+                            <AnimateOnScroll animation="fade-up" className="delay-100">
+                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10 h-full">
                                     <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-secondary/10 rounded-full mb-4">
                                         <FaBox className="h-8 w-8 text-primary" />
                                     </div>
@@ -287,23 +287,34 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             </AnimateOnScroll>
 
                             <AnimateOnScroll animation="fade-up" className="delay-200">
-                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
+                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10 h-full">
                                     <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-secondary/10 rounded-full mb-4">
                                         <FaHeart className="h-8 w-8 text-primary" />
                                     </div>
                                     <h3 className="text-xl font-semibold text-gray-800 mb-3">Diseño con Amor</h3>
-                                    <p className="text-gray-600">Cada producto está diseñado pensando en tu confort y el de tu familia, con atención a cada detalle.</p>
+                                    <p className="text-gray-600">Cada producto está diseñado pensando en tu comodidad, con atención especial a cada detalle para asegurar tu satisfacción.</p>
                                     <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
                                 </div>
                             </AnimateOnScroll>
 
-                            <AnimateOnScroll animation="fade-left" className="delay-300">
-                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10">
+                            <AnimateOnScroll animation="fade-up" className="delay-300">
+                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10 h-full">
                                     <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-secondary/10 rounded-full mb-4">
                                         <FaStar className="h-8 w-8 text-primary" />
                                     </div>
                                     <h3 className="text-xl font-semibold text-gray-800 mb-3">Calidad Garantizada</h3>
-                                    <p className="text-gray-600">Todos nuestros productos pasan por rigurosos controles de calidad para tu tranquilidad.</p>
+                                    <p className="text-gray-600">Todos nuestros productos pasan por rigurosos controles de calidad para asegurar tu completa satisfacción.</p>
+                                    <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
+                                </div>
+                            </AnimateOnScroll>
+
+                            <AnimateOnScroll animation="fade-up" className="delay-400">
+                                <div className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 relative z-10 h-full">
+                                    <div className="inline-block p-3 bg-gradient-to-br from-primary/20 to-secondary/10 rounded-full mb-4">
+                                        <FaCheckCircle className="h-8 w-8 text-primary" />
+                                    </div>
+                                    <h3 className="text-xl font-semibold text-gray-800 mb-3">Confort Asegurado</h3>
+                                    <p className="text-gray-600">Cada producto está probado para garantizar el máximo nivel de comodidad y durabilidad para tu hogar.</p>
                                     <div className="absolute inset-0 border-2 border-transparent hover:border-primary/20 rounded-xl transition-colors duration-300"></div>
                                 </div>
                             </AnimateOnScroll>
