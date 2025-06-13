@@ -29,14 +29,14 @@ export default function Index({ auth, recipes, filters = {}, flash = {} }) {
         router.get(route('recipes.index'), { search: term }, { preserveState: true });
     };
 
-    const handleDelete = (recipeId) => {
+    const handleDelete = (recipe) => {
         Swal.fire({
             title: '¿Eliminar receta?',
-            text: '¿Estás seguro de que deseas eliminar esta receta? Esta acción no se puede deshacer.',
+            text: `¿Estás seguro de que deseas eliminar la receta "${recipe.name}"? Esta acción no se puede deshacer.`,
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
+            confirmButtonColor: '#EF4444',
+            cancelButtonColor: '#6B7280',
             confirmButtonText: 'Sí, eliminar',
             cancelButtonText: 'Cancelar',
             customClass: {
@@ -44,14 +44,16 @@ export default function Index({ auth, recipes, filters = {}, flash = {} }) {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                router.delete(route('recipes.destroy', recipeId), {
+                router.delete(route('recipes.destroy', recipe.id), {
                     onSuccess: () => {
                         Swal.fire({
                             title: '¡Receta eliminada!',
-                            text: 'La receta ha sido eliminada exitosamente.',
+                            text: `La receta "${recipe.name}" ha sido eliminada exitosamente.`,
                             icon: 'success',
                             confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'Aceptar',
+                            timer: 2000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
                             customClass: {
                                 container: 'font-sans'
                             }
@@ -59,11 +61,11 @@ export default function Index({ auth, recipes, filters = {}, flash = {} }) {
                     },
                     onError: () => {
                         Swal.fire({
-                            title: 'Error',
-                            text: 'No se pudo eliminar la receta. Por favor intente nuevamente.',
+                            title: 'Error al eliminar',
+                            text: `No se pudo eliminar la receta "${recipe.name}". Por favor intente nuevamente.`,
                             icon: 'error',
                             confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'Aceptar',
+                            confirmButtonText: 'Entendido',
                             customClass: {
                                 container: 'font-sans'
                             }
@@ -172,7 +174,7 @@ export default function Index({ auth, recipes, filters = {}, flash = {} }) {
                                                             <FaEdit className="h-5 w-5" />
                                                         </Link>
                                                         <button
-                                                            onClick={() => handleDelete(recipe.id)}
+                                                            onClick={() => handleDelete(recipe)}
                                                             className="text-red-600 hover:text-red-700"
                                                             title="Eliminar"
                                                         >

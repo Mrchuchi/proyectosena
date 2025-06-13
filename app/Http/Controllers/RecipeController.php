@@ -137,7 +137,28 @@ class RecipeController extends Controller
         $recipe->load(['product', 'rawMaterials']);
 
         return Inertia::render('Modules/Recipes/Edit', [
-            'recipe' => $recipe,
+            'recipe' => [
+                'id' => $recipe->id,
+                'code' => $recipe->code,
+                'name' => $recipe->name,
+                'description' => $recipe->description,
+                'status' => $recipe->status,
+                'product_id' => $recipe->product_id,
+                'product' => [
+                    'id' => $recipe->product->id,
+                    'name' => $recipe->product->name
+                ],
+                'rawMaterials' => $recipe->rawMaterials->map(function ($material) {
+                    return [
+                        'id' => $material->id,
+                        'name' => $material->name,
+                        'unit_measure' => $material->unit_measure,
+                        'pivot' => [
+                            'quantity' => $material->pivot->quantity
+                        ]
+                    ];
+                })
+            ],
             'products' => Product::orderBy('name')->get(),
             'rawMaterials' => RawMaterial::orderBy('name')->get()
         ]);
@@ -169,15 +190,16 @@ class RecipeController extends Controller
         $recipe->rawMaterials()->sync($materials);
 
         return redirect()->route('recipes.show', $recipe->id)
-            ->with('success', 'Receta actualizada exitosamente.');
+            ->with('success', '¡La receta ha sido actualizada exitosamente!');
     }
 
     public function destroy(Recipe $recipe)
     {
+        $recipeName = $recipe->name;
         $recipe->rawMaterials()->detach();
         $recipe->delete();
 
         return redirect()->route('recipes.index')
-            ->with('success', 'Receta eliminada exitosamente.');
+            ->with('success', "¡La receta '{$recipeName}' ha sido eliminada exitosamente!");
     }
 }
